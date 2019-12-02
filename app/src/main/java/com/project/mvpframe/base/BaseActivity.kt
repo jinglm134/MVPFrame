@@ -28,7 +28,7 @@ import java.util.*
  * @CreateDate 2019/11/28 18:18
  * @Author jaylm
  */
-abstract class BaseActivity<M : BaseModel, V : IBaseView, P : BasePresenter<V, M>> :
+abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     RxAppCompatActivity(), IBaseView {
 
     /**Tag为类名,用于日志输出的Tag或它用 */
@@ -36,9 +36,9 @@ abstract class BaseActivity<M : BaseModel, V : IBaseView, P : BasePresenter<V, M
     /** 是否输出日志信息 */
     protected val mDebug by lazy { BuildConfig.DEBUG }
     /** 是否沉浸状态栏 */
-    private var isSetStatusBar = false
+    open var isSetStatusBar = false
     /** 是否允许全屏 */
-    private var mAllowFullScreen = false
+    open var mAllowFullScreen = false
     /** 允许旋转屏幕还是保持竖屏 */
     open var isAllowScreenRotate = false
     /** 当前Activity渲染的视图View */
@@ -47,6 +47,7 @@ abstract class BaseActivity<M : BaseModel, V : IBaseView, P : BasePresenter<V, M
     private val mActivityStacks = Stack<Activity>()
     protected lateinit var mContext: Activity
     protected lateinit var mPresenter: P
+    protected lateinit var mModel: M
     protected var mUnbinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,11 +61,10 @@ abstract class BaseActivity<M : BaseModel, V : IBaseView, P : BasePresenter<V, M
             return
         }
 
+
         //MVP
-        val mModel: M = ClassReflectHelper.getT(this, 0)
-        val mView: V = ClassReflectHelper.getT(this, 1)
-        mPresenter = ClassReflectHelper.getT(this, 2)
-        mPresenter.setVM(mView, mModel)
+        mModel = ClassReflectHelper.getT(this, 0)
+        mPresenter = ClassReflectHelper.getT(this, 1)
         //context
         mContext = this
 
@@ -100,8 +100,7 @@ abstract class BaseActivity<M : BaseModel, V : IBaseView, P : BasePresenter<V, M
     abstract fun bindLayout(): Int
 
     abstract fun initView(contentView: View)
-
-    protected fun setListener() {}
+    protected open fun setListener() {}
 
     /**
      * 沉浸状态栏

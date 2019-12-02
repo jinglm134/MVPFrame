@@ -3,9 +3,9 @@ package com.project.mvpframe.ui.mvp.model
 import com.project.mvpframe.base.BaseModel
 
 /**
- * @CreateDate 2019/11/29 10:21
+ * @CreateDate 2019/12/2 14:50
  * @Author jaylm
  */
-class MainModel : BaseModel() {
+class LoginModel : BaseModel() {
 
 }

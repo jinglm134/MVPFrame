@@ -1,5 +1,6 @@
 package com.project.mvpframe.util.helper
 
+import android.os.IInterface
 import java.lang.reflect.ParameterizedType
 
 /**

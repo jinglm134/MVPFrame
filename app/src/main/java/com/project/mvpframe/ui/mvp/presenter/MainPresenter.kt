@@ -8,5 +8,5 @@ import com.project.mvpframe.ui.mvp.view.IMainView
  * @CreateDate 2019/11/29 10:23
  * @Author jaylm
  */
-class MainPresenter: BasePresenter<IMainView, MainModel>() {
+class MainPresenter : BasePresenter<MainModel, IMainView>() {
 }

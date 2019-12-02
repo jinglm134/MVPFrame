@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
+import com.project.mvpframe.net.RetrofitManager
 import com.project.mvpframe.ui.mvp.model.MainModel
 import com.project.mvpframe.ui.mvp.presenter.MainPresenter
 import com.project.mvpframe.ui.mvp.view.IMainView
@@ -12,13 +13,18 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : BaseActivity<MainModel, IMainView, MainPresenter>(),
+class MainActivity : BaseActivity<MainModel, MainPresenter>(),
     IMainView {
     override fun bindLayout(): Int {
         return R.layout.activity_main
     }
 
     override fun initView(contentView: View) {
+        mPresenter.setMV(mModel, this)
+    }
+
+    override fun setListener() {
+        super.setListener()
         tv_hello.setOnClickListener {
             Toast.makeText(this, "", Toast.LENGTH_LONG).show()
             val rxPermissions = RxPermissions(this)
@@ -47,7 +53,5 @@ class MainActivity : BaseActivity<MainModel, IMainView, MainPresenter>(),
                     }
                 }
         }
-
     }
-
 }
