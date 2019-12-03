@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.Toast
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
-import com.project.mvpframe.net.RetrofitManager
+import com.project.mvpframe.bean.PrizeListBean
 import com.project.mvpframe.ui.mvp.model.MainModel
 import com.project.mvpframe.ui.mvp.presenter.MainPresenter
 import com.project.mvpframe.ui.mvp.view.IMainView
@@ -15,13 +15,23 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainModel, MainPresenter>(),
     IMainView {
+
+    companion object {
+        const val PAGE_SIZE = 10
+    }
+
+    override fun initMVP() {
+        mPresenter.setMV(mModel, this)
+    }
+
     override fun bindLayout(): Int {
         return R.layout.activity_main
     }
 
     override fun initView(contentView: View) {
-        mPresenter.setMV(mModel, this)
+        mPresenter.getPrizeList(1, PAGE_SIZE, "0")
     }
+
 
     override fun setListener() {
         super.setListener()
@@ -54,4 +64,8 @@ class MainActivity : BaseActivity<MainModel, MainPresenter>(),
                 }
         }
     }
+
+    override fun success(data: List<PrizeListBean>) {
+    }
+
 }

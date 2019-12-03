@@ -2,6 +2,7 @@ package com.project.mvpframe.net
 
 import android.content.Context
 import com.trello.rxlifecycle2.android.ActivityEvent
+import com.trello.rxlifecycle2.android.FragmentEvent
 import com.trello.rxlifecycle2.components.RxActivity
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.trello.rxlifecycle2.components.support.RxFragment
@@ -13,44 +14,57 @@ import io.reactivex.ObservableTransformer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
+
 /**
- * @CreateDate 2019/12/2 15:17
+ * RxHelper调度类, 用于网络请求的的调度线程和执行线程，以及生命周期绑定
+ * @CreateDate 2019/12/2 17:19
  * @Author jaylm
  */
+class RxHelper {
 
-object RxHelper {
+    companion object {
 
-//    fun <T> observableIO2Main(context: Context): ObservableTransformer<T, T> {
-//        return { upstream ->
-//            val observable = upstream.observeOn(AndroidSchedulers.mainThread())
-//            composeContext<T>(context, observable)
-//        }
-//    }
-//
-//    fun <T> observableIO2Main(fragment: RxFragment): ObservableTransformer<T, T> {
-//        return { upstream ->
-//            upstream.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread()).compose(fragment.bindToLifecycle<T>())
-//        }
-//    }
-//
-//    fun <T> flowableIO2Main(): FlowableTransformer<T, T> {
-//        return { upstream ->
-//            upstream
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//        }
-//    }
-//
-//    private fun <T> composeContext(
-//        context: Context,
-//        observable: Observable<T>
-//    ): ObservableSource<T> {
-//        return when (context) {
-//            is RxActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-//            is RxFragmentActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-//            is RxAppCompatActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-//            else -> observable
-//        }
-//    }
+        //设置线程
+        fun <T> observableIO2Main(context: Context): ObservableTransformer<T, T> {
+            return ObservableTransformer { upstream ->
+                val observable: Observable<T> = upstream.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                composeContext(context, observable)
+            }
+        }
+
+        fun <T> observableIO2Main(fragment: RxFragment): ObservableTransformer<T, T> {
+            return ObservableTransformer { upstream ->
+                upstream.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(fragment.bindToLifecycle<T>())
+            }
+        }
+
+        fun <T> flowableIO2Main(): FlowableTransformer<T, T> {
+            return FlowableTransformer { upstream ->
+                upstream.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+            }
+        }
+
+        //绑定生命周期，防止内存泄露
+        private fun <T> composeContext(
+            context: Context,
+            observable: Observable<T>
+        ): ObservableSource<T> {
+            return when (context) {
+                is RxActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+                is RxFragmentActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+                is RxAppCompatActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+                is RxFragment -> observable.compose(context.bindUntilEvent(FragmentEvent.DESTROY))
+                /* is com.trello.rxlifecycle2.components.RxFragment -> observable.compose(
+                     context.bindUntilEvent(
+                         FragmentEvent.DESTROY
+                     )
+                 )*/
+                else -> observable
+            }
+        }
+    }
 }

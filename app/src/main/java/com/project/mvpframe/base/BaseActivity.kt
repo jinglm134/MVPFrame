@@ -31,16 +31,19 @@ import java.util.*
 abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     RxAppCompatActivity(), IBaseView {
 
-    /**Tag为类名,用于日志输出的Tag或它用 */
-    protected val TAG by lazy { this.javaClass.simpleName }
-    /** 是否输出日志信息 */
-    protected val mDebug by lazy { BuildConfig.DEBUG }
-    /** 是否沉浸状态栏 */
-    open var isSetStatusBar = false
-    /** 是否允许全屏 */
-    open var mAllowFullScreen = false
-    /** 允许旋转屏幕还是保持竖屏 */
-    open var isAllowScreenRotate = false
+    companion object {
+        /**Tag为类名,用于日志输出的Tag或它用 */
+        protected val TAG by lazy { this.javaClass.simpleName }
+        /** 是否输出日志信息 */
+        protected val mDebug by lazy { BuildConfig.DEBUG }
+        /** 是否沉浸状态栏 */
+        var isSetStatusBar = false
+        /** 是否允许全屏 */
+        var mAllowFullScreen = false
+        /** 允许旋转屏幕还是保持竖屏 */
+        var isAllowScreenRotate = false
+    }
+
     /** 当前Activity渲染的视图View */
     lateinit var mContentView: View
     /** 用来保存所有在栈内的Activity  */
@@ -48,7 +51,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     protected lateinit var mContext: Activity
     protected lateinit var mPresenter: P
     protected lateinit var mModel: M
-    protected var mUnbinder: Unbinder? = null
+    private var mUnbinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,13 +63,15 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
             finish()
             return
         }
-
+        mContext = this
 
         //MVP
         mModel = ClassReflectHelper.getT(this, 0)
         mPresenter = ClassReflectHelper.getT(this, 1)
+        mPresenter.init(mContext)
         //context
-        mContext = this
+        initMVP()
+
 
         if (mAllowFullScreen) {
             window.setFlags(
@@ -96,17 +101,17 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         setListener()
     }
 
+    abstract fun initView(contentView: View)
+    abstract fun initMVP()
     @LayoutRes
     abstract fun bindLayout(): Int
 
-    abstract fun initView(contentView: View)
     protected open fun setListener() {}
 
     /**
      * 沉浸状态栏
      */
     private fun steepStatusBar() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
         // 透明状态栏
         window.addFlags(
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
@@ -115,7 +120,6 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         window.addFlags(
             WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
         )
-//        }
     }
 
     private fun initToolbar() {
@@ -205,15 +209,6 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         smartReplaceFragment(idRes, toFragment, toFragment.javaClass.simpleName)
     }
 
-
-    //IBaseView
-    override fun showLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun hideLoading() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     override fun onDestroy() {
         super.onDestroy()

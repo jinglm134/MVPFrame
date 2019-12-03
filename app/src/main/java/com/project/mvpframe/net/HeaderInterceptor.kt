@@ -7,6 +7,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 /**
+ * 请求拦截
  * @CreateDate 2019/12/2 13:37
  * @Author jaylm
  */

@@ -1,4 +1,4 @@
-package com.project.mvpframe.base
+package com.project.mvpframe.bean
 
 /**
  * @CreateDate 2019/12/2 14:45

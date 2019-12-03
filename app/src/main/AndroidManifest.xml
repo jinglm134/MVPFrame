@@ -5,7 +5,8 @@
 
     <dist:module dist:instant="true" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -18,10 +19,12 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.VIEW" /><!--google search-->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.LoginActivity" />
+        <activity android:name=".ui.activity.SplashActivity" />
     </application>
 
 </manifest>
