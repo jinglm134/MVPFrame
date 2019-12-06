@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
+import com.project.mvpframe.bean.Notice
 import com.project.mvpframe.bean.PrizeListBean
 import com.project.mvpframe.ui.mvp.model.MainModel
 import com.project.mvpframe.ui.mvp.presenter.MainPresenter
@@ -15,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity<MainModel, MainPresenter>(),
     IMainView {
+
 
     companion object {
         const val PAGE_SIZE = 10
@@ -29,9 +31,9 @@ class MainActivity : BaseActivity<MainModel, MainPresenter>(),
     }
 
     override fun initView(contentView: View) {
-        mPresenter.getPrizeList(1, PAGE_SIZE, "0")
+//        mPresenter.getPrizeList(1, PAGE_SIZE, "1")
+        mPresenter.getNoticeList()
     }
-
 
     override fun setListener() {
         super.setListener()
@@ -65,7 +67,10 @@ class MainActivity : BaseActivity<MainModel, MainPresenter>(),
         }
     }
 
-    override fun success(data: List<PrizeListBean>) {
+    override fun successOfNotice(data: List<Notice>) {
+
     }
 
+    override fun successOfPrize(data: List<PrizeListBean>) {
+    }
 }

@@ -8,12 +8,15 @@ import java.io.IOException
  * @Author jaylm
  */
 object CloseUtils {
-    fun close(closeable: Closeable?) {
-        if (null == closeable) return
-        try {
-            closeable.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
+    fun closeIO(vararg closeables: Closeable?) {
+        for (closeable in closeables) {
+            if (closeable != null) {
+                try {
+                    closeable.close()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 }

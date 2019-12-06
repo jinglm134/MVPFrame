@@ -26,7 +26,7 @@ object DESUtils {
      * @param type     加密：[Cipher.ENCRYPT_MODE]，解密：[Cipher.DECRYPT_MODE]
      * @return 加密/解密结果
      */
-    fun des(content: String, password: String, @DESType type: Int): String? {
+    fun des(content: String, password: String, @DESType type: Int = Cipher.ENCRYPT_MODE): String {
         try {
             val random = SecureRandom()
             val desKey = DESKeySpec(password.toByteArray())
@@ -57,6 +57,6 @@ object DESUtils {
             e.printStackTrace()
         }
 
-        return null
+        return ""
     }
 }

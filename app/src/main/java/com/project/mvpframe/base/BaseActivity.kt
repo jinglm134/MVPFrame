@@ -177,7 +177,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
      */
     protected fun log(msg: String) {
         if (mDebug) {
-            Log.d(TAG, msg)
+            Log.v(TAG, msg)
         }
     }
 

@@ -7,5 +7,6 @@ package com.project.mvpframe.constant
 object ApiConfig {
     const val login = "login"
     //查询奖品列表
-    const val GET_PRIZE_LIST = "rush/strict/lottery/verify/findUserPrize"
+    const val PRIZE_LIST = "rush/strict/lottery/verify/findUserPrize"
+    const val NOTICE_LIST = "OCTOPUS/octopusArticle/getOctopusArticles"
 }

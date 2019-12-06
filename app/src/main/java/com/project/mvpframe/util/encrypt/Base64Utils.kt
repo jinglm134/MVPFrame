@@ -53,7 +53,7 @@ class Base64Utils {
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {
-            CloseUtils.close(inputFile)
+            CloseUtils.closeIO(inputFile)
         }
         return ""
     }
@@ -79,7 +79,7 @@ class Base64Utils {
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
-            CloseUtils.close(fos)
+            CloseUtils.closeIO(fos)
         }
         return desFile
     }

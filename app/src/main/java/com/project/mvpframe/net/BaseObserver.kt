@@ -14,11 +14,10 @@ import io.reactivex.disposables.Disposable
  */
 abstract class BaseObserver<T>(
     private var mContext: Context,
-    var showDialog: Boolean = true
+    var mShowDialog: Boolean = true
 ) :
     Observer<BaseResponse<T>> {
 
-    private var mShowDialog: Boolean = false
     private var dialog: ProgressDialog? = null
     private var d: Disposable? = null
 
