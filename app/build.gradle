@@ -21,15 +21,15 @@ android {
     buildTypes {
         release {
             buildConfigField "boolean", "LOG", "false"
-            buildConfigField "String", "BASEAPI", "www.baidu.com"
-            buildConfigField "String", "BASEAPI_OTHER", "www.baidu.com"
+            buildConfigField "String", "BASEAPI", "\"https://api.mixcdn.co/brapi/\""
+            buildConfigField "String", "BASEAPI_OTHER", "\"https://api.mixcdn.co/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             buildConfigField "boolean", "LOG", "true"
-            buildConfigField "String", "BASEAPI", "www.google.com"
-            buildConfigField "String", "BASEAPI_OTHER", "www.google.com"
+            buildConfigField "String", "BASEAPI", "\"https://dev-api.mixcdn.co/brapi/\""
+            buildConfigField "String", "BASEAPI_OTHER", "\"https://dev-api.mixcdn.co/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

@@ -13,6 +13,5 @@ import com.project.mvpframe.ui.mvp.view.ILoginView
 class LoginPresenter : BasePresenter<LoginModel, ILoginView>() {
 
     fun login() {
-        RetrofitManager.getService(ApiService)
     }
 }

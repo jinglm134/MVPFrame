@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable
  * @CreateDate 2019/12/3 10:52
  * @Author jaylm
  */
-abstract class BaseObserver<T>(var mContext: Context, var showDialog: Boolean = true) :
+abstract class BaseObserver<T>(private var mContext: Context, var showDialog: Boolean = true) :
     Observer<BaseBean<T>> {
 
     private var mShowDialog: Boolean = false
