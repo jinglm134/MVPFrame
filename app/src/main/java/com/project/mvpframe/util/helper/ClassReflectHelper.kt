@@ -1,6 +1,5 @@
 package com.project.mvpframe.util.helper
 
-import android.os.IInterface
 import java.lang.reflect.ParameterizedType
 
 /**
@@ -14,14 +13,5 @@ object ClassReflectHelper {
             .actualTypeArguments[i] as Class<T>)
             .newInstance()
     }
-
-    fun forName(className: String): Class<*>? {
-        try {
-            return Class.forName(className)
-        } catch (e: ClassNotFoundException) {
-            e.printStackTrace()
-        }
-
-        return null
-    }
+    
 }

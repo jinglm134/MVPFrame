@@ -34,12 +34,12 @@ object DESUtils {
             @SuppressLint("GetInstance") val cipher = Cipher.getInstance("DES")
             cipher.init(type, keyFactory.generateSecret(desKey), random)
 
-            if (type == Cipher.ENCRYPT_MODE) {
+            return if (type == Cipher.ENCRYPT_MODE) {
                 val byteContent = content.toByteArray(charset("utf-8"))
-                return TranscodingUtils.parseByte2HexStr(cipher.doFinal(byteContent))
+                TranscodingUtils.parseByte2HexStr(cipher.doFinal(byteContent))
             } else {
                 val byteContent = TranscodingUtils.parseHexStr2Byte(content)
-                return String(cipher.doFinal(byteContent))
+                String(cipher.doFinal(byteContent))
             }
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()

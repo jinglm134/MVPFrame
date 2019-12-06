@@ -69,7 +69,6 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         mModel = ClassReflectHelper.getT(this, 0)
         mPresenter = ClassReflectHelper.getT(this, 1)
         mPresenter.init(mContext)
-        //context
         initMVP()
 
 

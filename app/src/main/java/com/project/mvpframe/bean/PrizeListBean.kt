@@ -1,6 +1,7 @@
 package com.project.mvpframe.bean
 
 /**
+ * 奖品列表数据
  * @CreateDate 2019/12/2 15:09
  * @Author jaylm
  */
@@ -23,7 +24,7 @@ data class PrizeListBean(
     val size: Int,
     val startRow: Int,
     val total: Int
-)
+) : BaseBean()
 
 data class ListBean(
     val endTime: String,

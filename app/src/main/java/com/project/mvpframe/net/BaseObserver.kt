@@ -3,7 +3,8 @@ package com.project.mvpframe.net
 import android.app.ProgressDialog
 import android.content.Context
 import android.net.ConnectivityManager
-import com.project.mvpframe.bean.BaseBean
+import android.widget.Toast
+import com.project.mvpframe.bean.BaseResponse
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
@@ -11,8 +12,11 @@ import io.reactivex.disposables.Disposable
  * @CreateDate 2019/12/3 10:52
  * @Author jaylm
  */
-abstract class BaseObserver<T>(private var mContext: Context, var showDialog: Boolean = true) :
-    Observer<BaseBean<T>> {
+abstract class BaseObserver<T>(
+    private var mContext: Context,
+    var showDialog: Boolean = true
+) :
+    Observer<BaseResponse<T>> {
 
     private var mShowDialog: Boolean = false
     private var dialog: ProgressDialog? = null
@@ -24,13 +28,14 @@ abstract class BaseObserver<T>(private var mContext: Context, var showDialog: Bo
         if (isConnected(mContext)) {
             showDialog()
         } else {
+            Toast.makeText(mContext, "暂无网络,请检查网络设置", Toast.LENGTH_SHORT).show()
             if (d.isDisposed) {
                 d.dispose()
             }
         }
     }
 
-    override fun onNext(response: BaseBean<T>) {
+    override fun onNext(response: BaseResponse<T>) {
         val code = response.code
         val msg = response.message
         val data = response.data
