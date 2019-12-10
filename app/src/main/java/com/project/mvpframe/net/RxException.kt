@@ -2,7 +2,7 @@ package com.project.mvpframe.net
 
 import android.net.ParseException
 import org.json.JSONException
-import retrofit2.adapter.rxjava2.HttpException
+import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 

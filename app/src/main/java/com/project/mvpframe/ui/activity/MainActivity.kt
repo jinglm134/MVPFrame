@@ -32,12 +32,13 @@ class MainActivity : BaseActivity<MainModel, MainPresenter>(),
 
     override fun initView(contentView: View) {
 //        mPresenter.getPrizeList(1, PAGE_SIZE, "1")
-        mPresenter.getNoticeList()
+
     }
 
     override fun setListener() {
         super.setListener()
         tv_hello.setOnClickListener {
+            mPresenter.getNoticeList()
             Toast.makeText(this, "", Toast.LENGTH_LONG).show()
             val rxPermissions = RxPermissions(this)
             rxPermissions

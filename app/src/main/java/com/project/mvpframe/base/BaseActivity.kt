@@ -18,7 +18,7 @@ import butterknife.ButterKnife
 import butterknife.Unbinder
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
-import com.project.mvpframe.ui.activity.MainActivity
+import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.util.helper.ClassReflectHelper
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import kotlinx.android.synthetic.main.activity_base.*
@@ -51,18 +51,18 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     protected lateinit var mContext: Activity
     protected lateinit var mPresenter: P
     protected lateinit var mModel: M
-    private var mUnbinder: Unbinder? = null
+    private var mBinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //关闭权限后,app进程被杀死,进入app恢复当前页面时重启app
-        if (savedInstanceState != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
-            return
-        }
+//        if (savedInstanceState != null) {
+//            val intent = Intent(this, MainActivity::class.java)
+//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            startActivity(intent)
+//            finish()
+//            return
+//        }
         mContext = this
 
         //MVP
@@ -94,7 +94,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         val contentView = LayoutInflater.from(mContext).inflate(bindLayout(), base_container, true)
         // 将activity推入栈中
         mActivityStacks.push(this)
-        mUnbinder = ButterKnife.bind(this)
+        mBinder = ButterKnife.bind(this)
 
         initView(contentView)
         setListener()
@@ -181,6 +181,10 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         }
     }
 
+    override fun showToast(str: CharSequence) {
+        ToastUtils.showShortToast(mContext, str)
+    }
+
     /**
      * Fragment替换(核心为隐藏当前的,显示现在的,用过的将不会destrory与create)
      */
@@ -211,8 +215,8 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mUnbinder != null && mUnbinder !== Unbinder.EMPTY) {
-            mUnbinder!!.unbind()
+        if (mBinder != null && mBinder !== Unbinder.EMPTY) {
+            mBinder!!.unbind()
         }
         if (mActivityStacks.contains(this)) {
             mActivityStacks.remove(this)

@@ -1,10 +1,10 @@
 package com.project.mvpframe.net
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
 import com.project.mvpframe.bean.BaseResponse
+import com.project.mvpframe.view.ProgressDialog
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
@@ -14,9 +14,8 @@ import io.reactivex.disposables.Disposable
  */
 abstract class BaseObserver<T>(
     private var mContext: Context,
-    var mShowDialog: Boolean = true
-) :
-    Observer<BaseResponse<T>> {
+    private var mShowDialog: Boolean = true
+) : Observer<BaseResponse<T>> {
 
     private var dialog: ProgressDialog? = null
     private var d: Disposable? = null
@@ -29,6 +28,7 @@ abstract class BaseObserver<T>(
         } else {
             Toast.makeText(mContext, "暂无网络,请检查网络设置", Toast.LENGTH_SHORT).show()
             if (d.isDisposed) {
+                //取消订阅
                 d.dispose()
             }
         }
@@ -86,9 +86,8 @@ abstract class BaseObserver<T>(
         if (!mShowDialog) {
             return
         }
-        if (dialog != null && dialog!!.isShowing) {
+        if (dialog != null) {
             dialog!!.dismiss()
-            dialog!!.cancel()
             dialog = null
         }
     }

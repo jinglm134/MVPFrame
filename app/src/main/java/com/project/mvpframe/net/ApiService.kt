@@ -5,6 +5,8 @@ import com.project.mvpframe.bean.NoticeListBean
 import com.project.mvpframe.bean.PrizeListBean
 import com.project.mvpframe.constant.ApiConfig
 import io.reactivex.Observable
+import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -24,12 +26,8 @@ interface ApiService {
         @Field("status") status: String
     ): Observable<BaseResponse<List<PrizeListBean>>>
 
-    @FormUrlEncoded
     @POST(ApiConfig.NOTICE_LIST)
     fun getNoticeList(
-        @Field("platform") platform: Int = 2,
-        @Field("typeId") typeId: Int = 1,
-        @Field("pageSize") pageSize: Int = 20,
-        @Field("pageNumber") pageNumber: Int = 1
+        @Body body: RequestBody
     ): Observable<BaseResponse<NoticeListBean>>
 }
