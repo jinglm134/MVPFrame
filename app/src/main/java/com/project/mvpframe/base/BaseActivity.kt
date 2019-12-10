@@ -48,7 +48,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     lateinit var mContentView: View
     /** 用来保存所有在栈内的Activity  */
     private val mActivityStacks = Stack<Activity>()
-    protected lateinit var mContext: Activity
+    protected lateinit var mActivity: Activity
     protected lateinit var mPresenter: P
     protected lateinit var mModel: M
     private var mBinder: Unbinder? = null
@@ -63,12 +63,12 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
 //            finish()
 //            return
 //        }
-        mContext = this
+        mActivity = this
 
         //MVP
         mModel = ClassReflectHelper.getT(this, 0)
         mPresenter = ClassReflectHelper.getT(this, 1)
-        mPresenter.init(mContext)
+        mPresenter.init(mActivity)
         initMVP()
 
 
@@ -91,7 +91,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
 
         setContentView(R.layout.activity_base)
         initToolbar()
-        val contentView = LayoutInflater.from(mContext).inflate(bindLayout(), base_container, true)
+        val contentView = LayoutInflater.from(mActivity).inflate(bindLayout(), base_container, true)
         // 将activity推入栈中
         mActivityStacks.push(this)
         mBinder = ButterKnife.bind(this)
@@ -163,7 +163,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
      */
     fun startActivity(clz: Class<*>, bundle: Bundle?) {
         val intent = Intent()
-        intent.setClass(mContext, clz)
+        intent.setClass(mActivity, clz)
         if (bundle != null) {
             intent.putExtras(bundle)
         }
@@ -182,7 +182,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     }
 
     override fun showToast(str: CharSequence) {
-        ToastUtils.showShortToast(mContext, str)
+        ToastUtils.showShortToast(mActivity, str)
     }
 
     /**

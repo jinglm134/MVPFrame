@@ -1,42 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:text="币和登录"
         android:textColor="@color/black_3"
         android:textSize="20sp" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/et_user"
+        android:id="@+id/et_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:layout_marginRight="25dp"
         android:hint="请输入手机号/邮箱"
+        android:maxLength="20"
         android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:textColor="@color/black_9"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        tools:text="sadfsdasdasdsdasdsdasdasdasdasdasdasdasdsadsadsadasdasd" />
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/et_password"
+    <TextView
+        android:id="@+id/tv_account_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textSize="10sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_password"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@null"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="25dp"
-        android:hint="请输入密码"
-        android:textColor="@color/black_9"
-        android:textSize="15sp" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/et_password"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="请输入密码"
+            android:inputType="textPassword"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/black_9"
+            android:textSize="15sp" />
+
+        <CheckBox
+            android:id="@+id/cb_hide_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_checkbox_eyes"
+            android:checked="false"
+            tools:ignore="RtlSymmetry" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_password_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:maxLines="1"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text=""
+        android:textColor="@color/red"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/colorPrimary"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 </LinearLayout>

@@ -19,14 +19,14 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activity.MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" /><!--google search-->
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.SplashActivity" />
     </application>
 

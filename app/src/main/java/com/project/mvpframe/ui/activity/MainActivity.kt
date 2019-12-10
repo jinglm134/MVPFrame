@@ -14,6 +14,11 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_main.*
 
 
+/**
+ * 首页面
+ * @CreateDate 2019/12/3 08:34
+ * @Author jaylm
+ */
 class MainActivity : BaseActivity<MainModel, MainPresenter>(),
     IMainView {
 

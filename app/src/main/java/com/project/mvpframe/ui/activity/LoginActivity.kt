@@ -1,35 +1,123 @@
 package com.project.mvpframe.ui.activity
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Intent
-import android.os.Build
+import android.text.Editable
+import android.text.InputType
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
-import androidx.core.app.NotificationCompat
+import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
+import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.ui.mvp.model.LoginModel
 import com.project.mvpframe.ui.mvp.presenter.LoginPresenter
 import com.project.mvpframe.ui.mvp.view.ILoginView
-import java.util.*
+import com.project.mvpframe.util.RegexUtils
+import com.project.mvpframe.util.SPUtils
+import com.project.mvpframe.util.UShape
+import kotlinx.android.synthetic.main.activity_login.*
 
 /**
+ * 登录页面
  * @CreateDate 2019/12/2 15:32
  * @Author jaylm
  */
 class LoginActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
+
+
     override fun initMVP() {
         mPresenter.setMV(mModel, this)
     }
 
     override fun bindLayout(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return R.layout.activity_login
     }
 
     override fun initView(contentView: View) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        UShape.setBackgroundDrawable(
+            UShape.getPressedDrawable(
+                UShape.getColor(R.color.colorPrimary),
+                UShape.getColor(R.color.blue),
+                4
+            ), btn_login
+        )
+        UShape.setBackgroundDrawable(
+            UShape.getStrokeDrawable(
+                UShape.getColor(R.color.black_c),
+                UShape.getColor(R.color.white),
+                0
+            ), et_account, et_password
+        )
+
     }
 
+    override fun setListener() {
+        super.setListener()
+
+        //账户输入框
+        et_account.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val account = s.toString().trim()
+                if (account.length != 11) {
+                    tv_account_error.text = "您输入的手机号码位数不正确"
+                    return
+                }
+                if (!RegexUtils.isMobileSimple(account)) {
+                    tv_account_error.text = "请输入正确的电话号码"
+                    return
+                }
+                tv_account_error.text = ""
+            }
+
+        })
+
+        //密码输入框
+        et_password.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val account = s.toString().trim()
+                if (account.length < 6) {
+                    tv_password_error.text = "至少输入6位长度的密码"
+                }
+                tv_password_error.text = ""
+            }
+        })
+
+        //显示隐藏密码
+        cb_hide_password.setOnCheckedChangeListener { _, isChecked ->
+            et_password.inputType = if (isChecked) {
+                InputType.TYPE_CLASS_TEXT
+            } else {
+                InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+        }
+
+        //登录
+        btn_login.setOnClickListener {
+            val account = et_account.text.toString().trim()
+            val password = et_password.text.toString().trim()
+            if (TextUtils.isEmpty(tv_account_error.text.toString().trim())
+                && TextUtils.isEmpty(tv_password_error.text.toString().trim())
+            ) {
+                mPresenter.login(account, password, "", "")
+            }
+        }
+    }
+
+    override fun successOfLogin(data: LoginBean) {
+        SPUtils.getInstance(mActivity).saveParam("login", data)
+        startActivity(MainActivity::class.java)
+    }
 
 //    val NOTIFY_DOWN_ID = 2000
 //     var mNotificationManager: NotificationManager

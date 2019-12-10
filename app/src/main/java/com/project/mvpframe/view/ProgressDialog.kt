@@ -23,8 +23,8 @@ class ProgressDialog(private var mContext: Context, text: CharSequence = "正在
         mDialog.setContentView(R.layout.dialog_progress)
         val llRoot: View = mDialog.findViewById(R.id.ll_root)
         UShape.setBackgroundDrawable(
-            llRoot,
             UShape.getCornerDrawable(Color.parseColor("#645c5b5b"), 8)
+            , llRoot
         )
         val tvProgress: TextView = mDialog.findViewById(R.id.tv_progress)
         tvProgress.text = text

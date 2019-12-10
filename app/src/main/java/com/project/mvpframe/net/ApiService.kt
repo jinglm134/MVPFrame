@@ -1,6 +1,7 @@
 package com.project.mvpframe.net
 
 import com.project.mvpframe.bean.BaseResponse
+import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.bean.NoticeListBean
 import com.project.mvpframe.bean.PrizeListBean
 import com.project.mvpframe.constant.ApiConfig
@@ -30,4 +31,9 @@ interface ApiService {
     fun getNoticeList(
         @Body body: RequestBody
     ): Observable<BaseResponse<NoticeListBean>>
+
+    @POST(ApiConfig.LOGIN)
+    fun login(
+        @Body body: RequestBody
+    ): Observable<BaseResponse<LoginBean>>
 }

@@ -5,8 +5,8 @@ package com.project.mvpframe.constant
  * @Author jaylm
  */
 object ApiConfig {
-    const val login = "login"
     //查询奖品列表
     const val PRIZE_LIST = "rush/strict/lottery/verify/findUserPrize"
     const val NOTICE_LIST = "OCTOPUS/octopusArticle/getOctopusArticles"
+    const val LOGIN = "USERCENTER/api/cloudpower/auth/login"
 }

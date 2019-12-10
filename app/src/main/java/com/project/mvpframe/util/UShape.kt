@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.project.mvpframe.util
 
 import android.annotation.SuppressLint
@@ -9,6 +11,7 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.StateListDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RoundRectShape
+import android.os.Build
 import android.view.View
 import androidx.annotation.ColorRes
 import com.project.mvpframe.app.MvpApp
@@ -339,8 +342,8 @@ object UShape {
      *
      * @param strokeColor 边框颜色
      * @param solidColor  填充颜色
-     * @param corner      圆角大小,单位px，8个角度不一样时使用，八个角度按顺序依次是左上 右上 右下 左下
-     * @return RoundRectShape(float[] outerRadii, RectF inset, float[] innerRadii) :指定一个外部（圆角）矩形 和 一个 可选的 内部（圆角）矩形。
+     * @param corner      圆角大小
+     * @return GradientDrawable
      */
     fun getStrokeDrawable(strokeColor: Int, solidColor: Int, corner: Int): GradientDrawable {
         val gd = GradientDrawable()
@@ -367,10 +370,8 @@ object UShape {
      * 设置显示背景图片
      */
     @SuppressLint("NewApi")
-    fun setBackgroundDrawable(view: View, drawable: Drawable) {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackgroundDrawable(drawable)
-        } else {
+    fun setBackgroundDrawable(drawable: Drawable, vararg views: View) {
+        for (view in views) {
             view.background = drawable
         }
     }
@@ -383,7 +384,7 @@ object UShape {
      */
     fun getColor(@ColorRes rId: Int): Int {
         val context = MvpApp.getInstance()
-        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.getColor(rId)
         } else {
             context.resources.getColor(rId)
