@@ -23,8 +23,10 @@ class LoginPresenter : BasePresenter<LoginModel, ILoginView>() {
             .compose(RxHelper.observableIO2Main(mContext))
             .subscribe(object : BaseObserver<LoginBean>(mContext) {
                 override fun onSuccess(data: LoginBean) {
+                    mView.showToast("登陆成功")
                     mView.successOfLogin(data)
                 }
             })
     }
+
 }

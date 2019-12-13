@@ -182,7 +182,10 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     }
 
     override fun showToast(str: CharSequence) {
-        ToastUtils.showShortToast(mActivity, str)
+        ToastUtils.showShortToast(str)
+    }
+
+    override fun sucessOfgetCode() {
     }
 
     /**

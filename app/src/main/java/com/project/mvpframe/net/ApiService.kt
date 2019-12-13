@@ -34,6 +34,11 @@ interface ApiService {
 
     @POST(ApiConfig.LOGIN)
     fun login(
-        @Body body: RequestBody
+        @Body body: Map<String, String>
     ): Observable<BaseResponse<LoginBean>>
+
+    @POST(ApiConfig.GET_CODE)
+    fun getCode(
+        @Body body: Map<String, String>
+    ): Observable<BaseResponse<String>>
 }

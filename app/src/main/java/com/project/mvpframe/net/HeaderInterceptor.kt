@@ -1,9 +1,12 @@
 package com.project.mvpframe.net
 
 import android.util.Log
+import com.project.mvpframe.app.MvpApp
 import com.project.mvpframe.constant.ApiDomain
+import com.project.mvpframe.util.SPUtils
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
+import okhttp3.Request
 import okhttp3.Response
 
 /**
@@ -46,17 +49,17 @@ class HeaderInterceptor : Interceptor {
             request = builder.url(newFullUrl).build()
         }
 
-        val requestBuilder = request.newBuilder()
+        val url = request.url()
+        var requestBuilder: Request.Builder = request.newBuilder()
+        if (url.toString().contains("strict")) {
+            requestBuilder = requestBuilder.addHeader("userId", SPUtils.getInstance(MvpApp.getInstance()).getParam("userId", "")!!)
+                .addHeader("Authorization", String.format("Bearer%s", SPUtils.getInstance(MvpApp.getInstance()).getParam("token", "")!!))
+        }
+        val build = requestBuilder.method(request.method(), request.body())
             .addHeader("deviceType", "app")
-            .addHeader("userId", "35881a46eada4ade9ebb7a1675b4ce97")
-            .addHeader(
-                "Authorization",
-                "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiY2xpZW50MiIsImNsaWVudDEiXSwidXNlcl9uYW1lIjoiMTgwMzAwMDAwMDAiLCJzY29wZSI6WyJhcHAiXSwiZXhwIjoxNTc1NjIwNzM1LCJ1c2VySWQiOiIzNTg4MWE0NmVhZGE0YWRlOWViYjdhMTY3NWI0Y2U5NyIsImp0aSI6IjQwMjQ5YmVhLTE5OWMtNGY5Yi05ZGJkLTU1ODhkYzBlMzJiOCIsImNsaWVudF9pZCI6ImNsaWVudDIifQ.kdbxEpuveNQkRSL5xgxZ0LdT0eIOraxG8L0BtYhpXlLuOHYrcgMAw9lujHqissSNjNckX1rRzHSZpdhArA8FWoCR-ntl83LMeisKJ9edIdp6zZ8DeZqLA7Aq_lWsL5lFafWzNCJBT0zPxuLsuCrU44jD290zR8bJaKsH3FHos3qhO7pOgyLMu66io8glVjwXdK-kllhgU--ZlQEdGBrQP5eknQiMX_FYFxe8-lyCrMwPwjfJlMhJCQmbAwE0QVO1ANwVXZMnDaQIB1052ia70O_1CYNb3gfRjalcv3lbsd5S_u27dJm4K2JgtQypx1tdDs6W3Az4Ib2vH4XICYbuWA"
-            )
             .addHeader("Content-Type", "application/json;charset=utf-8")
-            .method(request.method(), request.body())
             .build()
 
-        return chain.proceed(requestBuilder)
+        return chain.proceed(build)
     }
 }

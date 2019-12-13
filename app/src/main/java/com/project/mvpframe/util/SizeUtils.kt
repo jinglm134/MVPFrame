@@ -10,6 +10,7 @@ import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import com.project.mvpframe.app.MvpApp
 import org.jetbrains.annotations.NotNull
 
 /**
@@ -21,48 +22,44 @@ object SizeUtils {
 
     /**
      * dp转px
-     * @param context 上下文
      * @param dpValue dp值
      * @return px值
      */
-    fun dp2px(context: Context, dpValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
+    fun dp2px(dpValue: Float): Int {
+        val scale = MvpApp.getInstance().resources.displayMetrics.density
         return (dpValue * scale + 0.5f).toInt()
     }
 
     /**
      * px转dp
      *
-     * @param context 上下文
      * @param pxValue px值
      * @return dp值
      */
-    fun px2dp(context: Context, pxValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
+    fun px2dp(pxValue: Float): Int {
+        val scale = MvpApp.getInstance().resources.displayMetrics.density
         return (pxValue / scale + 0.5f).toInt()
     }
 
     /**
      * sp转px
      *
-     * @param context 上下文
      * @param spValue sp值
      * @return px值
      */
-    fun sp2px(context: Context, spValue: Float): Int {
-        val fontScale = context.resources.displayMetrics.scaledDensity
+    fun sp2px(spValue: Float): Int {
+        val fontScale = MvpApp.getInstance().resources.displayMetrics.scaledDensity
         return (spValue * fontScale + 0.5f).toInt()
     }
 
     /**
      * px转sp
      *
-     * @param context 上下文
      * @param pxValue px值
      * @return sp值
      */
-    fun px2sp(context: Context, pxValue: Float): Int {
-        val fontScale = context.resources.displayMetrics.scaledDensity
+    fun px2sp(pxValue: Float): Int {
+        val fontScale = MvpApp.getInstance().resources.displayMetrics.scaledDensity
         return (pxValue / fontScale + 0.5f).toInt()
     }
 
@@ -157,11 +154,11 @@ object SizeUtils {
     /**
      * 获取屏幕的宽度（单位：px）
      *
-     * @param context 上下文
      * @return 屏幕宽px
      */
-    fun getScreenWidth(context: Context): Int {
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    fun getScreenWidth(): Int {
+        val windowManager =
+            MvpApp.getInstance().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()// 创建了一张白纸
         windowManager.defaultDisplay.getMetrics(dm)// 给白纸设置宽高
         return dm.widthPixels
@@ -170,11 +167,11 @@ object SizeUtils {
     /**
      * 获取屏幕的高度（单位：px）
      *
-     * @param context 上下文
      * @return 屏幕高px
      */
-    fun getScreenHeight(context: Context): Int {
-        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    fun getScreenHeight(): Int {
+        val windowManager =
+            MvpApp.getInstance().getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()// 创建了一张白纸
         windowManager.defaultDisplay.getMetrics(dm)// 给白纸设置宽高
         return dm.heightPixels
@@ -221,7 +218,7 @@ object SizeUtils {
                 dm.heightPixels
             )
         } else {
-            val statusBarHeight = getStatusBarHeight(activity)
+            val statusBarHeight = getStatusBarHeight()
             ret = Bitmap.createBitmap(
                 bmp,
                 0,
@@ -238,11 +235,10 @@ object SizeUtils {
     /**
      * 判断是否锁屏
      *
-     * @param context 上下文
      * @return true:是 false:否
      */
-    fun isScreenLock(context: Context): Boolean {
-        val km = context
+    fun isScreenLock(): Boolean {
+        val km = MvpApp.getInstance()
             .getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         return km.inKeyguardRestrictedInputMode()
     }
@@ -250,14 +246,14 @@ object SizeUtils {
     /**
      * 获取状态栏高度
      *
-     * @param context context
      * @return 状态栏高度
      */
-    private fun getStatusBarHeight(context: Context): Int {
+    private fun getStatusBarHeight(): Int {
         var result = -1
-        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+        val resourceId =
+            MvpApp.getInstance().resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
-            result = context.resources.getDimensionPixelSize(resourceId)
+            result = MvpApp.getInstance().resources.getDimensionPixelSize(resourceId)
         }
         return result
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
 import com.project.mvpframe.bean.BaseResponse
+import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.view.ProgressDialog
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -68,7 +69,9 @@ abstract class BaseObserver<T>(
     protected abstract fun onSuccess(data: T)
 
     //code!=200,即请求失败的回调,需要时可重写
-    protected fun onFailure(code: Int, msg: String) {}
+    open fun onFailure(code: Int, msg: String) {
+        ToastUtils.showShortToast(msg)
+    }
 
     //开启网络请求动画
     private fun showDialog() {
@@ -96,6 +99,7 @@ abstract class BaseObserver<T>(
     protected fun endRefresh() {}
 
     //是否有网络
+    @Suppress("DEPRECATION")
     private fun isConnected(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = cm.activeNetworkInfo ?: return false

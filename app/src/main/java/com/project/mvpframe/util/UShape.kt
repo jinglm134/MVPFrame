@@ -3,7 +3,6 @@
 package com.project.mvpframe.util
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -58,7 +57,7 @@ object UShape {
      * @return Bitmap
      */
     fun getRoundedCornerBitmap(bitmap: Bitmap): Bitmap {
-        return getRoundedCornerBitmap(bitmap, dp2px(MvpApp.getInstance(), 4f))
+        return getRoundedCornerBitmap(bitmap, SizeUtils.dp2px(4f))
     }
 
     private fun getRoundedCornerBitmap(bitmap: Bitmap, radius: Int): Bitmap {
@@ -106,10 +105,9 @@ object UShape {
      * @return RoundRectShape(float[] outerRadii, RectF inset, float[] innerRadii) :指定一个外部（圆角）矩形 和 一个 可选的 内部（圆角）矩形。
      */
     private fun getCornerDrawable(color: Int, corners: FloatArray): ShapeDrawable {
-        val context = MvpApp.getInstance()
         val martCorners = FloatArray(corners.size)
         for (i in corners.indices) {
-            martCorners[i] = dp2px(context, corners[i]).toFloat()
+            martCorners[i] = SizeUtils.dp2px(corners[i]).toFloat()
         }
 
         val drawable = ShapeDrawable(RoundRectShape(martCorners, null, null))
@@ -348,8 +346,8 @@ object UShape {
     fun getStrokeDrawable(strokeColor: Int, solidColor: Int, corner: Int): GradientDrawable {
         val gd = GradientDrawable()
         gd.setColor(solidColor)
-        gd.cornerRadius = corner.toFloat()
-        gd.setStroke(dp2px(MvpApp.getInstance(), 1f), strokeColor)
+        gd.cornerRadius = SizeUtils.dp2px(corner.toFloat()).toFloat()
+        gd.setStroke(SizeUtils.dp2px(1f), strokeColor)
         return gd
     }
 
@@ -391,8 +389,4 @@ object UShape {
         }
     }
 
-    private fun dp2px(context: Context, dpValue: Float): Int {
-        val scale = context.resources.displayMetrics.density
-        return (dpValue * scale + 0.5f).toInt()
-    }
 }

@@ -6,4 +6,5 @@ package com.project.mvpframe.base
  */
 interface IBaseView {
     fun showToast(str: CharSequence)
+    fun sucessOfgetCode()
 }

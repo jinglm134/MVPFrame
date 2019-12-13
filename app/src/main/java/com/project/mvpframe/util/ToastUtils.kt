@@ -3,6 +3,7 @@ package com.project.mvpframe.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
+import com.project.mvpframe.app.MvpApp
 
 /**
  * @CreateDate 2019/12/6 14:38
@@ -32,7 +33,7 @@ object ToastUtils {
      * @param context 上下文
      * @param text    文本
      */
-    fun showShortToast(context: Context, text: CharSequence) {
+    fun showShortToast(text: CharSequence, context: Context = MvpApp.getInstance()) {
         showToast(context, text, Toast.LENGTH_SHORT)
     }
 
@@ -43,7 +44,7 @@ object ToastUtils {
      * @param context 上下文
      * @param text    文本
      */
-    fun showLongToast(context: Context, text: CharSequence) {
+    fun showLongToast(text: CharSequence, context: Context = MvpApp.getInstance()) {
         showToast(context, text, Toast.LENGTH_LONG)
     }
 
