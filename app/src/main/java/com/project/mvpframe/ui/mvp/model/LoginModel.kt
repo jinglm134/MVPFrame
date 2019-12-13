@@ -22,8 +22,8 @@ class LoginModel : BaseModel() {
         val map = HashMap<String, Any>()
         map["username"] = username
         map["password"] = password
-        map["verifyType"] = verifyType
-        map["verifyCode"] = verifyCode
+        /*map["verifyType"] = verifyType
+        map["verifyCode"] = verifyCode*/
         return RetrofitManager.getService(ApiService::class.java)
             .login(EncryptUtils.encrypt(map))
     }

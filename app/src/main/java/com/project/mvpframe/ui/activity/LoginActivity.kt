@@ -6,11 +6,14 @@ import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import com.google.gson.Gson
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.constant.ApiConfig
+import com.project.mvpframe.constant.ApiDomain
+import com.project.mvpframe.constant.SPConst
 import com.project.mvpframe.ui.mvp.model.LoginModel
 import com.project.mvpframe.ui.mvp.presenter.LoginPresenter
 import com.project.mvpframe.ui.mvp.view.ILoginView
@@ -159,7 +162,7 @@ class LoginActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
             if (TextUtils.isEmpty(tv_account_error.text.toString().trim())) {
                 mPresenter.getCode(
                     et_account.text.toString().trim(),
-                    BuildConfig.BASEAPI + ApiConfig.LOGIN
+                    ApiDomain.BASE_URL + ApiConfig.LOGIN
                 )
             }
 
@@ -168,7 +171,10 @@ class LoginActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
 
     //登陆成功
     override fun successOfLogin(data: LoginBean) {
-        SPUtils.getInstance(mActivity).saveParam("login", data)
+        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_LOGIN_DATA, Gson().toJson(data))
+        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_TOKEN, data.tokenResultBO.access_token)
+        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
+        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_IS_LOGIN, true)
         startActivity(MainActivity::class.java)
     }
 

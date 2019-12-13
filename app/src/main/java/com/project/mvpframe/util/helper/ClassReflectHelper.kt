@@ -13,5 +13,4 @@ object ClassReflectHelper {
             .actualTypeArguments[i] as Class<T>)
             .newInstance()
     }
-    
 }

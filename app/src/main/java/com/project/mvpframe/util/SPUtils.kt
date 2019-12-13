@@ -80,14 +80,14 @@ class SPUtils {
      * @return T
      */
     @Suppress("UNCHECKED_CAST")
-    fun <T> getParam(key: String, defaultParam: T): T? {
+    fun <T> getParam(key: String, defaultParam: T): T{
         return when (defaultParam) {
             is String -> preferences.getString(key, defaultParam) as T
             is Int -> preferences.getInt(key, (defaultParam)) as T
             is Boolean -> preferences.getBoolean(key, (defaultParam)) as T
             is Float -> preferences.getFloat(key, (defaultParam)) as T
             is Long -> preferences.getLong(key, (defaultParam)) as T
-            else -> null
+            else -> defaultParam
 //            else -> {
 //                val wordBase64 = preferences.getString(key, "")
 //                val base64 = Base64.decode(wordBase64!!.toByteArray(), Base64.DEFAULT)

@@ -3,6 +3,7 @@ package com.project.mvpframe.net
 import android.util.Log
 import com.project.mvpframe.app.MvpApp
 import com.project.mvpframe.constant.ApiDomain
+import com.project.mvpframe.constant.SPConst
 import com.project.mvpframe.util.SPUtils
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -52,8 +53,16 @@ class HeaderInterceptor : Interceptor {
         val url = request.url()
         var requestBuilder: Request.Builder = request.newBuilder()
         if (url.toString().contains("strict")) {
-            requestBuilder = requestBuilder.addHeader("userId", SPUtils.getInstance(MvpApp.getInstance()).getParam("userId", "")!!)
-                .addHeader("Authorization", String.format("Bearer%s", SPUtils.getInstance(MvpApp.getInstance()).getParam("token", "")!!))
+            requestBuilder = requestBuilder.addHeader(
+                "userId",
+                SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_USER_ID, "")
+            )
+                .addHeader(
+                    "Authorization", String.format(
+                        "Bearer%s",
+                        SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_TOKEN, "")
+                    )
+                )
         }
         val build = requestBuilder.method(request.method(), request.body())
             .addHeader("deviceType", "app")

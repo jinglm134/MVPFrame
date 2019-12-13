@@ -19,4 +19,6 @@
     <color name="green">#00ff00</color>
     <color name="blue">#0000ff</color>
     <color name="cyan">#00ffff</color>
+    <!--启动页面-->
+    <color name="splash_bg">#213747</color>
 </resources>

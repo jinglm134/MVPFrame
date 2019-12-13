@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_layout"
+    android:layout_width="300dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/dialog_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip">
+
+        <EditText
+            android:id="@+id/et_dialog_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="top|left"
+            android:maxLength="16"
+            android:padding="12dp"
+            android:singleLine="true"
+            android:textColor="@color/black_6"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tx_dialog_content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="12dp"
+            android:singleLine="false"
+            android:textColor="@color/black_6"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/at_customize_progress"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dip"
+            android:indeterminate="true" />
+
+        <TextView
+            android:id="@+id/al_customize_progress_message"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dip"
+            android:gravity="center_vertical"
+            android:text="加载中.."
+            android:textColor="@color/black_6"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/vertical_center_line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#c8c7cc" />
+
+    <LinearLayout
+        android:id="@+id/dialog_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btn_dialog_cancel"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:textColor="@color/black_6"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/center_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="#c8c7cc"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_dialog_ok"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:textColor="@color/colorPrimary"
+            android:textSize="13sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

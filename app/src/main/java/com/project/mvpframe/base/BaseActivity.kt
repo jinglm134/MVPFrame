@@ -33,7 +33,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
 
     companion object {
         /**Tag为类名,用于日志输出的Tag或它用 */
-        protected val TAG by lazy { this.javaClass.simpleName }
+        protected val TAG: String by lazy { this.javaClass.simpleName }
         /** 是否输出日志信息 */
         protected val mDebug by lazy { BuildConfig.DEBUG }
         /** 是否沉浸状态栏 */
@@ -57,7 +57,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         super.onCreate(savedInstanceState)
         //关闭权限后,app进程被杀死,进入app恢复当前页面时重启app
 //        if (savedInstanceState != null) {
-//            val intent = Intent(this, MainActivity::class.java)
+//            val intent = Intent(this, SplashActivity::class.java)
 //            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 //            startActivity(intent)
 //            finish()
@@ -139,7 +139,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     //设置toolbar右侧按钮
     protected fun setRightButton(
         text: CharSequence, @Nullable @DrawableRes drawableRes: Int,
-        @Nullable clickListener: View.OnClickListener
+        @Nullable clickListener: View.OnClickListener? = null
     ) {
         base_right_text.text = text
         base_right_text.setCompoundDrawablesWithIntrinsicBounds(drawableRes, 0, 0, 0)
