@@ -1,7 +1,6 @@
 package com.project.mvpframe.ui.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -16,6 +15,8 @@ import com.project.mvpframe.ui.mvp.view.ILoginView
 import com.project.mvpframe.util.DialogUtils
 import com.project.mvpframe.util.SPUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import java.util.*
 
 /**
@@ -41,7 +42,6 @@ class SplashActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
         requestPermission()
     }
 
-    @SuppressLint("CheckResult")
     private fun requestPermission() {
         RxPermissions(this)
             .requestEachCombined(
@@ -92,7 +92,11 @@ class SplashActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
 
                     }
                 }
-            }
+            }.addTo(CompositeDisposable())
+    }
+
+    private fun Disposable.addTo(c: CompositeDisposable) {
+        c.add(this)
     }
 
     override fun bindLayout(): Int {
