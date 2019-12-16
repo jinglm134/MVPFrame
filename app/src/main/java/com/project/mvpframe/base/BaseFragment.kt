@@ -18,35 +18,33 @@ import com.trello.rxlifecycle2.components.support.RxFragment
  * @CreateDate 2019/12/2 17:35
  * @Author jaylm
  */
-abstract class BaseFragment<M : BaseModel, P : BasePresenter<*, *>> : RxFragment()
+abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     , IBaseView {
 
     companion object {
         /**Tag为类名,用于日志输出的Tag或它用 */
-        protected val TAG by lazy { this.javaClass.simpleName }
+        protected val TAG by lazy { this::class.java.simpleName }
         /** 是否输出日志信息 */
         protected val mDebug by lazy { BuildConfig.DEBUG }
     }
 
     protected lateinit var mPresenter: P
-    protected lateinit var mModel: M
     private var mBind: Unbinder? = null
     private var rootView: View? = null
-    lateinit var mActivity: BaseActivity<*, *>
+    lateinit var mActivity: BaseActivity<*>
 
     protected var hasConfig = false//是否已调用过initView/setListeners
 
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
-        mActivity = activity as BaseActivity<*, *>
+        mActivity = activity as BaseActivity<*>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //MVP
-        mModel = ClassReflectHelper.getT(this, 0)
-        mPresenter = ClassReflectHelper.getT(this, 1)
-        mPresenter.init(context!!)
+        mPresenter = ClassReflectHelper.getT(this, 0)
+//        mPresenter.init(context!!)
         initMVP()
     }
 

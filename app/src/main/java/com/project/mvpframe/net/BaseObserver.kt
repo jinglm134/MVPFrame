@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.widget.Toast
 import com.project.mvpframe.bean.BaseResponse
 import com.project.mvpframe.util.ToastUtils
-import com.project.mvpframe.view.ProgressDialog
+import com.project.mvpframe.view.dialog.ProgressDialog
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 
@@ -42,7 +42,7 @@ abstract class BaseObserver<T>(
         if (code == 200) {
             onSuccess(data)
         } else {
-            onFailure(code, msg)
+            onFailure(data, code, msg)
         }
     }
 
@@ -69,7 +69,7 @@ abstract class BaseObserver<T>(
     protected abstract fun onSuccess(data: T)
 
     //code!=200,即请求失败的回调,需要时可重写
-    open fun onFailure(code: Int, msg: String) {
+    open fun onFailure(data: T, code: Int, msg: String) {
         ToastUtils.showShortToast(msg)
     }
 

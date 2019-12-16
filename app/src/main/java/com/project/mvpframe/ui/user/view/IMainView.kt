@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.mvp.view
+package com.project.mvpframe.ui.user.view
 
 import com.project.mvpframe.base.IBaseView
 import com.project.mvpframe.bean.Notice

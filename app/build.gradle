@@ -32,6 +32,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    def listSubFile = {
+        def resFolder = 'src/main/res/layouts'
+        def files = file(resFolder).listFiles()
+        def folders = []
+        files.each {
+            item -> folders.add(item.absolutePath)
+        }
+        folders.add(file(resFolder).parentFile.absolutePath)
+        return folders
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = listSubFile()
+        }
+    }
 }
 
 dependencies {
@@ -47,7 +64,6 @@ dependencies {
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
-
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation "com.squareup.retrofit2:converter-gson:2.4.0"
@@ -57,5 +73,13 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.9'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.47-androidx'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.8.9'//暂用
+
 }

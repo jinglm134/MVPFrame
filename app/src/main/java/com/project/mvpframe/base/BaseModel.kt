@@ -22,6 +22,4 @@ open class BaseModel {
         return RetrofitManager.getService(ApiService::class.java)
             .getCode(encrypt)
     }
-
-
 }

@@ -1,8 +1,7 @@
-package com.project.mvpframe.ui.mvp.model
+package com.project.mvpframe.ui.user.model
 
 import com.project.mvpframe.base.BaseModel
 import com.project.mvpframe.bean.BaseResponse
-import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.net.ApiService
 import com.project.mvpframe.net.RetrofitManager
 import com.project.mvpframe.util.encrypt.EncryptUtils
@@ -18,12 +17,12 @@ class LoginModel : BaseModel() {
         password: String,
         verifyType: String,
         verifyCode: String
-    ): Observable<BaseResponse<LoginBean>> {
+    ): Observable<BaseResponse<String>> {
         val map = HashMap<String, Any>()
         map["username"] = username
         map["password"] = password
-        /*map["verifyType"] = verifyType
-        map["verifyCode"] = verifyCode*/
+        map["verifyType"] = verifyType
+        map["verifyCode"] = verifyCode
         return RetrofitManager.getService(ApiService::class.java)
             .login(EncryptUtils.encrypt(map))
     }

@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.SplashActivity">
+        <activity android:name=".ui.common.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" /><!--google search-->
@@ -27,10 +27,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.user.activity.MainActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.user.activity.LoginActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.common.activity.InteractionActivity"
             android:launchMode="singleTop" />
 
     </application>

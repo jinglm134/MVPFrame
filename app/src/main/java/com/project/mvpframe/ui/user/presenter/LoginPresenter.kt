@@ -1,11 +1,12 @@
-package com.project.mvpframe.ui.mvp.presenter
+package com.project.mvpframe.ui.user.presenter
 
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.net.BaseObserver
 import com.project.mvpframe.net.RxHelper
-import com.project.mvpframe.ui.mvp.model.LoginModel
-import com.project.mvpframe.ui.mvp.view.ILoginView
+import com.project.mvpframe.ui.user.model.LoginModel
+import com.project.mvpframe.ui.user.view.ILoginView
+import com.project.mvpframe.util.GsonUtils
 
 /**
  * @CreateDate 2019/12/2 14:51
@@ -21,10 +22,15 @@ class LoginPresenter : BasePresenter<LoginModel, ILoginView>() {
     ) {
         mModel.login(username, password, verifyType, verifyCode)
             .compose(RxHelper.observableIO2Main(mContext))
-            .subscribe(object : BaseObserver<LoginBean>(mContext) {
-                override fun onSuccess(data: LoginBean) {
+            .subscribe(object : BaseObserver<String>(mContext) {
+                override fun onSuccess(data: String) {
                     mView.showToast("登陆成功")
-                    mView.successOfLogin(data)
+                    mView.successOfLogin(GsonUtils.parseJsonWithGson(data, LoginBean::class.java))
+                }
+
+                override fun onFailure(data: String, code: Int, msg: String) {
+                    super.onFailure(data, code, msg)
+                    mView.codeOfLogin(code, data)
                 }
             })
     }

@@ -22,9 +22,6 @@
         <item name="android:windowBackground">@mipmap/logo_splash</item>
     </style>-->
 
-
-    <style name="AppMainTheme" parent="Theme.AppCompat.Light.NoActionBar" />
-
     <style name="activityAnim">
         <item name="android:activityOpenEnterAnimation">@anim/activity_open_enter</item>
         <item name="android:activityOpenExitAnimation">@anim/activity_open_exit</item>

@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.activity
+package com.project.mvpframe.ui.common.activity
 
 import android.Manifest
 import android.content.Intent
@@ -7,11 +7,10 @@ import android.provider.Settings
 import android.view.View
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
-import com.project.mvpframe.bean.LoginBean
+import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.constant.SPConst
-import com.project.mvpframe.ui.mvp.model.LoginModel
-import com.project.mvpframe.ui.mvp.presenter.LoginPresenter
-import com.project.mvpframe.ui.mvp.view.ILoginView
+import com.project.mvpframe.ui.user.activity.LoginActivity
+import com.project.mvpframe.ui.user.activity.MainActivity
 import com.project.mvpframe.util.DialogUtils
 import com.project.mvpframe.util.SPUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -24,14 +23,11 @@ import java.util.*
  * @CreateDate 2019/12/2 15:34
  * @Author jaylm
  */
-class SplashActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
-    override fun successOfLogin(data: LoginBean) {
-    }
+class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
 
     private var mTimer: Timer? = null
-
     override fun initMVP() {
-        mPresenter.setMV(mModel, this)
+//        mPresenter.init(this, this)
     }
 
     override fun initView(contentView: View) {
@@ -57,8 +53,10 @@ class SplashActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
                         }
                         mTimer!!.schedule(object : TimerTask() {
                             override fun run() {
-                                if (SPUtils.getInstance(mActivity)
-                                        .getParam(SPConst.SP_IS_LOGIN, false)
+                                if (SPUtils.getInstance(mActivity).getParam(
+                                        SPConst.SP_IS_LOGIN,
+                                        false
+                                    )
                                 ) {
                                     startActivity(MainActivity::class.java)
                                 } else {
@@ -70,7 +68,8 @@ class SplashActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
                         }, 1000)
                     }
                     permission.shouldShowRequestPermissionRationale -> {
-                        DialogUtils.showTwoDialog(mActivity,
+                        DialogUtils.showTwoDialog(
+                            mActivity,
                             "请允许开启权限以正常使用app功能",
                             "确定",
                             View.OnClickListener {
@@ -79,7 +78,8 @@ class SplashActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
                             View.OnClickListener { finish() })
                     }
                     else -> {
-                        DialogUtils.showTwoDialog(mActivity,
+                        DialogUtils.showTwoDialog(
+                            mActivity,
                             "请在设置中开启权限,以正常使用app功能",
                             "去设置",
                             View.OnClickListener {
@@ -89,7 +89,6 @@ class SplashActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
                                 startActivity(intent)
                             },
                             View.OnClickListener { finish() })
-
                     }
                 }
             }.addTo(CompositeDisposable())

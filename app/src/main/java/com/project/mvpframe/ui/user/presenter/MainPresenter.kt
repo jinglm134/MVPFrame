@@ -1,12 +1,12 @@
-package com.project.mvpframe.ui.mvp.presenter
+package com.project.mvpframe.ui.user.presenter
 
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.bean.NoticeListBean
 import com.project.mvpframe.bean.PrizeListBean
 import com.project.mvpframe.net.BaseObserver
 import com.project.mvpframe.net.RxHelper
-import com.project.mvpframe.ui.mvp.model.MainModel
-import com.project.mvpframe.ui.mvp.view.IMainView
+import com.project.mvpframe.ui.user.model.MainModel
+import com.project.mvpframe.ui.user.view.IMainView
 
 /**
  * @CreateDate 2019/11/29 10:23

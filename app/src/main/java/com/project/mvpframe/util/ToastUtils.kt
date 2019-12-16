@@ -11,7 +11,7 @@ import com.project.mvpframe.app.MvpApp
  */
 object ToastUtils {
     private var sToast: Toast? = null
-    private var isJumpWhenMore: Boolean = false
+    private var isJumpWhenMore: Boolean = true
 
     /**
      * 吐司初始化

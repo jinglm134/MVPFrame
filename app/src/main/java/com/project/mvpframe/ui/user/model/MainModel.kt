@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.mvp.model
+package com.project.mvpframe.ui.user.model
 
 import com.google.gson.Gson
 import com.project.mvpframe.base.BaseModel

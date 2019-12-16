@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.activity
+package com.project.mvpframe.ui.user.activity
 
 import android.view.View
 import android.widget.Toast
@@ -6,10 +6,10 @@ import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.bean.Notice
 import com.project.mvpframe.bean.PrizeListBean
-import com.project.mvpframe.ui.mvp.model.MainModel
-import com.project.mvpframe.ui.mvp.presenter.MainPresenter
-import com.project.mvpframe.ui.mvp.view.IMainView
+import com.project.mvpframe.ui.user.presenter.MainPresenter
+import com.project.mvpframe.ui.user.view.IMainView
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.reflect.ParameterizedType
 
 
 /**
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_main.*
  * @CreateDate 2019/12/3 08:34
  * @Author jaylm
  */
-class MainActivity : BaseActivity<MainModel, MainPresenter>(),
+class MainActivity : BaseActivity<MainPresenter>(),
     IMainView {
 
 
@@ -26,7 +26,7 @@ class MainActivity : BaseActivity<MainModel, MainPresenter>(),
     }
 
     override fun initMVP() {
-        mPresenter.setMV(mModel, this)
+        mPresenter.init(this, this)
     }
 
     override fun bindLayout(): Int {
@@ -35,14 +35,12 @@ class MainActivity : BaseActivity<MainModel, MainPresenter>(),
 
     override fun initView(contentView: View) {
         mPresenter.getNoticeList()
-
     }
 
     override fun setListener() {
         super.setListener()
         tv_hello.setOnClickListener {
             Toast.makeText(this, "", Toast.LENGTH_LONG).show()
-
         }
     }
 

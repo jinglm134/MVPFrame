@@ -1,7 +1,6 @@
 package com.project.mvpframe.net
 
 import com.project.mvpframe.bean.BaseResponse
-import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.bean.NoticeListBean
 import com.project.mvpframe.bean.PrizeListBean
 import com.project.mvpframe.constant.ApiConfig
@@ -22,23 +21,17 @@ interface ApiService {
     @FormUrlEncoded
     @POST(ApiConfig.PRIZE_LIST)
     fun getPrizeList(
-        @Field("pageNumber") pageNumber: Int,
-        @Field("pageSize") pageSize: Int,
-        @Field("status") status: String
+        @Field("pageNumber") pageNumber: Int, @Field("pageSize") pageSize: Int, @Field(
+            "status"
+        ) status: String
     ): Observable<BaseResponse<List<PrizeListBean>>>
 
     @POST(ApiConfig.NOTICE_LIST)
-    fun getNoticeList(
-        @Body body: RequestBody
-    ): Observable<BaseResponse<NoticeListBean>>
+    fun getNoticeList(@Body body: RequestBody): Observable<BaseResponse<NoticeListBean>>
 
     @POST(ApiConfig.LOGIN)
-    fun login(
-        @Body body: Map<String, String>
-    ): Observable<BaseResponse<LoginBean>>
+    fun login(@Body body: Map<String, String>): Observable<BaseResponse<String>>
 
     @POST(ApiConfig.GET_CODE)
-    fun getCode(
-        @Body body: Map<String, String>
-    ): Observable<BaseResponse<String>>
+    fun getCode(@Body body: Map<String, String>): Observable<BaseResponse<String>>
 }

@@ -28,12 +28,12 @@ import java.util.*
  * @CreateDate 2019/11/28 18:18
  * @Author jaylm
  */
-abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
+abstract class BaseActivity<P : BasePresenter<*, *>> :
     RxAppCompatActivity(), IBaseView {
 
     companion object {
         /**Tag为类名,用于日志输出的Tag或它用 */
-        protected val TAG: String by lazy { this.javaClass.simpleName }
+        protected val TAG: String by lazy { this::class.java.simpleName }
         /** 是否输出日志信息 */
         protected val mDebug by lazy { BuildConfig.DEBUG }
         /** 是否沉浸状态栏 */
@@ -50,7 +50,6 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     private val mActivityStacks = Stack<Activity>()
     protected lateinit var mActivity: Activity
     protected lateinit var mPresenter: P
-    protected lateinit var mModel: M
     private var mBinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,11 +65,12 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         mActivity = this
 
         //MVP
-        mModel = ClassReflectHelper.getT(this, 0)
-        mPresenter = ClassReflectHelper.getT(this, 1)
-        mPresenter.init(mActivity)
-        initMVP()
-
+        try {
+            //防止不使用mvp时出现异常
+            mPresenter = ClassReflectHelper.getT(this, 0)
+            initMVP()
+        } catch (e: ClassCastException) {
+        }
 
         if (mAllowFullScreen) {
             window.setFlags(
@@ -112,13 +112,9 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
      */
     private fun steepStatusBar() {
         // 透明状态栏
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-        )
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         // 透明导航栏
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION
-        )
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
     }
 
     private fun initToolbar() {
@@ -131,16 +127,13 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
     }
 
     //设置toolBar标题
-    protected fun setHeader(text: CharSequence) {
+    protected fun setHeader(text: CharSequence?) {
         base_toolbar.visibility = View.VISIBLE
         base_title.text = text
     }
 
     //设置toolbar右侧按钮
-    protected fun setRightButton(
-        text: CharSequence, @Nullable @DrawableRes drawableRes: Int,
-        @Nullable clickListener: View.OnClickListener? = null
-    ) {
+    protected fun setRightButton(text: CharSequence, @Nullable @DrawableRes drawableRes: Int, @Nullable clickListener: View.OnClickListener? = null) {
         base_right_text.text = text
         base_right_text.setCompoundDrawablesWithIntrinsicBounds(drawableRes, 0, 0, 0)
         base_right_text.setOnClickListener(clickListener)
@@ -185,7 +178,7 @@ abstract class BaseActivity<M : BaseModel, P : BasePresenter<*, *>> :
         ToastUtils.showShortToast(str)
     }
 
-    override fun sucessOfgetCode() {
+    override fun successOfgetCode() {
     }
 
     /**

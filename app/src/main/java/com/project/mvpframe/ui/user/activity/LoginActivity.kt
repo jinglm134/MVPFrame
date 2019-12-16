@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.activity
+package com.project.mvpframe.ui.user.activity
 
 import android.os.CountDownTimer
 import android.text.Editable
@@ -6,17 +6,16 @@ import android.text.InputType
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import androidx.core.view.isVisible
 import com.google.gson.Gson
-import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.constant.ApiConfig
 import com.project.mvpframe.constant.ApiDomain
 import com.project.mvpframe.constant.SPConst
-import com.project.mvpframe.ui.mvp.model.LoginModel
-import com.project.mvpframe.ui.mvp.presenter.LoginPresenter
-import com.project.mvpframe.ui.mvp.view.ILoginView
+import com.project.mvpframe.ui.user.presenter.LoginPresenter
+import com.project.mvpframe.ui.user.view.ILoginView
 import com.project.mvpframe.util.RegexUtils
 import com.project.mvpframe.util.SPUtils
 import com.project.mvpframe.util.UShape
@@ -27,12 +26,14 @@ import kotlinx.android.synthetic.main.activity_login.*
  * @CreateDate 2019/12/2 15:32
  * @Author jaylm
  */
-class LoginActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
+class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
 
     private var mTimer: CountDownTimer? = null
+    private var mCodeType = ""
+    private var mCode = 0
 
     override fun initMVP() {
-        mPresenter.setMV(mModel, this)
+        mPresenter.init(this, this)
     }
 
     override fun bindLayout(): Int {
@@ -150,22 +151,28 @@ class LoginActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
                 showToast("密码不能为空")
                 return@setOnClickListener
             }
-            if (TextUtils.isEmpty(code)) {
+            if (ll_code.isVisible && TextUtils.isEmpty(code)) {
                 showToast("验证码不能为空")
                 return@setOnClickListener
             }
-            mPresenter.login(account, password, BuildConfig.BASEAPI + ApiConfig.LOGIN, code)
+            mPresenter.login(account, password, mCode.toString(), code)
         }
 
         //获取验证码
         btn_code.setOnClickListener {
-            if (TextUtils.isEmpty(tv_account_error.text.toString().trim())) {
-                mPresenter.getCode(
-                    et_account.text.toString().trim(),
-                    ApiDomain.BASE_URL + ApiConfig.LOGIN
-                )
+            val account = et_account.text.toString().trim()
+            if (account.length != 11) {
+                showToast("您输入的手机号码位数不正确")
+                return@setOnClickListener
             }
-
+            if (!RegexUtils.isMobileSimple(account)) {
+                showToast("手机号码不规范")
+                return@setOnClickListener
+            }
+            mPresenter.getCode(
+                account,
+                ApiDomain.BASE_URL + ApiConfig.LOGIN
+            )
         }
     }
 
@@ -178,10 +185,30 @@ class LoginActivity : BaseActivity<LoginModel, LoginPresenter>(), ILoginView {
         startActivity(MainActivity::class.java)
     }
 
+    override fun codeOfLogin(code: Int, data: String) {
+        ll_code.visibility = View.VISIBLE
+        this.mCodeType = data
+        this.mCode = code
+        when (code) {
+            510 -> {
+                et_code.hint = "请输入谷歌验证码"
+            }
+            520 -> {
+                et_code.hint = "请输入短信验证码"
+            }
+            540 -> {
+                et_code.hint = "请输入邮箱验证码"
+            }
+
+            else -> {
+            }
+        }
+    }
+
 
     //获取验证码成功
-    override fun sucessOfgetCode() {
-        super.sucessOfgetCode()
+    override fun successOfgetCode() {
+        super.successOfgetCode()
         if (mTimer == null) {
             mTimer = object : CountDownTimer(60 * 1000, 1000) {
                 override fun onFinish() {

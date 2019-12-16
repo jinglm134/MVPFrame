@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.mvp.view
+package com.project.mvpframe.ui.user.view
 
 import com.project.mvpframe.base.IBaseView
 import com.project.mvpframe.bean.LoginBean
@@ -9,4 +9,5 @@ import com.project.mvpframe.bean.LoginBean
  */
 interface ILoginView : IBaseView {
     fun successOfLogin(data: LoginBean)
+    fun codeOfLogin(code: Int, data: String)
 }

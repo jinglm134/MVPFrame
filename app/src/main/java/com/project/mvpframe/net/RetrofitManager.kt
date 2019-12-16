@@ -58,11 +58,7 @@ class RetrofitManager {
                     mRetrofit = Retrofit.Builder()
                         .client(client)
                         .baseUrl(ApiDomain.BASE_URL)
-                        .addCallAdapterFactory(
-                            RxJava2CallAdapterFactory.createWithScheduler(
-                                Schedulers.io()
-                            )
-                        )
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
                 }
