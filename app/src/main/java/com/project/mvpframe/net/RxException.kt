@@ -21,6 +21,7 @@ class RxException {
                 is SocketTimeoutException -> "请求网络超时"
                 is HttpException -> convertStatusCode(e)
                 is ParseException, is JSONException -> "数据解析错误"
+                is IllegalStateException -> "非法状态错误"
                 else -> "未知错误"
             }
         }

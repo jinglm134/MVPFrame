@@ -3,19 +3,20 @@ package com.project.mvpframe.net
 import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
-import com.project.mvpframe.bean.BaseResponse
 import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.view.dialog.ProgressDialog
 import io.reactivex.observers.DisposableObserver
+import okhttp3.ResponseBody
+import org.json.JSONObject
 
 /**
  * @CreateDate 2019/12/3 10:52
  * @Author jaylm
  */
-abstract class BaseObserver<T>(
+abstract class BaseObserverString(
     private var mContext: Context,
     private var mShowDialog: Boolean = true
-) : DisposableObserver<BaseResponse<T>>() {
+) : DisposableObserver<ResponseBody>() {
 
     private var dialog: ProgressDialog? = null
 
@@ -32,10 +33,11 @@ abstract class BaseObserver<T>(
         }
     }
 
-    override fun onNext(response: BaseResponse<T>) {
-        val code = response.code
-        val msg = response.message
-        val data = response.data
+    override fun onNext(response: ResponseBody) {
+        val jsonObject = JSONObject(String(response.bytes()))
+        val code = jsonObject.optInt("code")
+        val msg = jsonObject.optString("message")
+        val data = jsonObject.optString("data")
         if (code == 200) {
             onSuccess(data)
         } else {
@@ -59,11 +61,11 @@ abstract class BaseObserver<T>(
         }
         hideDialog()
         endRefresh()
-
+        ToastUtils.showShortToast(RxException.exceptionHandler(e))
     }
 
     //请求成功的回调函数
-    protected abstract fun onSuccess(data: T)
+    protected abstract fun onSuccess(data: String)
 
     //code!=200,即请求失败的回调,需要时可重写
     open fun onFailure(code: Int, msg: String) {

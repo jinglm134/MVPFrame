@@ -9,5 +9,5 @@ import com.project.mvpframe.bean.LoginBean
  */
 interface ILoginView : IBaseView {
     fun successOfLogin(data: LoginBean)
-    fun codeOfLogin(code: Int, data: String)
+    fun codeOfLogin(code: Int)
 }

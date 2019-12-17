@@ -6,6 +6,7 @@ import com.project.mvpframe.bean.PrizeListBean
 import com.project.mvpframe.constant.ApiConfig
 import io.reactivex.Observable
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -30,7 +31,7 @@ interface ApiService {
     fun getNoticeList(@Body body: RequestBody): Observable<BaseResponse<NoticeListBean>>
 
     @POST(ApiConfig.LOGIN)
-    fun login(@Body body: Map<String, String>): Observable<BaseResponse<String>>
+    fun login(@Body body: Map<String, String>): Observable<ResponseBody>
 
     @POST(ApiConfig.GET_CODE)
     fun getCode(@Body body: Map<String, String>): Observable<BaseResponse<String>>

@@ -58,6 +58,9 @@ object ToastUtils {
      */
     @SuppressLint("ShowToast")
     private fun showToast(context: Context, text: CharSequence, duration: Int) {
+//        if (!BuildConfig.DEBUG) {
+//            return
+//        }
         if (isJumpWhenMore) cancelToast()
         if (sToast == null) {
             sToast = Toast.makeText(context.applicationContext, text, duration)

@@ -1,11 +1,11 @@
 package com.project.mvpframe.ui.user.model
 
 import com.project.mvpframe.base.BaseModel
-import com.project.mvpframe.bean.BaseResponse
 import com.project.mvpframe.net.ApiService
 import com.project.mvpframe.net.RetrofitManager
 import com.project.mvpframe.util.encrypt.EncryptUtils
 import io.reactivex.Observable
+import okhttp3.ResponseBody
 
 /**
  * @CreateDate 2019/12/2 14:50
@@ -17,7 +17,7 @@ class LoginModel : BaseModel() {
         password: String,
         verifyType: String,
         verifyCode: String
-    ): Observable<BaseResponse<String>> {
+    ): Observable<ResponseBody> {
         val map = HashMap<String, Any>()
         map["username"] = username
         map["password"] = password

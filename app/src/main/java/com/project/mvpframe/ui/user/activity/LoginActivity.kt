@@ -29,7 +29,6 @@ import kotlinx.android.synthetic.main.activity_login.*
 class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
 
     private var mTimer: CountDownTimer? = null
-    private var mCodeType = ""
     private var mCode = 0
 
     override fun initMVP() {
@@ -183,11 +182,11 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_IS_LOGIN, true)
         startActivity(MainActivity::class.java)
+        finish()
     }
 
-    override fun codeOfLogin(code: Int, data: String) {
+    override fun codeOfLogin(code: Int) {
         ll_code.visibility = View.VISIBLE
-        this.mCodeType = data
         this.mCode = code
         when (code) {
             510 -> {

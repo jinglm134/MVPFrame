@@ -10,14 +10,13 @@ import android.view.ViewGroup
 import android.widget.*
 import com.bumptech.glide.Glide
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * @CreateDate 2019/12/16 11:23
  * @Author jaylm
  */
 @Suppress("DEPRECATION")
-class Banner : Gallery, AdapterView.OnItemClickListener,
+class       Banner : Gallery, AdapterView.OnItemClickListener,
     AdapterView.OnItemSelectedListener, View.OnTouchListener {
 
     /**
@@ -60,7 +59,7 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
     /**
      * ImageView
      */
-    private var listImgs: MutableList<ImageView>? = null
+    private var listImages: MutableList<ImageView> = mutableListOf()
 
     /**
      * 处理定时滚动任务
@@ -114,7 +113,7 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
         /* 取靠近中间 图片数组的整倍数 */
         setSpacing(0)
         /* 默认选中中间位置为起始位置 */
-        setSelection(count / 2 / listImgs!!.size * listImgs!!.size)
+        setSelection(count / 2 / listImages.size * listImages.size)
         isFocusableInTouchMode = true
         /* 初始化圆点 */
         initDotLayout()
@@ -127,9 +126,7 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
      */
     private fun initImages() {
         /* 图片集合 */
-        listImgs = ArrayList()
-        val len = mUris.size
-        for (i in 0 until len) {
+        mUris.forEach {
             /* 实例化ImageView的对象 */
             val imageView = ImageView(context)
             /* 设置缩放方式 */
@@ -144,11 +141,11 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
             } else {
                 /*加载网络图片*/
                 Glide.with(context)
-                    .load(mUris[i])
+                    .load(it)
                     //                        .error(R.mipmap.banner)
                     .into(imageView)
             }
-            listImgs!!.add(imageView)
+            listImages.add(imageView)
         }
     }
 
@@ -160,7 +157,7 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
             return
         }
         lltDot!!.visibility = View.VISIBLE
-        if (listImgs!!.size < 2) {
+        if (listImages.size < 2) {
             /*如果只有一张图时不显示圆点容器*/
             lltDot!!.layoutParams.height = 0
         } else {
@@ -174,7 +171,7 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
                 ovalWidth, ovalHeight
             )
             layoutParams.setMargins(ovalMargin, 0, ovalMargin, 0)
-            for (i in listImgs!!.indices) {
+            listImages.forEach { _ ->
                 /* 圆点*/
                 val v = View(context)
                 v.layoutParams = layoutParams
@@ -229,8 +226,8 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
         arg0: AdapterView<*>, arg1: View, position: Int,
         arg3: Long
     ) {
-        curIndex = position % listImgs!!.size
-        if (lltDot != null && listImgs!!.size > 1) {
+        curIndex = position % listImages.size
+        if (lltDot != null && listImages.size > 1) {
             /* 切换圆点*/
             lltDot!!.getChildAt(oldIndex).setBackgroundResource(mNormalId)
             lltDot!!.getChildAt(curIndex).setBackgroundResource(mFocusedId)
@@ -275,7 +272,7 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
      * 启动自动滚动任务 图片大于1张才滚动
      */
     private fun startTimer() {
-        if (listImgs!!.size > 1 && mSwitchTime > 0) {
+        if (listImages.size > 1 && mSwitchTime > 0) {
             if (mTimer == null) {
                 mTimer = Timer()
             }
@@ -305,17 +302,17 @@ class Banner : Gallery, AdapterView.OnItemClickListener,
 
         override fun getCount(): Int {
             /*如果只有一张图时不滚动*/
-            return if (listImgs!!.size < 2) {
-                listImgs!!.size
+            return if (listImages.size < 2) {
+                listImages.size
             } else Integer.MAX_VALUE
         }
 
         override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
-            return listImgs!![position % listImgs!!.size]
+            return listImages[position % listImages.size]
         }
 
         override fun getItem(position: Int): Any {
-            return listImgs!![position]
+            return listImages[position]
         }
 
         override fun getItemId(position: Int): Long {
