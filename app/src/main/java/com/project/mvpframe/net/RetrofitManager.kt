@@ -3,7 +3,6 @@ package com.project.mvpframe.net
 import com.project.mvpframe.constant.ApiDomain
 import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -42,15 +41,15 @@ class RetrofitManager {
         if (mRetrofit == null) {
             synchronized(RetrofitManager::class.java) {
                 if (mRetrofit == null) {
-                    val logInterceptor = HttpLoggingInterceptor()
-                    logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//                    val logInterceptor = HttpLoggingInterceptor()
+//                    logInterceptor.level = HttpLoggingInterceptor.Level.BODY
                     //httpClient
                     val client = OkHttpClient().newBuilder()
                         .readTimeout(DEFAULT_TIME, TimeUnit.SECONDS)//设置读取超时时间
                         .connectTimeout(DEFAULT_TIME, TimeUnit.SECONDS) //设置请求超时时间
                         .writeTimeout(DEFAULT_TIME, TimeUnit.SECONDS)//设置写入超时时间
                         .addInterceptor(HeaderInterceptor())//网络拦截
-                        .addInterceptor(logInterceptor)//打印拦截
+                        .addInterceptor(LogInterceptor())//打印拦截
                         .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
                         .build()
 

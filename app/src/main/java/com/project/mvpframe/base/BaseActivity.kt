@@ -14,8 +14,6 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
 import com.project.mvpframe.util.ToastUtils
@@ -50,7 +48,7 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
     private val mActivityStacks = Stack<Activity>()
     protected lateinit var mActivity: Activity
     protected lateinit var mPresenter: P
-    private var mBinder: Unbinder? = null
+//    private var mBinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +92,7 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
         val contentView = LayoutInflater.from(mActivity).inflate(bindLayout(), base_container, true)
         // 将activity推入栈中
         mActivityStacks.push(this)
-        mBinder = ButterKnife.bind(this)
+//        mBinder = ButterKnife.bind(this)
 
         initView(contentView)
         setListener()
@@ -211,9 +209,9 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mBinder != null && mBinder !== Unbinder.EMPTY) {
-            mBinder!!.unbind()
-        }
+//        if (mBinder != null && mBinder !== Unbinder.EMPTY) {
+//            mBinder!!.unbind()
+//        }
         if (mActivityStacks.contains(this)) {
             mActivityStacks.remove(this)
         }
