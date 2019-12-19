@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import com.project.mvpframe.BuildConfig
+import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.util.helper.ClassReflectHelper
 import com.trello.rxlifecycle2.components.support.RxFragment
 
@@ -29,7 +28,6 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     }
 
     protected lateinit var mPresenter: P
-    private var mBind: Unbinder? = null
     private var rootView: View? = null
     lateinit var mActivity: BaseActivity<*>
 
@@ -43,9 +41,12 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //MVP
-        mPresenter = ClassReflectHelper.getT(this, 0)
-//        mPresenter.init(context!!)
-        initMVP()
+        try {
+            //防止不使用mvp时出现异常
+            mPresenter = ClassReflectHelper.getT(this, 0)
+            initMVP()
+        } catch (e: ClassCastException) {
+        }
     }
 
     override fun onCreateView(
@@ -55,7 +56,6 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     ): View? {
         if (rootView == null) {
             rootView = inflater.inflate(bindLayout(), container, false)
-            mBind = ButterKnife.bind(this, rootView!!)
         }
 
         //缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
@@ -92,11 +92,12 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
         }
     }
 
+    override fun showToast(str: CharSequence) {
+        ToastUtils.showShortToast(str)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         rootView = null
-        if (mBind != null && mBind !== Unbinder.EMPTY) {
-            mBind!!.unbind()
-        }
     }
 }

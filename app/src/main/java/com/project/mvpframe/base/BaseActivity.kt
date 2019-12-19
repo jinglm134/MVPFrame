@@ -176,15 +176,12 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
         ToastUtils.showShortToast(str)
     }
 
-    override fun successOfgetCode() {
-    }
-
     /**
      * Fragment替换(核心为隐藏当前的,显示现在的,用过的将不会destrory与create)
      */
     private var currentFragment: Fragment? = null
 
-    protected fun smartReplaceFragment(@IdRes idRes: Int, toFragment: Fragment, tag: String) {
+    fun smartReplaceFragment(@IdRes idRes: Int, toFragment: Fragment, tag: String) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
         // 如有当前在使用的->隐藏当前的

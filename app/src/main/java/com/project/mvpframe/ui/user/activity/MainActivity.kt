@@ -1,15 +1,15 @@
 package com.project.mvpframe.ui.user.activity
 
 import android.view.View
-import android.widget.Toast
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayout
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
-import com.project.mvpframe.bean.Notice
-import com.project.mvpframe.bean.PrizeListBean
-import com.project.mvpframe.ui.user.presenter.MainPresenter
-import com.project.mvpframe.ui.user.view.IMainView
+import com.project.mvpframe.base.BasePresenter
+import com.project.mvpframe.ui.user.fragment.HomeFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.reflect.ParameterizedType
 
 
 /**
@@ -17,16 +17,22 @@ import java.lang.reflect.ParameterizedType
  * @CreateDate 2019/12/3 08:34
  * @Author jaylm
  */
-class MainActivity : BaseActivity<MainPresenter>(),
-    IMainView {
+class MainActivity : BaseActivity<BasePresenter<*, *>>() {
 
+    //tabLayout标题
+    private val mTitles = arrayOf("首页", "行情", "交易", "法币", "资产")
+    //tabLayout的icon
+    private val mIconRes = intArrayOf(
+        R.drawable.selector_icon_home,
+        R.drawable.selector_icon_quotes,
+        R.drawable.selector_icon_deal,
+        R.drawable.selector_icon_fabi,
+        R.drawable.selector_icon_wallet
+    )
+    private val mFragments = ArrayList<Fragment>(5)
 
-    companion object {
-        const val PAGE_SIZE = 10
-    }
 
     override fun initMVP() {
-        mPresenter.init(this, this)
     }
 
     override fun bindLayout(): Int {
@@ -34,20 +40,44 @@ class MainActivity : BaseActivity<MainPresenter>(),
     }
 
     override fun initView(contentView: View) {
-        mPresenter.getNoticeList()
+        for (i in mTitles.indices) {
+            val tab = tabLayout.newTab().setCustomView(R.layout.tablayout_main)
+            val holder = ViewHolder(tab.customView!!)
+
+            holder.ivTab.setImageResource(mIconRes[i])
+            holder.tvTab.text = mTitles[i]
+            tabLayout.addTab(tab)
+        }
+
+        mFragments.add(HomeFragment.newInstance())
+        mFragments.add(HomeFragment.newInstance())
+        mFragments.add(HomeFragment.newInstance())
+        mFragments.add(HomeFragment.newInstance())
+        mFragments.add(HomeFragment.newInstance())
     }
 
     override fun setListener() {
         super.setListener()
-        tv_hello.setOnClickListener {
-            Toast.makeText(this, "", Toast.LENGTH_LONG).show()
-        }
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                smartReplaceFragment(
+                    R.id.main_container, mFragments[tab.position],
+                    "${mFragments.javaClass.simpleName}+${tab.position}"
+                )
+            }
+        })
+
+        tabLayout.getTabAt(0)!!.select()
     }
 
-    override fun successOfNotice(data: List<Notice>) {
-
-    }
-
-    override fun successOfPrize(data: List<PrizeListBean>) {
+    internal class ViewHolder(tabView: View) {
+        var tvTab: TextView = tabView.findViewById(R.id.tv_tab)
+        var ivTab: ImageView = tabView.findViewById(R.id.iv_tab)
     }
 }

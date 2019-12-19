@@ -33,11 +33,7 @@ object GsonUtils {
             //获取assets资源管理器
             val assetManager = context.assets
             //通过管理器打开文件并读取
-            val bf = BufferedReader(
-                InputStreamReader(
-                    assetManager.open(fileName)
-                )
-            )
+            val bf = BufferedReader(InputStreamReader(assetManager.open(fileName)))
             var line: String
             while (true) {
                 line = bf.readLine() ?: break

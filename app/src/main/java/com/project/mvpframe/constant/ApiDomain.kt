@@ -9,7 +9,7 @@ import com.project.mvpframe.BuildConfig
  */
 class ApiDomain {
     companion object {
-        val BASE_URL: String = BuildConfig.BASEAPI//默认域名
-        val BASE_URL_OTHER: String = BuildConfig.BASEAPI_OTHER//其它域名
+        const val BASE_URL: String = BuildConfig.BASEAPI//默认域名
+        const val BASE_URL_BANNER: String = BuildConfig.BASEAPI_BANNER//BANNER域名
     }
 }

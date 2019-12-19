@@ -1,5 +1,6 @@
 package com.project.mvpframe.net
 
+import com.project.mvpframe.bean.BannerBean
 import com.project.mvpframe.bean.BaseResponse
 import com.project.mvpframe.bean.NoticeListBean
 import com.project.mvpframe.bean.PrizeListBean
@@ -7,10 +8,7 @@ import com.project.mvpframe.constant.ApiConfig
 import io.reactivex.Observable
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * 请求接口类
@@ -35,4 +33,12 @@ interface ApiService {
 
     @POST(ApiConfig.GET_CODE)
     fun getCode(@Body body: Map<String, String>): Observable<BaseResponse<String>>
+
+    /*  @Headers("url_name:banner")
+      @GET("{firstPathSegment}/${ApiConfig.GET_BANNER}")
+      fun getBanner(@Path("firstPathSegment") firstPathSegment: String, @Query("v") time: Long): Observable<BaseResponse<BannerBean>>*/
+
+    @Headers("url_name:banner")
+    @GET(ApiConfig.GET_BANNER)
+    fun getBanner(@Query("v") time: Long): Observable<BaseResponse<BannerBean>>
 }

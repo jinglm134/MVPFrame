@@ -11,15 +11,5 @@ import io.reactivex.Observable
  * @Author jaylm
  */
 open class BaseModel {
-    fun getCode(
-        mobile: String,
-        noteType: String
-    ): Observable<BaseResponse<String>> {
-        val map = HashMap<String, Any>()
-        map["mobile"] = mobile
-        map["noteType"] = noteType
-        val encrypt = EncryptUtils.encrypt(map)
-        return RetrofitManager.getService(ApiService::class.java)
-            .getCode(encrypt)
-    }
+
 }

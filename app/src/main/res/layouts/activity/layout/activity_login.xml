@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:button="@drawable/selector_checkbox_eyes"
+            android:button="@drawable/selector_icon_checkbox_eyes"
             android:checked="false"
             tools:ignore="RtlSymmetry" />
     </LinearLayout>

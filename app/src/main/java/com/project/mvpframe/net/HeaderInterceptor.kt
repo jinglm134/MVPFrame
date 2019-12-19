@@ -31,20 +31,20 @@ class HeaderInterceptor : Interceptor {
             builder.removeHeader("url_name")
             //匹配获得新的BaseUrl
             val headerValue = headerValues[0]
-            val newBaseUrl = if ("other" == headerValue) {
-                HttpUrl.parse(ApiDomain.BASE_URL_OTHER)
+            val newBaseUrl = if ("banner" == headerValue) {
+                HttpUrl.parse(ApiDomain.BASE_URL_BANNER)
             } else {
                 oldHttpUrl
             }
             //在oldHttpUrl的基础上重建新的HttpUrl，修改需要修改的url部分
             val newFullUrl = oldHttpUrl
-                    .newBuilder()
-                    .scheme(newBaseUrl!!.scheme())//更换网络协议,根据实际情况更换成https或者http
-                    .host(newBaseUrl.host())//更换主机名
-                    .port(newBaseUrl.port())//更换端口
+                .newBuilder()
+                .scheme(newBaseUrl!!.scheme())//更换新url的网络协议,根据实际情况更换成https或者http
+                .host(newBaseUrl.host())//更换新url的主机名
+                .port(newBaseUrl.port())//更换新url的端口
+//                .addEncodedPathSegment(newBaseUrl.encodedPath())
 //                .removePathSegment(0)//移除第一个参数v1
-                    .build()
-            //重建这个request，通过builder.url(newFullUrl).build()；
+                .build()
             // 然后返回一个response至此结束修改
             Log.e("Url", "intercept: $newFullUrl")
             request = builder.url(newFullUrl).build()
@@ -53,13 +53,18 @@ class HeaderInterceptor : Interceptor {
         val url = request.url()
         var requestBuilder: Request.Builder = request.newBuilder()
         if (url.toString().contains("strict")) {
-            requestBuilder = requestBuilder.addHeader("userId", SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_USER_ID, ""))
-                    .addHeader("Authorization", String.format("Bearer%s", SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_TOKEN, "")))
+            requestBuilder = requestBuilder.header(
+                "userId",//header 为setHeader,即userId唯一
+                SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_USER_ID, "")
+            ).header(
+                "Authorization",//header 为setHeader,即Authorization唯一
+                "Bearer${SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_TOKEN, "")}"
+            )
         }
         val build = requestBuilder.method(request.method(), request.body())
-                .addHeader("deviceType", "app")
-                .addHeader("Content-Type", "application/json;charset=utf-8")
-                .build()
+            .addHeader("deviceType", "app")
+            .addHeader("Content-Type", "application/json;charset=utf-8")
+            .build()
 
         return chain.proceed(build)
     }

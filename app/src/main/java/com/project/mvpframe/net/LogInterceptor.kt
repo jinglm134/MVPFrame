@@ -19,7 +19,7 @@ class LogInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        LogUtils.v(mTAG, "----> START_REQUEST")
+        LogUtils.v(mTAG, "-----------------------------------------> START_REQUEST")
         LogUtils.v(mTAG, String.format(Locale.getDefault(), "requestUrl:$request"))
         val requestBody = request.body()
         if (requestBody != null) {
@@ -41,12 +41,15 @@ class LogInterceptor : Interceptor {
         val t1 = System.nanoTime()
         val response = chain.proceed(chain.request())
         val t2 = System.nanoTime()
-        LogUtils.v(mTAG, "Received response for ${response.request().url()} in ${(t2 - t1) / 1e6}ms")
+        LogUtils.v(
+            mTAG,
+            "Received response for ${response.request().url()} in ${(t2 - t1) / 1e6}ms"
+        )
 
         val mediaType = response.body()!!.contentType()
         val content = response.body()!!.string()
         LogUtils.long(mTAG, "response body:$content")
-        LogUtils.v(mTAG, "----> END_RESPONSE\n")
+        LogUtils.v(mTAG, "-----------------------------------------> END_RESPONSE\n")
         return response.newBuilder()
             .body(okhttp3.ResponseBody.create(mediaType, content))
             .build()

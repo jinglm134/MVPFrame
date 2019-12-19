@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.project.mvpframe.util
 
 import android.app.Activity

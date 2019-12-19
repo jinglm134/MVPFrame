@@ -20,14 +20,14 @@ android {
 
     buildTypes {
         release {
-            buildConfigField "String", "BASEAPI", "\"https://api.mixcdn.co/brapi/\""
-            buildConfigField "String", "BASEAPI_OTHER", "\"https://api.mixcdn.co/\""
+            buildConfigField "String", "BASEAPI", "\"https://api.mixcdn.co/\""
+            buildConfigField "String", "BASEAPI_BANNER", "\"https://bibr.mixcdn.co/\""
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "BASEAPI", "\"https://dev-api.mixcdn.co/brapi/\""
-            buildConfigField "String", "BASEAPI_OTHER", "\"https://dev-api.mixcdn.co/\""
+            buildConfigField "String", "BASEAPI", "\"https://dev-api.mixcdn.co/\""
+            buildConfigField "String", "BASEAPI_BANNER", "\"http://bibr.mixcdn.co/\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

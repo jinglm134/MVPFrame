@@ -1,8 +1,6 @@
 package com.project.mvpframe.base
 
 import android.content.Context
-import com.project.mvpframe.net.BaseObserver
-import com.project.mvpframe.net.RxHelper
 import com.project.mvpframe.util.helper.ClassReflectHelper
 
 /**
@@ -17,21 +15,7 @@ open class BasePresenter<M : BaseModel, V : IBaseView> {
     fun init(context: Context, v: V) {
         this.mContext = context
         mModel = ClassReflectHelper.getT(this, 0)
-        //view 因为是接口,通过反射拿不到对象，所以需要设置
+        //view 因为是接口,通过反射拿不到对象,所以需要设置
         mView = v
-    }
-
-    open fun getCode(
-        mobile: String,
-        noteType: String
-    ) {
-        mModel.getCode(mobile, noteType)
-            .compose(RxHelper.observableIO2Main(mContext))
-            .subscribe(object : BaseObserver<String>(mContext) {
-                override fun onSuccess(data: String) {
-                    mView.showToast(data)
-                    mView.successOfgetCode()
-                }
-            })
     }
 }

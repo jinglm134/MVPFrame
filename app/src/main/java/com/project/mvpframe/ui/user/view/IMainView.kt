@@ -9,6 +9,6 @@ import com.project.mvpframe.bean.PrizeListBean
  * @Author jaylm
  */
 interface IMainView : IBaseView {
-    fun successOfPrize(data: List<PrizeListBean>)
-    fun successOfNotice(data: List<Notice>)
+    fun prizeSuccess(data: List<PrizeListBean>)
+    fun noticeSuccess(data: List<Notice>)
 }

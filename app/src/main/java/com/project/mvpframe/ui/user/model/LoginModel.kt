@@ -1,8 +1,8 @@
 package com.project.mvpframe.ui.user.model
 
-import com.project.mvpframe.base.BaseModel
 import com.project.mvpframe.net.ApiService
 import com.project.mvpframe.net.RetrofitManager
+import com.project.mvpframe.ui.common.model.CodeModel
 import com.project.mvpframe.util.encrypt.EncryptUtils
 import io.reactivex.Observable
 import okhttp3.ResponseBody
@@ -11,7 +11,7 @@ import okhttp3.ResponseBody
  * @CreateDate 2019/12/2 14:50
  * @Author jaylm
  */
-class LoginModel : BaseModel() {
+class LoginModel : CodeModel() {
     fun login(
         username: String,
         password: String,

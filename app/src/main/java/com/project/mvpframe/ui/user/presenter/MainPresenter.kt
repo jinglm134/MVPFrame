@@ -22,7 +22,7 @@ class MainPresenter : BasePresenter<MainModel, IMainView>() {
         ).compose(RxHelper.observableIO2Main(mContext))
             .subscribe(object : BaseObserver<List<PrizeListBean>>(mContext) {
                 override fun onSuccess(data: List<PrizeListBean>) {
-                    mView.successOfPrize(data)
+                    mView.prizeSuccess(data)
                 }
             })
     }
@@ -31,7 +31,7 @@ class MainPresenter : BasePresenter<MainModel, IMainView>() {
         mModel.getNoticeList().compose(RxHelper.observableIO2Main(mContext))
             .subscribe(object : BaseObserver<NoticeListBean>(mContext) {
                 override fun onSuccess(data: NoticeListBean) {
-                    mView.successOfNotice(data.list)
+                    mView.noticeSuccess(data.list)
                 }
             })
     }

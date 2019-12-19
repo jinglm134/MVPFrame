@@ -176,7 +176,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
     }
 
     //登陆成功
-    override fun successOfLogin(data: LoginBean) {
+    override fun loginSuccess(data: LoginBean) {
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_LOGIN_DATA, Gson().toJson(data))
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_TOKEN, data.tokenResultBO.access_token)
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
@@ -185,7 +185,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
         finish()
     }
 
-    override fun codeOfLogin(code: Int) {
+    //登陆失败
+    override fun loginFailWithCode(code: Int) {
         ll_code.visibility = View.VISIBLE
         this.mCode = code
         when (code) {
@@ -206,8 +207,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
 
 
     //获取验证码成功
-    override fun successOfgetCode() {
-        super.successOfgetCode()
+    override fun getCodeSuccess() {
         if (mTimer == null) {
             mTimer = object : CountDownTimer(60 * 1000, 1000) {
                 override fun onFinish() {

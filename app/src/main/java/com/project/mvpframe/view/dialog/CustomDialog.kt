@@ -20,7 +20,7 @@ class CustomDialog(private val mContext: Context) {
         const val CONTENT_EDIT_TYPE = 1//可选择,输入框
     }
 
-    private var mDialog: Dialog? = null
+    private lateinit var mDialog: Dialog
     private var mDivideLine: ImageView? = null
     private var alreadyHaveOneBtn: Boolean = false
     private val mCancelListener = View.OnClickListener { }
@@ -32,18 +32,15 @@ class CustomDialog(private val mContext: Context) {
 
     private fun initDialog() {
         mDialog = Dialog(mContext, R.style.BaseDialogStyle)
-        mDialog!!.setCancelable(false)
-        mDialog!!.setContentView(R.layout.dialog_custom)
-        mDivideLine = mDialog!!.findViewById(R.id.center_line)
-        val view = mDialog!!.findViewById<View>(R.id.dialog_layout)
-        UShape.setBackgroundDrawable(
-            UShape.getCornerDrawable(UShape.getColor(R.color.white), 10),
-            view
-        )
+        mDialog.setCancelable(false)
+        mDialog.setContentView(R.layout.dialog_custom)
+        mDivideLine = mDialog.findViewById(R.id.center_line)
+        val view = mDialog.findViewById<View>(R.id.dialog_layout)
+        UShape.setBackgroundDrawable(UShape.getCornerDrawable(UShape.getColor(R.color.white), 10), view)
     }
 
     private fun setListener() {
-        mDialog!!.setOnKeyListener { dialog, keyCode, event ->
+        mDialog.setOnKeyListener { dialog, keyCode, event ->
             if (KeyEvent.KEYCODE_BACK == keyCode && event.action == KeyEvent.ACTION_DOWN) {
                 dialog.dismiss()
                 return@setOnKeyListener true
@@ -65,8 +62,8 @@ class CustomDialog(private val mContext: Context) {
 
 
     fun setMessage(message: String, type: Int) {
-        val textView = mDialog!!.findViewById<TextView>(R.id.tx_dialog_content)
-        val editText = mDialog!!.findViewById<EditText>(R.id.et_dialog_content)
+        val textView = mDialog.findViewById<TextView>(R.id.tx_dialog_content)
+        val editText = mDialog.findViewById<EditText>(R.id.et_dialog_content)
         when (type) {
             CONTENT_TEXT_TYPE -> {
                 textView.visibility = View.VISIBLE
@@ -83,12 +80,12 @@ class CustomDialog(private val mContext: Context) {
 
     fun addPositiveButton(title: String, listener: View.OnClickListener) {
 
-        val layout = mDialog!!.findViewById<LinearLayout>(R.id.dialog_footer)
+        val layout = mDialog.findViewById<LinearLayout>(R.id.dialog_footer)
         layout.visibility = View.VISIBLE
-        val btn_ok = mDialog!!.findViewById<Button>(R.id.btn_dialog_ok)
-        btn_ok.visibility = View.VISIBLE
-        btn_ok.text = title
-        btn_ok.setOnClickListener { v ->
+        val btnOk = mDialog.findViewById<Button>(R.id.btn_dialog_ok)
+        btnOk.visibility = View.VISIBLE
+        btnOk.text = title
+        btnOk.setOnClickListener { v ->
             listener.onClick(v)
             dismiss()
         }
@@ -101,14 +98,14 @@ class CustomDialog(private val mContext: Context) {
 
     fun addPositiveButton(title: String, listener: OnEditClickListener) {
 
-        val layout = mDialog!!.findViewById<LinearLayout>(R.id.dialog_footer)
+        val layout = mDialog.findViewById<LinearLayout>(R.id.dialog_footer)
         layout.visibility = View.VISIBLE
-        val btn_ok = mDialog!!.findViewById<Button>(R.id.btn_dialog_ok)
-        btn_ok.visibility = View.VISIBLE
-        btn_ok.text = title
-        btn_ok.setOnClickListener { v ->
+        val btnOk = mDialog.findViewById<Button>(R.id.btn_dialog_ok)
+        btnOk.visibility = View.VISIBLE
+        btnOk.text = title
+        btnOk.setOnClickListener { v ->
 
-            val editText = mDialog!!.findViewById<EditText>(R.id.et_dialog_content)
+            val editText = mDialog.findViewById<EditText>(R.id.et_dialog_content)
             listener.onPositiveClick(v, editText.text.toString().trim { it <= ' ' })
             dismiss()
         }
@@ -121,12 +118,12 @@ class CustomDialog(private val mContext: Context) {
 
     fun addCancelButton(title: String, listener: View.OnClickListener) {
 
-        val layout = mDialog!!.findViewById<LinearLayout>(R.id.dialog_footer)
+        val layout = mDialog.findViewById<LinearLayout>(R.id.dialog_footer)
         layout.visibility = View.VISIBLE
-        val btn_cancel = mDialog!!.findViewById<Button>(R.id.btn_dialog_cancel)
-        btn_cancel.visibility = View.VISIBLE
-        btn_cancel.text = title
-        btn_cancel.setOnClickListener { v ->
+        val btnCancel = mDialog.findViewById<Button>(R.id.btn_dialog_cancel)
+        btnCancel.visibility = View.VISIBLE
+        btnCancel.text = title
+        btnCancel.setOnClickListener { v ->
             listener.onClick(v)
             dismiss()
         }
@@ -142,18 +139,14 @@ class CustomDialog(private val mContext: Context) {
     }
 
     fun show() {
-        if (mDialog != null) {
-            if (mContext is Activity && mContext.isFinishing) {
-                return
-            }
-            mDialog!!.show()
+        if (mContext is Activity && mContext.isFinishing) {
+            return
         }
+        mDialog.show()
     }
 
     private fun dismiss() {
-        if (mDialog != null) {
-            mDialog!!.dismiss()
-        }
+        mDialog.dismiss()
     }
 
 

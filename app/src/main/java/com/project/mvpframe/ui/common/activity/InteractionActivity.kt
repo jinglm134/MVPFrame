@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_interaction.*
  * @CreateDate 2019/12/16 10:21
  * @Author jaylm
  */
+
 class InteractionActivity : BaseActivity<BasePresenter<*, *>>() {
 
     override fun initMVP() {
@@ -24,6 +25,7 @@ class InteractionActivity : BaseActivity<BasePresenter<*, *>>() {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
+    @Suppress("DEPRECATION")
     override fun initView(contentView: View) {
 
         val settings = webView.settings
