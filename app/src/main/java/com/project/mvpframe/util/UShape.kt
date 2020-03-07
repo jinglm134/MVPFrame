@@ -381,7 +381,7 @@ object UShape {
      * @return int color
      */
     fun getColor(@ColorRes rId: Int): Int {
-        val context = MvpApp.getInstance()
+        val context = MvpApp.instance
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.getColor(rId)
         } else {

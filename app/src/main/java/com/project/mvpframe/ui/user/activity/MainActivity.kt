@@ -9,6 +9,7 @@ import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.ui.user.fragment.HomeFragment
+import com.project.mvpframe.util.helper.bindExtra
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -30,7 +31,7 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
         R.drawable.selector_icon_wallet
     )
     private val mFragments = ArrayList<Fragment>(5)
-
+    private val mParam: Boolean by bindExtra("fromLogin")
 
     override fun initMVP() {
     }
@@ -40,6 +41,7 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     }
 
     override fun initView(contentView: View) {
+//        log(mParam)
         for (i in mTitles.indices) {
             val tab = tabLayout.newTab().setCustomView(R.layout.tablayout_main)
             val holder = ViewHolder(tab.customView!!)
@@ -49,11 +51,11 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
             tabLayout.addTab(tab, false)
         }
 
-        mFragments.add(HomeFragment.newInstance())
-        mFragments.add(HomeFragment.newInstance())
-        mFragments.add(HomeFragment.newInstance())
-        mFragments.add(HomeFragment.newInstance())
-        mFragments.add(HomeFragment.newInstance())
+        mFragments.add(HomeFragment.newInstance(0))
+        mFragments.add(HomeFragment.newInstance(1))
+        mFragments.add(HomeFragment.newInstance(2))
+        mFragments.add(HomeFragment.newInstance(3))
+        mFragments.add(HomeFragment.newInstance(4))
 
     }
 

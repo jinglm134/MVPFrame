@@ -31,7 +31,7 @@ object ToastUtils {
      * @param context 上下文
      * @param text    文本
      */
-    fun showShortToast(text: CharSequence, context: Context = MvpApp.getInstance()) {
+    fun showShortToast(text: CharSequence, context: Context = MvpApp.instance) {
         showToast(context, text, Toast.LENGTH_SHORT)
     }
 
@@ -42,7 +42,7 @@ object ToastUtils {
      * @param context 上下文
      * @param text    文本
      */
-    fun showLongToast(text: CharSequence, context: Context = MvpApp.getInstance()) {
+    fun showLongToast(text: CharSequence, context: Context = MvpApp.instance) {
         showToast(context, text, Toast.LENGTH_LONG)
     }
 

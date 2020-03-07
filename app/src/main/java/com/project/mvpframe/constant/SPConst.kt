@@ -6,6 +6,7 @@ package com.project.mvpframe.constant
  * @Author jaylm
  */
 object SPConst {
+    const val APP_NAME = "MVPFrame"
     const val SP_LOGIN_DATA = "sp_login_data"//所有登录数据
     const val SP_USER_ID = "sp_user_id"//userId
     const val SP_TOKEN = "sp_token"//userToken

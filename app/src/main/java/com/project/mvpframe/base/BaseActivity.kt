@@ -166,7 +166,7 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
      * 日志输出
      * @param msg
      */
-    protected fun log(msg: String) {
+    protected fun log(msg: Any) {
         LogUtils.v(TAG, msg)
     }
 

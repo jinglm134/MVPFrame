@@ -86,10 +86,8 @@ abstract class BaseObserver<T>(
         if (!mShowDialog) {
             return
         }
-        if (dialog != null) {
-            dialog!!.dismiss()
-            dialog = null
-        }
+        dialog?.dismiss()
+        dialog = null
     }
 
     //如果需要取消刷新，重写该方法

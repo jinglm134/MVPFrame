@@ -1,46 +1,41 @@
-package com.project.mvpframe.util
+package com.project.mvpframe.util.helper
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.project.mvpframe.app.MvpApp
 import com.project.mvpframe.constant.SPConst
-
+import com.project.mvpframe.util.GsonUtils
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 /**
- * SharePreferenceUtils
- * @CreateDate 2019/12/10 10:25
+ * @CreateDate 2020/3/7 16:23
  * @Author jaylm
  */
-
-class SPUtils {
-    companion object {
-        private var preferencesUtil: SPUtils? = null
-        fun getInstance(): SPUtils {
-            if (preferencesUtil == null) {
-                synchronized(SPUtils::class.java) {
-                    if (preferencesUtil == null) {
-                        preferencesUtil = SPUtils()
-                    }
-                }
-            }
-            return preferencesUtil!!
-        }
+class PrefDelegate<T>(
+    private val key: String,
+    private val param: T,
+    private val prefName: String = SPConst.APP_NAME
+) : ReadWriteProperty<Any?, T> {
+    private val prefs: SharedPreferences by lazy {
+        MvpApp.instance.getSharedPreferences(prefName, Context.MODE_PRIVATE)
     }
 
-    private val preferences: SharedPreferences by lazy {
-        MvpApp.instance.getSharedPreferences(SPConst.APP_NAME, Context.MODE_PRIVATE)
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        return getParam()
     }
+
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+        saveParam()
+    }
+
 
     /**
      * 保存数据 , 所有的基础类型都适用
-     *
-     * @param key key
-     * @param param T
      */
     @Synchronized
-    fun <T> saveParam(key: String, param: T) = with(preferences.edit()) {
-        // 得到object的类型
+    private fun saveParam() = with(prefs.edit()) {
         when (param) {
             is String -> // 保存String 类型
                 putString(key, param)
@@ -61,27 +56,23 @@ class SPUtils {
      */
     fun <T> saveData(key: String, param: T) {
         val jsonString = Gson().toJson(param)
-        preferences.edit().putString(key, jsonString).apply()
+        prefs.edit().putString(key, jsonString).apply()
     }
 
 
     /**
      * 得到保存数据的方法，所有基础类型都适用
-     *
-     * @param key key
-     * @param defaultParam  T
-     * @return T
      */
-    @Suppress("UNCHECKED_CAST")
-    fun <T> getParam(key: String, defaultParam: T): T {
-        return when (defaultParam) {
-            is String -> preferences.getString(key, defaultParam) as T
-            is Int -> preferences.getInt(key, (defaultParam)) as T
-            is Boolean -> preferences.getBoolean(key, (defaultParam)) as T
-            is Float -> preferences.getFloat(key, (defaultParam)) as T
-            is Long -> preferences.getLong(key, (defaultParam)) as T
-            else -> defaultParam
-        }
+    @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
+    private fun <T> getParam(): T {
+        return when (param) {
+            is String -> prefs.getString(key, param)
+            is Int -> prefs.getInt(key, param)
+            is Boolean -> prefs.getBoolean(key, param)
+            is Float -> prefs.getFloat(key, param)
+            is Long -> prefs.getLong(key, param)
+            else -> throw IllegalArgumentException("Unknown Type")
+        } as T
     }
 
     /**
@@ -89,7 +80,7 @@ class SPUtils {
      */
     @Suppress("UNCHECKED_CAST")
     fun <T> getData(key: String, type: Class<T>): T? {
-        val jsonString = preferences.getString(key, "")
+        val jsonString = prefs.getString(key, "")
         return GsonUtils.parseJsonWithGson(jsonString!!, type)
     }
 
@@ -100,7 +91,7 @@ class SPUtils {
      */
     @Synchronized
     fun remove(key: String) {
-        preferences.edit().remove(key).apply()
+        prefs.edit().remove(key).apply()
     }
 
 
@@ -109,7 +100,7 @@ class SPUtils {
      */
     @Synchronized
     fun clear() {
-        preferences.edit().clear().apply()
+        prefs.edit().clear().apply()
     }
 
     /**
@@ -119,6 +110,7 @@ class SPUtils {
      * @return true: 存在 false: 不存在
      */
     operator fun contains(key: String): Boolean {
-        return preferences.contains(key)
+        return prefs.contains(key)
     }
 }
+

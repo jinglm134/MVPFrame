@@ -1,5 +1,6 @@
 package com.project.mvpframe.ui.user.activity
 
+import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.InputType
@@ -29,6 +30,11 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
 
     private var mTimer: CountDownTimer? = null
     private var mCode = 0
+
+//    private var data by PrefDelegate(SPConst.SP_LOGIN_DATA, "")
+//    private var token by PrefDelegate(SPConst.SP_TOKEN, "")
+//    private var userid by PrefDelegate(SPConst.SP_USER_ID, "")
+//    private var isLogin by PrefDelegate(SPConst.SP_IS_LOGIN, false)
 
     override fun initMVP() {
         mPresenter.init(this, this)
@@ -66,7 +72,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
                 UShape.getColor(R.color.black_c),
                 UShape.getColor(R.color.white),
                 4
-            ), et_password
+            ), ll_password
         )
         UShape.setBackgroundDrawable(
             UShape.getStrokeDrawable(
@@ -137,18 +143,20 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
             val password = et_password.text.toString().trim()
             val code = et_code.text.toString().trim()
 
-            if (account.length != 11) {
-                showToast("您输入的手机号码位数不正确")
-                return@setOnClickListener
+            with(tv_account_error.text.toString()) {
+                if (!TextUtils.isEmpty(this)) {
+                    showToast(this)
+                    return@setOnClickListener
+                }
             }
-            if (!RegexUtils.isMobileSimple(account)) {
-                showToast("手机号码不规范")
-                return@setOnClickListener
+
+            with(tv_password_error.text.toString()) {
+                if (!TextUtils.isEmpty(this)) {
+                    showToast(this)
+                    return@setOnClickListener
+                }
             }
-            if (TextUtils.isEmpty(password)) {
-                showToast("密码不能为空")
-                return@setOnClickListener
-            }
+
             if (ll_code.isVisible && TextUtils.isEmpty(code)) {
                 showToast("验证码不能为空")
                 return@setOnClickListener
@@ -159,13 +167,11 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
         //获取验证码
         btn_code.setOnClickListener {
             val account = et_account.text.toString().trim()
-            if (account.length != 11) {
-                showToast("您输入的手机号码位数不正确")
-                return@setOnClickListener
-            }
-            if (!RegexUtils.isMobileSimple(account)) {
-                showToast("手机号码不规范")
-                return@setOnClickListener
+            with(tv_account_error.text.toString()) {
+                if (!TextUtils.isEmpty(this)) {
+                    showToast(this)
+                    return@setOnClickListener
+                }
             }
             mPresenter.getCode(
                 account,
@@ -176,11 +182,13 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
 
     //登陆成功
     override fun loginSuccess(data: LoginBean) {
-        SPUtils.getInstance(mActivity).saveData(SPConst.SP_LOGIN_DATA, data)
-        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_TOKEN, data.tokenResultBO.access_token)
-        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
-        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_IS_LOGIN, true)
-        startActivity(MainActivity::class.java)
+        SPUtils.getInstance().saveData(SPConst.SP_LOGIN_DATA, data)
+        SPUtils.getInstance().saveParam(SPConst.SP_TOKEN, data.tokenResultBO.access_token)
+        SPUtils.getInstance().saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
+        SPUtils.getInstance().saveParam(SPConst.SP_IS_LOGIN, true)
+        val bundle = Bundle()
+        bundle.putBoolean("fromLogin", true)
+        startActivity(MainActivity::class.java, bundle)
         finish()
     }
 
@@ -224,14 +232,14 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
                 }
             }
         }
-        mTimer!!.start()
+        mTimer?.start()
     }
 
     //onStop,关闭timer
     override fun onStop() {
         super.onStop()
         if (mTimer != null) {
-            mTimer!!.cancel()
+            mTimer?.cancel()
             mTimer = null
         }
     }

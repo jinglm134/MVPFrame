@@ -1,6 +1,7 @@
 package com.project.mvpframe.app
 
 import android.app.Application
+import kotlin.properties.Delegates
 
 /**
  * @CreateDate 2019/12/9 14:43
@@ -9,15 +10,12 @@ import android.app.Application
 class MvpApp : Application() {
 
     companion object {
-        private lateinit var mApp: MvpApp
-        fun getInstance(): Application {
-            return mApp
-        }
+        var instance: MvpApp by Delegates.notNull()
     }
 
     override fun onCreate() {
         super.onCreate()
-        mApp = this
+        instance = this
     }
 
 }

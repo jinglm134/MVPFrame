@@ -41,10 +41,12 @@ class ProvinceSheetAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseView
         when (helper.itemViewType) {
             TYPE_PROVINCE -> {
                 val province = item as ProvinceBean
-                helper.setText(R.id.tv_content, province.label)
+                with(province) {
+                    helper.setText(R.id.tv_content, label)
                         .setTextColor(R.id.tv_content, UShape.getColor(R.color.black))
                         .setBackgroundRes(R.id.ll_root, R.drawable.selector_address_province)
-                helper.getView<View>(R.id.ll_root).setPadding(0, 0, 0, 0)
+                    helper.getView<View>(R.id.ll_root).setPadding(0, 0, 0, 0)
+                }
 
                 /* helper.itemView.setOnClickListener {
                      var position = helper.adapterPosition//当前点击位置
@@ -80,10 +82,12 @@ class ProvinceSheetAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseView
             }
             TYPE_CITY -> {
                 val city = item as City
-                helper.setText(R.id.tv_content, city.label)
+                with(city) {
+                    helper.setText(R.id.tv_content, label)
                         .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
                         .setBackgroundRes(R.id.ll_root, R.drawable.selector_address_city)
-                helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(20F), 0, 0, 0)
+                    helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(20F), 0, 0, 0)
+                }
 
                 /* helper.itemView.setOnClickListener {
                      var position = helper.adapterPosition
@@ -107,10 +111,12 @@ class ProvinceSheetAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseView
             }
             TYPE_AREA -> {
                 val area = item as Area
-                helper.setText(R.id.tv_content, area.label)
+                with(area) {
+                    helper.setText(R.id.tv_content, label)
                         .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_6))
                         .setBackgroundRes(R.id.ll_root, R.drawable.selector_address_area)
-                helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(40F), 0, 0, 0)
+                    helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(40F), 0, 0, 0)
+                }
             }
         }
 

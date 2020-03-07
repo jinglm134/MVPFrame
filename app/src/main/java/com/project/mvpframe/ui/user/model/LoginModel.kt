@@ -1,5 +1,6 @@
 package com.project.mvpframe.ui.user.model
 
+import android.text.TextUtils
 import com.project.mvpframe.net.ApiService
 import com.project.mvpframe.net.RetrofitManager
 import com.project.mvpframe.ui.common.model.CodeModel
@@ -21,8 +22,12 @@ class LoginModel : CodeModel() {
         val map = HashMap<String, Any>()
         map["username"] = username
         map["password"] = password
-        map["verifyType"] = verifyType
-        map["verifyCode"] = verifyCode
+        if (!TextUtils.isEmpty(verifyType)) {
+            map["verifyType"] = verifyType
+        }
+        if (!TextUtils.isEmpty(verifyCode)) {
+            map["verifyCode"] = verifyCode
+        }
         return RetrofitManager.getService(ApiService::class.java)
             .login(EncryptUtils.encrypt(map))
     }

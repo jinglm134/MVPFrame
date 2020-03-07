@@ -1,7 +1,6 @@
 package com.project.mvpframe.net
 
 import android.util.Log
-import com.project.mvpframe.app.MvpApp
 import com.project.mvpframe.constant.ApiDomain
 import com.project.mvpframe.constant.SPConst
 import com.project.mvpframe.util.SPUtils
@@ -55,10 +54,10 @@ class HeaderInterceptor : Interceptor {
         if (url.toString().contains("strict")) {
             requestBuilder = requestBuilder.header(
                 "userId",//header 为setHeader,即userId唯一
-                SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_USER_ID, "")
+                SPUtils.getInstance().getParam(SPConst.SP_USER_ID, "")
             ).header(
                 "Authorization",//header 为setHeader,即Authorization唯一
-                "Bearer${SPUtils.getInstance(MvpApp.getInstance()).getParam(SPConst.SP_TOKEN, "")}"
+                "Bearer${SPUtils.getInstance().getParam(SPConst.SP_TOKEN, "")}"
             )
         }
         val build = requestBuilder.method(request.method(), request.body())

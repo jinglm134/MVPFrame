@@ -1,13 +1,14 @@
 package com.project.mvpframe.ui.user.fragment
 
+import android.os.Bundle
 import android.os.Looper
-import android.view.View
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseFragment
 import com.project.mvpframe.bean.AppBean
 import com.project.mvpframe.ui.user.presenter.HomePresenter
 import com.project.mvpframe.ui.user.view.IHomeView
 import com.project.mvpframe.util.ToastUtils
+import com.project.mvpframe.util.helper.bindArgument
 import com.project.mvpframe.view.Banner
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -17,11 +18,16 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * @Author jaylm
  */
 class HomeFragment : BaseFragment<HomePresenter>(), IHomeView {
+    val mIndex :Int by bindArgument("index")
 
     companion object {
         @JvmStatic
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
+        fun newInstance(index: Int): HomeFragment {
+            val homeFragment = HomeFragment()
+            val bundle = Bundle()
+            bundle.putInt("index", index)
+            homeFragment.arguments=bundle
+            return homeFragment
         }
     }
 
