@@ -2,12 +2,12 @@ package com.project.mvpframe.base
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import com.project.mvpframe.BuildConfig
+import com.project.mvpframe.util.LogUtils
 import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.util.helper.ClassReflectHelper
 import com.trello.rxlifecycle2.components.support.RxFragment
@@ -87,9 +87,7 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
      * @param msg
      */
     protected fun log(msg: String) {
-        if (mDebug) {
-            Log.v(TAG, msg)
-        }
+        LogUtils.v(TAG, msg)
     }
 
     override fun showToast(str: CharSequence) {

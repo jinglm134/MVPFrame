@@ -17,10 +17,8 @@ object ToastUtils {
      * 吐司初始化
      *
      * @param isJumpWhenMore 当连续弹出吐司时，是要弹出新吐司还是只修改文本内容
-     *
-     * `true`: 弹出新吐司<br></br>`false`: 只修改文本内容
-     *
-     * 如果为`false`的话可用来做显示任意时长的吐司
+     * true: 弹出新吐司  false: 只修改文本内容
+     * 如果为false的话可用来做显示任意时长的吐司
      */
     fun init(isJumpWhenMore: Boolean) {
         ToastUtils.isJumpWhenMore = isJumpWhenMore

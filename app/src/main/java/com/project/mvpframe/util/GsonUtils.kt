@@ -21,7 +21,7 @@ object GsonUtils {
     }
 
     //将jsonString转化成集合
-    fun <T> parseJsonArrayWithGson(jsonData: String, type: Class<T>): ArrayList<T> {
+    fun <T> parseJsonArrayWithGson(jsonData: String): ArrayList<T> {
         return Gson().fromJson<ArrayList<T>>(jsonData, object : TypeToken<ArrayList<T>>() {}.type)
     }
 

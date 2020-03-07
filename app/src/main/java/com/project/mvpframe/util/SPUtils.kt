@@ -2,6 +2,7 @@ package com.project.mvpframe.util
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.gson.Gson
 
 
 /**
@@ -34,7 +35,7 @@ class SPUtils {
     }
 
     /**
-     * 保存数据 , 所有的类型都适用
+     * 保存数据 , 所有的基础类型都适用
      *
      * @param key key
      * @param param T
@@ -53,34 +54,28 @@ class SPUtils {
                 editor.putFloat(key, param)
             is Long -> // 保存long类型
                 editor.putLong(key, param)
-            else -> {
-                // 不是基本类型则是保存对象,对象必须序列化
-//                val bos = ByteArrayOutputStream()
-//                try {
-//                    val oos = ObjectOutputStream(bos)
-//                    oos.writeObject(param)
-//                    val productBase64 = Base64.encodeToString(
-//                        bos.toByteArray(), Base64.DEFAULT
-//                    )
-//                    editor.putString(key, productBase64)
-//                } catch (e: IOException) {
-//                    e.printStackTrace()
-//                }
-            }
         }
         editor.apply()
     }
 
+    /**
+     * 保存数据 , 实例对象类型
+     */
+    fun <T> saveData(key: String, param: T) {
+        val jsonString = Gson().toJson(param)
+        editor.putString(key, jsonString).apply()
+    }
+
 
     /**
-     * 得到保存数据的方法，所有类型都适用
+     * 得到保存数据的方法，所有基础类型都适用
      *
      * @param key key
      * @param defaultParam  T
      * @return T
      */
     @Suppress("UNCHECKED_CAST")
-    fun <T> getParam(key: String, defaultParam: T): T{
+    fun <T> getParam(key: String, defaultParam: T): T {
         return when (defaultParam) {
             is String -> preferences.getString(key, defaultParam) as T
             is Int -> preferences.getInt(key, (defaultParam)) as T
@@ -88,19 +83,16 @@ class SPUtils {
             is Float -> preferences.getFloat(key, (defaultParam)) as T
             is Long -> preferences.getLong(key, (defaultParam)) as T
             else -> defaultParam
-//            else -> {
-//                val wordBase64 = preferences.getString(key, "")
-//                val base64 = Base64.decode(wordBase64!!.toByteArray(), Base64.DEFAULT)
-//                val bas = ByteArrayInputStream(base64)
-//                try {
-//                    val bis = ObjectInputStream(bas)
-//                    val data = bis.readObject()
-//                    data as T
-//                } catch (e: Exception) {
-//                }
-//                null
-//            }
         }
+    }
+
+    /**
+     * 得到保存数据的方法，实例对象
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getData(key: String, type: Class<T>): T? {
+        val jsonString = preferences.getString(key, "")
+        return GsonUtils.parseJsonWithGson(jsonString!!, type)
     }
 
 

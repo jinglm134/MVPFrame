@@ -46,7 +46,7 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
 
             holder.ivTab.setImageResource(mIconRes[i])
             holder.tvTab.text = mTitles[i]
-            tabLayout.addTab(tab)
+            tabLayout.addTab(tab, false)
         }
 
         mFragments.add(HomeFragment.newInstance())
@@ -54,6 +54,7 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
         mFragments.add(HomeFragment.newInstance())
         mFragments.add(HomeFragment.newInstance())
         mFragments.add(HomeFragment.newInstance())
+
     }
 
     override fun setListener() {

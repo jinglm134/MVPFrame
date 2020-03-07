@@ -8,6 +8,7 @@ import android.view.View
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
+import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.constant.SPConst
 import com.project.mvpframe.ui.user.activity.LoginActivity
 import com.project.mvpframe.ui.user.activity.MainActivity
@@ -53,6 +54,12 @@ class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
                         }
                         mTimer!!.schedule(object : TimerTask() {
                             override fun run() {
+                                val data = SPUtils.getInstance(mActivity)
+                                    .getData(SPConst.SP_LOGIN_DATA, LoginBean::class.java)
+                                if (data != null) {
+                                    log(data.centerUserMain.id)
+                                }
+
                                 if (SPUtils.getInstance(mActivity).getParam(
                                         SPConst.SP_IS_LOGIN,
                                         false

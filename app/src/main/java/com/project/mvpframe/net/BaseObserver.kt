@@ -93,7 +93,7 @@ abstract class BaseObserver<T>(
     }
 
     //如果需要取消刷新，重写该方法
-    protected fun endRefresh() {}
+    open fun endRefresh() {}
 
     //是否有网络
     @Suppress("DEPRECATION")

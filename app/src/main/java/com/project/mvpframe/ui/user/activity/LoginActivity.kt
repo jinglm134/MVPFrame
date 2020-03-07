@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
 import androidx.core.view.isVisible
-import com.google.gson.Gson
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.bean.LoginBean
@@ -177,7 +176,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
 
     //登陆成功
     override fun loginSuccess(data: LoginBean) {
-        SPUtils.getInstance(mActivity).saveParam(SPConst.SP_LOGIN_DATA, Gson().toJson(data))
+        SPUtils.getInstance(mActivity).saveData(SPConst.SP_LOGIN_DATA, data)
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_TOKEN, data.tokenResultBO.access_token)
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
         SPUtils.getInstance(mActivity).saveParam(SPConst.SP_IS_LOGIN, true)

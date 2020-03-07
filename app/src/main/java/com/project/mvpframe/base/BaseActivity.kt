@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -16,6 +15,7 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
+import com.project.mvpframe.util.LogUtils
 import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.util.helper.ClassReflectHelper
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -167,9 +167,7 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
      * @param msg
      */
     protected fun log(msg: String) {
-        if (mDebug) {
-            Log.v(TAG, msg)
-        }
+        LogUtils.v(TAG, msg)
     }
 
     override fun showToast(str: CharSequence) {
@@ -204,11 +202,15 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
     }
 
 
+    //退出应用
+    protected fun exit() {
+        for (i in 0..mActivityStacks.size) {
+            mActivityStacks[i].finish()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-//        if (mBinder != null && mBinder !== Unbinder.EMPTY) {
-//            mBinder!!.unbind()
-//        }
         if (mActivityStacks.contains(this)) {
             mActivityStacks.remove(this)
         }
