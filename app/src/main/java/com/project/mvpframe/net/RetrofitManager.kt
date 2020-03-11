@@ -39,7 +39,7 @@ class RetrofitManager {
 
     private fun getRetrofit(): Retrofit {
         if (mRetrofit == null) {
-            synchronized(RetrofitManager::class.java) {
+            synchronized(RetrofitManager::class) {
                 if (mRetrofit == null) {
 //                    val logInterceptor = HttpLoggingInterceptor()
 //                    logInterceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -57,7 +57,11 @@ class RetrofitManager {
                     mRetrofit = Retrofit.Builder()
                         .client(client)
                         .baseUrl(ApiDomain.BASE_URL)
-                        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                        .addCallAdapterFactory(
+                            RxJava2CallAdapterFactory.createWithScheduler(
+                                Schedulers.io()
+                            )
+                        )
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
                 }

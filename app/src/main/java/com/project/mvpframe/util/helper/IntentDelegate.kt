@@ -9,9 +9,9 @@ import kotlin.reflect.KProperty
  * @CreateDate 2019/3/7 13:44
  * @Author jaylm
  */
-fun <U, T> Activity.bindExtra(key: String) = BindLoader<U, T>(key)
+fun <U, T> bindExtra(key: String) = BindLoader<U, T>(key)
 
-fun <U, T> Fragment.bindArgument(key: String) = BindLoader<U, T>(key)
+fun <U, T> bindArgument(key: String) = BindLoader<U, T>(key)
 
 //fun <U, T> android.app.Fragment.bindArgument(key: String) = BindLoader<U, T>(key)
 

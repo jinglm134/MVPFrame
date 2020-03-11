@@ -8,6 +8,9 @@ import com.project.mvpframe.constant.SPConst
 import com.project.mvpframe.util.GsonUtils
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 /**
  * @CreateDate 2020/3/7 16:23
@@ -58,7 +61,6 @@ class PrefDelegate<T>(
         val jsonString = Gson().toJson(param)
         prefs.edit().putString(key, jsonString).apply()
     }
-
 
     /**
      * 得到保存数据的方法，所有基础类型都适用

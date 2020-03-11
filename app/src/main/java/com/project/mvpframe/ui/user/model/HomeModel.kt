@@ -1,6 +1,5 @@
 package com.project.mvpframe.ui.user.model
 
-import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.base.BaseModel
 import com.project.mvpframe.bean.BannerBean
 import com.project.mvpframe.bean.BaseResponse
