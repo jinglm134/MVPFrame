@@ -9,6 +9,7 @@ import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.ui.user.fragment.HomeFragment
+import com.project.mvpframe.util.helper.FragmentHelper
 import com.project.mvpframe.util.helper.bindExtra
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -69,9 +70,10 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                smartReplaceFragment(
+                FragmentHelper.smartReplaceFragment(
+                    supportFragmentManager,
                     R.id.main_container, mFragments[tab.position],
-                    "${mFragments.javaClass.simpleName}+${tab.position}"
+                    "${mFragments.javaClass.simpleName}${tab.position}"
                 )
             }
         })

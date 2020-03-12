@@ -13,6 +13,9 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
 import com.project.mvpframe.util.LogUtils
@@ -172,33 +175,6 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
 
     override fun showToast(str: CharSequence) {
         ToastUtils.showShortToast(str)
-    }
-
-    /**
-     * Fragment替换(核心为隐藏当前的,显示现在的,用过的将不会destrory与create)
-     */
-    private var currentFragment: Fragment? = null
-
-    fun smartReplaceFragment(@IdRes idRes: Int, toFragment: Fragment, tag: String) {
-        val manager = supportFragmentManager
-        val transaction = manager.beginTransaction()
-        // 如有当前在使用的->隐藏当前的
-        if (currentFragment != null) {
-            transaction.hide(currentFragment!!)
-        }
-        // toFragment之前添加使用过->显示出来
-        if (manager.findFragmentByTag(tag) != null) {
-            transaction.show(toFragment)
-        } else {// toFragment还没添加使用过->添加上去
-            transaction.add(idRes, toFragment, tag)
-        }
-        transaction.commitAllowingStateLoss()
-        // toFragment 更新为当前的
-        currentFragment = toFragment
-    }
-
-    fun smartReplaceFragment(@IdRes idRes: Int, toFragment: Fragment) {
-        smartReplaceFragment(idRes, toFragment, toFragment.javaClass.simpleName)
     }
 
 

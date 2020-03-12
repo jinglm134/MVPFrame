@@ -96,6 +96,7 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
         }
     }
 
+
     protected abstract fun initMVP()
     protected abstract fun bindLayout(): Int
     protected abstract fun initView()
