@@ -10,8 +10,6 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
-
-
 /**
  * @CreateDate 2020/3/7 16:23
  * @Author jaylm

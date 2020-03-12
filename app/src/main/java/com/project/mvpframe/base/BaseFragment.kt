@@ -31,7 +31,10 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     private var rootView: View? = null
     lateinit var mActivity: BaseActivity<*>
 
-    protected var hasConfig = false//是否已调用过initView/setListeners
+    private var hasConfig =
+        false//是否已调用过initView/setListeners,因为fragment恢复时,onCreateView等生命周期方法会重新调用
+    /*默认可见,用于懒加载*/
+    private var hasVisible = true
 
     override fun onAttach(activity: Activity) {
         super.onAttach(activity)
@@ -68,12 +71,29 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!hasConfig) {
-            initView()
-            setListener()
+        onVisible()
+    }
+
+    /*使用viewpager的FragmentPagerAdapter时，会调用setUserVisibleHint,并且在onCreateView之前调用,实现懒加载*/
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (isVisibleToUser) {
+            hasVisible = true
+            onVisible()
+        } else {
+            hasVisible = false
+        }
+    }
+
+    private fun onVisible() {
+        if (hasVisible && rootView != null && !hasConfig) {
+            /*onViewCreated 和 setUserVisibleHint 均可能调用该方法,以下代码只被执行一次.
+              onViewCreated:未使用FragmentPagerAdapter加载的fragment ，或者FragmentPagerAdapter中的第一个fragment,因为hasVisible=true会执行以下代码
+              setUserVisibleHint：使用FragmentPagerAdapter加载的fragment,且非FragmentPagerAdapter中的第一个fragment。执行onViewCreated,由于它们的hasVisible=false,所以不会执行以下代码,当fragment可见时才会执行以下代码*/
+            initView()//初始化view
+            setListener()//设置监听
             hasConfig = true
         }
-
     }
 
     protected abstract fun initMVP()
