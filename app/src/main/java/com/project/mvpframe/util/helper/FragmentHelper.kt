@@ -14,46 +14,46 @@ import com.google.android.material.tabs.TabLayout
 object FragmentHelper {
 
     /**
-     * TabLayout+ViewPager+Fragment,设置tabLayout并返回adapter
+     * TabLayout+ViewPager+Fragment
      *
      * @param fragmentManager       FragmentManager getSupportFragmentManager或者getChildFragmentManager
      * @param tabLayout             tabLayout
      * @param viewPager             viewPager
-     * @param mTitleList            标题文字
-     * @param mFragmentList         fragments
-     * @param num                   设置预加载数
-     * @param tabMode                设置滑动模式
-     * @return                      adapter
+     * @param titles                标题文字
+     * @param fragments             fragments
+     * @param pageLimitNum          预加载数
+     * @param tabMode               滑动模式
      */
     fun initPagerAdapter(
         fragmentManager: FragmentManager,
         tabLayout: TabLayout,
         viewPager: ViewPager,
-        mTitleList: List<String>,
-        mFragmentList: List<Fragment>,
-        num: Int = 1,
+        titles: List<String>,
+        fragments: List<Fragment>,
+        pageLimitNum: Int = 1,
         tabMode: Int = TabLayout.MODE_FIXED
     ) {
         tabLayout.setupWithViewPager(viewPager)
         tabLayout.tabMode = tabMode
         viewPager.adapter = object : FragmentPagerAdapter(fragmentManager) {
             override fun getItem(position: Int): Fragment {
-                return mFragmentList[position]
+                return fragments[position]
             }
 
             override fun getCount(): Int {
-                return mTitleList.size.coerceAtMost(mFragmentList.size)//页面数量
+                return titles.size.coerceAtMost(fragments.size)//页面数量
             }
 
             override fun getPageTitle(position: Int): CharSequence? {
-                return mTitleList[position % count]
+                return titles[position % count]
             }
         }
-        viewPager.offscreenPageLimit = num //设置预加载个数
+        viewPager.offscreenPageLimit = pageLimitNum //设置预加载个数
         viewPager.currentItem = 0//设置当前加载页面
     }
 
     /**
+     * TabLayout+Fragment
      * Fragment替换(核心为隐藏当前的,显示现在的,用过的将不会destrory与create)
      */
     private var currentFragment: Fragment? = null
