@@ -38,7 +38,10 @@ interface ApiService {
       @GET("{firstPathSegment}/${ApiConfig.GET_BANNER}")
       fun getBanner(@Path("firstPathSegment") firstPathSegment: String, @Query("v") time: Long): Observable<BaseResponse<BannerBean>>*/
 
-    @Headers("url_name:banner")
-    @GET(ApiConfig.GET_BANNER)
-    fun getBanner(@Query("v") time: Long): Observable<BaseResponse<BannerBean>>
+//    @Headers("url_name:banner")
+//    @GET(ApiConfig.GET_BANNER)
+//    fun getBanner(@Query("v") time: Long): Observable<BaseResponse<BannerBean>>
+
+    @GET("http://bibr.mixcdn.co//test/banner/banner.json")
+    fun getBanner(@Query("v") time: Long): Observable<BannerBean>
 }

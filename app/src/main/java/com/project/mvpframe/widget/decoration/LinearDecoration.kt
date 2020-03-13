@@ -1,4 +1,4 @@
-package com.project.mvpframe.view.decoration
+package com.project.mvpframe.widget.decoration
 
 import android.graphics.Canvas
 import android.graphics.Paint

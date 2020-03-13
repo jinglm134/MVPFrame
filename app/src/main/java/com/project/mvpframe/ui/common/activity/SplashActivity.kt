@@ -26,8 +26,7 @@ import java.util.*
 class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
 
     private var mTimer: Timer? = null
-    //    val mLoginData by PrefDelegate(SPConst.SP_LOGIN_DATA, "")
-//    val mIsLogin by PrefDelegate(SPConst.SP_IS_LOGIN, false)
+
     override fun initMVP() {
 //        mPresenter.init(this, this)
     }
@@ -53,7 +52,7 @@ class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
                         if (mTimer == null) {
                             mTimer = Timer()
                         }
-                        mTimer!!.schedule(object : TimerTask() {
+                        mTimer?.schedule(object : TimerTask() {
                             override fun run() {
                                 if (SPUtils.getInstance().getParam(SPConst.SP_IS_LOGIN, false)) {
                                     startActivity(MainActivity::class.java)
@@ -61,10 +60,10 @@ class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
                                     startActivity(LoginActivity::class.java)
                                 }
                                 finish()
-
                             }
                         }, 1000)
                     }
+
                     permission.shouldShowRequestPermissionRationale -> {
                         DialogUtils.showTwoDialog(
                             mActivity,
@@ -75,6 +74,7 @@ class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
                             },
                             View.OnClickListener { finish() })
                     }
+
                     else -> {
                         DialogUtils.showTwoDialog(
                             mActivity,

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-    <com.project.mvpframe.view.MaxHeightLayout
+    <com.project.mvpframe.widget.MaxHeightLayout
         android:id="@+id/maxHeightLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-    </com.project.mvpframe.view.MaxHeightLayout>
+    </com.project.mvpframe.widget.MaxHeightLayout>
 
     <TextView
         android:id="@+id/tv_cancel"

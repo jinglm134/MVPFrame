@@ -1,4 +1,4 @@
-package com.project.mvpframe.view
+package com.project.mvpframe.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,7 +16,7 @@ import com.project.mvpframe.bean.City
 import com.project.mvpframe.bean.ProvinceBean
 import com.project.mvpframe.ui.common.adapter.ProvinceSheetAdapter
 import com.project.mvpframe.util.UShape
-import com.project.mvpframe.view.decoration.LinearDecoration
+import com.project.mvpframe.widget.decoration.LinearDecoration
 import kotlinx.android.synthetic.main.layout_bottom_sheet.*
 
 /**

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="170dp">
 
-        <com.project.mvpframe.view.Banner
+        <com.project.mvpframe.widget.Banner
             android:id="@+id/home_banner"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

@@ -2,7 +2,7 @@ package com.project.mvpframe.util
 
 import android.content.Context
 import android.view.View
-import com.project.mvpframe.view.dialog.CustomDialog
+import com.project.mvpframe.widget.dialog.CustomDialog
 
 /**
  * @CreateDate 2019/12/13 14:43

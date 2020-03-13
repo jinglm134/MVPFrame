@@ -50,7 +50,7 @@ class RetrofitManager {
                         .writeTimeout(DEFAULT_TIME, TimeUnit.MILLISECONDS)//设置写入超时时间
                         .addInterceptor(HeaderInterceptor())//网络拦截
                         .addInterceptor(LogInterceptor())//打印拦截
-                        .retryOnConnectionFailure(true)//设置出现错误进行重新连接。
+                        .retryOnConnectionFailure(false)//设置出现错误进行重新连接。
                         .build()
 
                     // Retrofit

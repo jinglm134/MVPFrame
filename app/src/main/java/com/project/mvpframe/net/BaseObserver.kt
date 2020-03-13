@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.widget.Toast
 import com.project.mvpframe.bean.BaseResponse
 import com.project.mvpframe.util.ToastUtils
-import com.project.mvpframe.view.dialog.ProgressDialog
+import com.project.mvpframe.widget.dialog.ProgressDialog
 import io.reactivex.observers.DisposableObserver
 
 /**

@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.os.Looper
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseFragment
-import com.project.mvpframe.bean.AppBean
+import com.project.mvpframe.bean.App
 import com.project.mvpframe.ui.user.presenter.HomePresenter
 import com.project.mvpframe.ui.user.view.IHomeView
 import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.util.helper.bindArgument
-import com.project.mvpframe.view.Banner
+import com.project.mvpframe.widget.Banner
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -60,12 +60,11 @@ class HomeFragment : BaseFragment<HomePresenter>(), IHomeView {
         })
     }
 
-    override fun getBannerSuccess(data: List<AppBean>) {
+    override fun getBannerSuccess(data: List<App>) {
         val urls = ArrayList<String>()
         data.forEach {
             urls.add(it.imageUrl)
         }
-
-        home_banner.start(urls, ll_dot, R.mipmap.banner_dot_on, R.mipmap.banner_dot_off, 3000)
+        home_banner.start(urls, ll_dot, R.mipmap.banner_dot_on, R.mipmap.banner_dot_off)
     }
 }

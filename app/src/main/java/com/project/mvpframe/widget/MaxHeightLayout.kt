@@ -1,4 +1,4 @@
-package com.project.mvpframe.view
+package com.project.mvpframe.widget
 
 import android.content.Context
 import android.util.AttributeSet

@@ -1,6 +1,7 @@
 package com.project.mvpframe.ui.common.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.http.SslError
 import android.os.Build
 import android.view.View
@@ -8,7 +9,9 @@ import android.webkit.*
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
+import com.project.mvpframe.ui.user.activity.LoginActivity
 import kotlinx.android.synthetic.main.activity_interaction.*
+import org.json.JSONObject
 
 /**
  * @CreateDate 2019/12/16 10:21
@@ -34,8 +37,8 @@ class InteractionActivity : BaseActivity<BasePresenter<*, *>>() {
         settings.allowFileAccess = true
         settings.setAppCacheEnabled(true)
 
-        webView.isHorizontalScrollBarEnabled = false//水平不显示
-        webView.isVerticalScrollBarEnabled = false //垂直不显示
+        webView.isHorizontalScrollBarEnabled = false//水平滚动条不显示
+        webView.isVerticalScrollBarEnabled = false //垂直滚动条不显示
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
         }
@@ -58,7 +61,7 @@ class InteractionActivity : BaseActivity<BasePresenter<*, *>>() {
         val title = intent.getStringExtra("title")
         setHeader(title)
         val url = intent.getStringExtra("url")
-        webView!!.loadUrl(url)
+        webView.loadUrl(url)
     }
 
     internal inner class ReWebViewClient : WebViewClient() {
@@ -96,6 +99,24 @@ class InteractionActivity : BaseActivity<BasePresenter<*, *>>() {
     private inner class WebJsCall {
         @JavascriptInterface
         fun onMessage(type: String): String {
+            val intent = Intent()
+            when (type) {
+                "initData", "init" -> {
+                    //初始化传递用户信息给web端
+                    val jsonObject = JSONObject()
+                    jsonObject.put("userToken", "userToken")
+                    jsonObject.put("userInfo", "userInfo")
+                    jsonObject.toString()
+                }
+                "login" -> {
+                    //去登录
+                    intent.setClass(mActivity, LoginActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                else -> {
+                }
+            }
             return ""
         }
     }

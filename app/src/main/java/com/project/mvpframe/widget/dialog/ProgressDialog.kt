@@ -1,4 +1,4 @@
-package com.project.mvpframe.view.dialog
+package com.project.mvpframe.widget.dialog
 
 import android.app.Activity
 import android.app.Dialog

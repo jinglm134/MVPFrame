@@ -1,4 +1,4 @@
-package com.project.mvpframe.view
+package com.project.mvpframe.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -88,7 +88,7 @@ class       Banner : Gallery, AdapterView.OnItemClickListener,
         ovalLayout: LinearLayout?,
         focusedId: Int = 0,
         normalId: Int = 0,
-        switchTime: Int = 0
+        switchTime: Int = 3000
     ) {
         this.mUris = urls
         this.mSwitchTime = switchTime
@@ -307,7 +307,7 @@ class       Banner : Gallery, AdapterView.OnItemClickListener,
             } else Integer.MAX_VALUE
         }
 
-        override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             return listImages[position % listImages.size]
         }
 
