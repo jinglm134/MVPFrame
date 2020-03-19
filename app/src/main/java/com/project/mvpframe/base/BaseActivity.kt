@@ -13,9 +13,6 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
 import com.project.mvpframe.util.LogUtils
@@ -34,7 +31,7 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
 
     companion object {
         /**Tag为类名,用于日志输出的Tag或它用 */
-        protected val TAG: String by lazy { this::class.java.simpleName }
+        protected lateinit var TAG: String
         /** 是否输出日志信息 */
         protected val mDebug by lazy { BuildConfig.DEBUG }
         /** 是否沉浸状态栏 */
@@ -64,6 +61,7 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
 //            return
 //        }
         mActivity = this
+        TAG = mActivity::class.java.simpleName
 
         //MVP
         try {
@@ -162,6 +160,39 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
             intent.putExtras(bundle)
         }
         startActivity(intent)
+    }
+
+
+    /**
+     * TabLayout+Fragment
+     * Fragment替换(隐藏当前的,显示现在的,用过的将不会destrory与create)
+     */
+    private var currentFragment: Fragment? = null
+
+    fun smartReplaceFragment(
+        @IdRes idRes: Int, toFragment: Fragment
+    ) {
+        smartReplaceFragment(idRes, toFragment, toFragment.javaClass.simpleName)
+    }
+
+    fun smartReplaceFragment(
+        @IdRes idRes: Int, toFragment: Fragment,
+        tag: String
+    ) {
+        val transaction = supportFragmentManager.beginTransaction()
+        // 如有当前在使用的->隐藏当前的
+        if (currentFragment != null) {
+            transaction.hide(currentFragment!!)
+        }
+        // toFragment之前添加使用过->显示出来
+        if (supportFragmentManager.findFragmentByTag(tag) != null) {
+            transaction.show(toFragment)
+        } else {// toFragment还没添加使用过->添加上去
+            transaction.add(idRes, toFragment, tag)
+        }
+        transaction.commitAllowingStateLoss()
+        // toFragment 更新为当前的
+        currentFragment = toFragment
     }
 
 

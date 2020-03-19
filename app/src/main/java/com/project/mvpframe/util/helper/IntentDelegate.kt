@@ -23,7 +23,6 @@ private class IntentDelegate<in U, out T>(private val key: String) : ReadOnlyPro
             else -> (thisRef as Activity).intent?.extras?.get(key) as T
         }
     }
-
 }
 
 class BindLoader<in U, out T>(private val key: String) {

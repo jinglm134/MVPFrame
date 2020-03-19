@@ -144,12 +144,12 @@ object LogUtils {
     // 使用Log来显示调试信息,因为log在实现上每个message有4k字符长度限制,所以这里使用分节的方式来输出足够长度的message
     private const val MAXLENGTH = 4 * 1024 - 100
 
-    private fun logLong(type: String, msg: String) {
+    private fun logLong(tag: String, msg: String) {
         if (msg.length > MAXLENGTH) {
-            Log.v("$type --- ", msg.substring(0, MAXLENGTH))
-            logLong(type, msg.substring(MAXLENGTH))
+            Log.v("$tag --- long ", msg.substring(0, MAXLENGTH))
+            logLong(tag, msg.substring(MAXLENGTH))
         } else {
-            Log.v("$type --- ", msg)
+            Log.v("$tag --- long", msg)
         }
     }
 }

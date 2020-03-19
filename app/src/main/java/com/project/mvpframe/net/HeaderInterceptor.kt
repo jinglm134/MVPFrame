@@ -1,8 +1,8 @@
 package com.project.mvpframe.net
 
-import android.util.Log
 import com.project.mvpframe.constant.ApiDomain
 import com.project.mvpframe.constant.SPConst
+import com.project.mvpframe.util.LogUtils
 import com.project.mvpframe.util.SPUtils
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
@@ -45,7 +45,7 @@ class HeaderInterceptor : Interceptor {
 //                .removePathSegment(0)//移除第一个参数v1
                 .build()
             // 然后返回一个response至此结束修改
-            Log.e("Url", "intercept: $newFullUrl")
+            LogUtils.v("HeaderInterceptor", "url_intercept = $newFullUrl")
             request = builder.url(newFullUrl).build()
         }
 

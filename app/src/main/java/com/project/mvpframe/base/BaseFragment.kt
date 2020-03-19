@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.util.LogUtils
 import com.project.mvpframe.util.ToastUtils
@@ -102,6 +104,38 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     protected abstract fun initView()
     open fun setListener() {}
 
+
+    /**
+     * TabLayout+Fragment
+     * Fragment替换(隐藏当前的,显示现在的,用过的将不会destrory与create)
+     */
+    private var currentFragment: Fragment? = null
+
+    fun smartReplaceFragment(
+        @IdRes idRes: Int, toFragment: Fragment
+    ) {
+        smartReplaceFragment(idRes, toFragment, toFragment.javaClass.simpleName)
+    }
+
+    fun smartReplaceFragment(
+        @IdRes idRes: Int, toFragment: Fragment,
+        tag: String
+    ) {
+        val transaction = childFragmentManager.beginTransaction()
+        // 如有当前在使用的->隐藏当前的
+        if (currentFragment != null) {
+            transaction.hide(currentFragment!!)
+        }
+        // toFragment之前添加使用过->显示出来
+        if (childFragmentManager.findFragmentByTag(tag) != null) {
+            transaction.show(toFragment)
+        } else {// toFragment还没添加使用过->添加上去
+            transaction.add(idRes, toFragment, tag)
+        }
+        transaction.commitAllowingStateLoss()
+        // toFragment 更新为当前的
+        currentFragment = toFragment
+    }
 
     /**
      * 日志输出

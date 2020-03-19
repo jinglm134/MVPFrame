@@ -25,19 +25,17 @@ object SnackBarUtils {
      *
      * @param  parent 父视图(CoordinatorLayout或者DecorView)
      * @param  text 文本
-     *
      * @param  textColor 文本颜色
      * @param  bgColor 背景色
-     *
      * @param  actionText 事件文本
      * @param  actionTextColor 事件文本颜色
      * @param  listener 监听器
-     *
      * @param  duration 显示时长
      */
     fun showSnackbar(
         parent: View,
-        text: CharSequence, @ColorRes textColor: Int = R.color.black_3,
+        text: CharSequence,
+        @ColorRes textColor: Int = R.color.black_3,
         @ColorRes bgColor: Int = R.color.black_e,
         actionText: CharSequence = "",
         @ColorRes actionTextColor: Int = R.color.blue,
@@ -47,13 +45,14 @@ object SnackBarUtils {
         if (mSnackBar == null) {
             mSnackBar = Snackbar.make(parent, text, duration)
         }
-        val view = mSnackBar!!.view
-        val textView = view.findViewById<TextView>(R.id.snackbar_text)
-        textView.setTextColor(mSnackBar!!.context.resources.getColor(textColor))
-        textView.textSize = 15f
-        textView.setLines(1)
-        textView.ellipsize = TextUtils.TruncateAt.END
-        view.setBackgroundColor(mSnackBar!!.context.resources.getColor(bgColor))
+        with(mSnackBar!!.view) {
+            val textView = this.findViewById<TextView>(R.id.snackbar_text)
+            textView.setTextColor(mSnackBar!!.context.resources.getColor(textColor))
+            textView.textSize = 15f
+            textView.setLines(1)
+            textView.ellipsize = TextUtils.TruncateAt.END
+            this.setBackgroundColor(mSnackBar!!.context.resources.getColor(bgColor))
+        }
         if (actionText.isNotBlank() && listener != null) {
             mSnackBar!!.setActionTextColor(mSnackBar!!.context.resources.getColor(actionTextColor))
             mSnackBar!!.setAction(actionText, listener)

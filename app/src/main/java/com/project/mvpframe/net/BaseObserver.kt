@@ -43,7 +43,7 @@ abstract class BaseObserver<T>(
         }
     }
 
-    //请求完成
+    //请求完成  onComplete和onError唯一并且互斥
     override fun onComplete() {
         if (!isDisposed) {
             dispose()
@@ -78,7 +78,7 @@ abstract class BaseObserver<T>(
         if (dialog == null) {
             dialog = ProgressDialog(mContext)
         }
-        dialog!!.show()
+        dialog?.show()
     }
 
     //隐藏网络请求动画

@@ -51,38 +51,4 @@ object FragmentHelper {
         viewPager.offscreenPageLimit = pageLimitNum //设置预加载个数
         viewPager.currentItem = 0//设置当前加载页面
     }
-
-    /**
-     * TabLayout+Fragment
-     * Fragment替换(核心为隐藏当前的,显示现在的,用过的将不会destrory与create)
-     */
-    private var currentFragment: Fragment? = null
-
-    fun smartReplaceFragment(
-        fragmentManager: FragmentManager,
-        @IdRes idRes: Int, toFragment: Fragment
-    ) {
-        smartReplaceFragment(fragmentManager, idRes, toFragment, toFragment.javaClass.simpleName)
-    }
-
-    fun smartReplaceFragment(
-        fragmentManager: FragmentManager,
-        @IdRes idRes: Int, toFragment: Fragment,
-        tag: String
-    ) {
-        val transaction = fragmentManager.beginTransaction()
-        // 如有当前在使用的->隐藏当前的
-        if (currentFragment != null && !transaction.isEmpty) {
-            transaction.hide(currentFragment!!)
-        }
-        // toFragment之前添加使用过->显示出来
-        if (fragmentManager.findFragmentByTag(tag) != null) {
-            transaction.show(toFragment)
-        } else {// toFragment还没添加使用过->添加上去
-            transaction.add(idRes, toFragment, tag)
-        }
-        transaction.commitAllowingStateLoss()
-        // toFragment 更新为当前的
-        currentFragment = toFragment
-    }
 }

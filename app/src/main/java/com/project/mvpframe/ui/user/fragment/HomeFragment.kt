@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * @Author jaylm
  */
 class HomeFragment : BaseFragment<HomePresenter>(), IHomeView {
-    val mIndex :Int by bindArgument("index")
+    val mIndex: Int by bindArgument("index")
 
     companion object {
         @JvmStatic
@@ -26,7 +26,7 @@ class HomeFragment : BaseFragment<HomePresenter>(), IHomeView {
             val homeFragment = HomeFragment()
             val bundle = Bundle()
             bundle.putInt("index", index)
-            homeFragment.arguments=bundle
+            homeFragment.arguments = bundle
             return homeFragment
         }
     }
@@ -56,8 +56,10 @@ class HomeFragment : BaseFragment<HomePresenter>(), IHomeView {
             override fun onBannerItemClick(curIndex: Int) {
                 ToastUtils.showShortToast(curIndex.toString())
             }
-
         })
+
+        tv_btn1.setOnClickListener {
+        }
     }
 
     override fun getBannerSuccess(data: List<App>) {

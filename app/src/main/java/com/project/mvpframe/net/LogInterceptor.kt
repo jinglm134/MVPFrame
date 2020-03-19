@@ -5,7 +5,6 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import okio.Buffer
 import java.nio.charset.Charset
-import java.util.*
 
 /**
  * 日志拦截器
@@ -15,12 +14,12 @@ import java.util.*
 class LogInterceptor : Interceptor {
 
     private val mUTF8 = Charset.forName("UTF-8")
-    private val mTAG = "OkHttpRequest"
+    private val mTAG = "OKHttpRequest"
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         LogUtils.v(mTAG, "-----------------------------------------> START_REQUEST")
-        LogUtils.v(mTAG, String.format(Locale.getDefault(), "requestUrl:$request"))
+        LogUtils.v(mTAG, "requestUrl:$request")
         val requestBody = request.body()
         if (requestBody != null) {
             val buffer = Buffer()
@@ -34,7 +33,7 @@ class LogInterceptor : Interceptor {
 
             LogUtils.v(
                 mTAG,
-                String.format(Locale.getDefault(), "requestBody:${buffer.readString(charset)}")
+                "requestBody:${buffer.readString(charset)}"
             )
         }
 

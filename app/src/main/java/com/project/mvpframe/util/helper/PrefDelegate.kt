@@ -2,13 +2,10 @@ package com.project.mvpframe.util.helper
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
 import com.project.mvpframe.app.MvpApp
 import com.project.mvpframe.constant.SPConst
-import com.project.mvpframe.util.GsonUtils
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 
 /**
  * @CreateDate 2020/3/7 16:23
@@ -52,13 +49,6 @@ class PrefDelegate<T>(
         }.apply()
     }
 
-    /**
-     * 保存数据 , 引用类型
-     */
-    fun <T> saveData(key: String, param: T) {
-        val jsonString = Gson().toJson(param)
-        prefs.edit().putString(key, jsonString).apply()
-    }
 
     /**
      * 得到保存数据的方法，所有基础类型都适用
@@ -75,42 +65,5 @@ class PrefDelegate<T>(
         } as T
     }
 
-    /**
-     * 得到保存数据的方法，引用类型
-     */
-    @Suppress("UNCHECKED_CAST")
-    fun <T> getData(key: String, type: Class<T>): T? {
-        val jsonString = prefs.getString(key, "")
-        return GsonUtils.parseJsonWithGson(jsonString!!, type)
-    }
-
-
-    /**
-     * SP中移除该key
-     * @param key 键
-     */
-    @Synchronized
-    fun remove(key: String) {
-        prefs.edit().remove(key).apply()
-    }
-
-
-    /**
-     * SP中清除所有数据
-     */
-    @Synchronized
-    fun clear() {
-        prefs.edit().clear().apply()
-    }
-
-    /**
-     * SP中是否存在该key
-     *
-     * @param key 键
-     * @return true: 存在 false: 不存在
-     */
-    operator fun contains(key: String): Boolean {
-        return prefs.contains(key)
-    }
 }
 

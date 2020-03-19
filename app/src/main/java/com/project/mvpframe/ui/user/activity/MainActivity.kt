@@ -9,9 +9,12 @@ import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.ui.user.fragment.HomeFragment
-import com.project.mvpframe.util.helper.FragmentHelper
+import com.project.mvpframe.ui.user.fragment.SecondFragment
+import com.project.mvpframe.util.SnackBarUtils
 import com.project.mvpframe.util.helper.bindExtra
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
+import kotlin.properties.Delegates
 
 
 /**
@@ -42,7 +45,6 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     }
 
     override fun initView(contentView: View) {
-//        log(mParam)
         for (i in mTitles.indices) {
             val tab = tabLayout.newTab().setCustomView(R.layout.tablayout_main)
             val holder = ViewHolder(tab.customView!!)
@@ -52,7 +54,7 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
             tabLayout.addTab(tab, false)
         }
 
-        mFragments.add(HomeFragment.newInstance(0))
+        mFragments.add(SecondFragment.newInstance(0))
         mFragments.add(HomeFragment.newInstance(1))
         mFragments.add(HomeFragment.newInstance(2))
         mFragments.add(HomeFragment.newInstance(3))
@@ -70,19 +72,31 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                FragmentHelper.smartReplaceFragment(
-                    supportFragmentManager,
+                smartReplaceFragment(
                     R.id.main_container, mFragments[tab.position],
-                    "${mFragments.javaClass.simpleName}${tab.position}"
+                    "${mFragments[tab.position]::class.java.name}${tab.position}"
                 )
             }
         })
-
-        tabLayout.getTabAt(0)!!.select()
+        tabLayout.getTabAt(0)?.select()
     }
 
     internal class ViewHolder(tabView: View) {
         var tvTab: TextView = tabView.findViewById(R.id.tv_tab)
         var ivTab: ImageView = tabView.findViewById(R.id.iv_tab)
+    }
+
+    private var backPressedTime by Delegates.observable(0L) { _, old, new ->
+        // 2次的时间间隔小于2秒就退出了
+        if (new - old < 2000) {
+            finish()
+        } else {
+            SnackBarUtils.showSnackbar(tv_btn1, "再次按返回键退出app")
+        }
+    }
+
+    // 从新写back方法
+    override fun onBackPressed() {
+        backPressedTime = System.currentTimeMillis()
     }
 }
