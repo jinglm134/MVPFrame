@@ -13,7 +13,6 @@ import com.project.mvpframe.ui.user.fragment.SecondFragment
 import com.project.mvpframe.util.SnackBarUtils
 import com.project.mvpframe.util.helper.bindExtra
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.properties.Delegates
 
 
@@ -87,11 +86,11 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     }
 
     private var backPressedTime by Delegates.observable(0L) { _, old, new ->
-        // 2次的时间间隔小于2秒就退出了
-        if (new - old < 2000) {
+        //         2次的时间间隔小于1.5秒就退出了
+        if (new - old <= 1500) {
             finish()
         } else {
-            SnackBarUtils.showSnackbar(tv_btn1, "再次按返回键退出app")
+            SnackBarUtils.showSnackBar(mContentView, "再次按返回键退出app", duration = 1500)
         }
     }
 

@@ -13,11 +13,11 @@ import com.project.mvpframe.util.ToastUtils
 class TestAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_sheet_province) {
     override fun convert(helper: BaseViewHolder, item: String?) {
         helper.setText(R.id.tv_content, item)
-//        helper.getView<View>(R.id.tv_content).setOnClickListener {
-//            ToastUtils.showShortToast(
-//                "adapterPosition${helper.adapterPosition}",
-//                mContext
-//            )
-//        }
+        helper.getView<View>(R.id.tv_content).setOnClickListener {
+            ToastUtils.showShortToast(
+                "adapterPosition${helper.adapterPosition}",
+                mContext
+            )
+        }
     }
 }

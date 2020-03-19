@@ -56,9 +56,6 @@ object ToastUtils {
      */
     @SuppressLint("ShowToast")
     private fun showToast(context: Context, text: CharSequence, duration: Int) {
-//        if (!BuildConfig.DEBUG) {
-//            return
-//        }
         if (isJumpWhenMore) cancelToast()
         if (sToast == null) {
             sToast = Toast.makeText(context.applicationContext, text, duration)
@@ -73,7 +70,7 @@ object ToastUtils {
     /**
      * 取消吐司显示
      */
-    fun cancelToast() {
+    private fun cancelToast() {
         if (sToast != null) {
             sToast!!.cancel()
             sToast = null

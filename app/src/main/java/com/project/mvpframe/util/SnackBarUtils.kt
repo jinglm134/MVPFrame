@@ -32,7 +32,7 @@ object SnackBarUtils {
      * @param  listener 监听器
      * @param  duration 显示时长
      */
-    fun showSnackbar(
+    fun showSnackBar(
         parent: View,
         text: CharSequence,
         @ColorRes textColor: Int = R.color.black_3,
@@ -42,23 +42,22 @@ object SnackBarUtils {
         listener: View.OnClickListener? = null,
         duration: Int = Snackbar.LENGTH_SHORT
     ) {
-        if (mSnackBar == null) {
-            mSnackBar = Snackbar.make(parent, text, duration)
-        }
-        with(mSnackBar!!.view) {
-            val textView = this.findViewById<TextView>(R.id.snackbar_text)
+        dismiss()
+        mSnackBar = Snackbar.make(parent, text, duration)
+        mSnackBar?.run {
+            val textView = view.findViewById<TextView>(R.id.snackbar_text)
             textView.setTextColor(mSnackBar!!.context.resources.getColor(textColor))
             textView.textSize = 15f
             textView.setLines(1)
             textView.ellipsize = TextUtils.TruncateAt.END
-            this.setBackgroundColor(mSnackBar!!.context.resources.getColor(bgColor))
+            view.setBackgroundColor(mSnackBar!!.context.resources.getColor(bgColor))
+            if (actionText.isNotBlank() && listener != null) {
+                setActionTextColor(mSnackBar!!.context.resources.getColor(actionTextColor))
+                setAction(actionText, listener)
+            }
+            this.duration = duration
+            show()
         }
-        if (actionText.isNotBlank() && listener != null) {
-            mSnackBar!!.setActionTextColor(mSnackBar!!.context.resources.getColor(actionTextColor))
-            mSnackBar!!.setAction(actionText, listener)
-        }
-        mSnackBar!!.duration = duration
-        mSnackBar!!.show()
     }
 
 
@@ -87,7 +86,8 @@ object SnackBarUtils {
     /**
      * 取消SnackBar显示
      */
-    fun dismissSnackbar() {
+    private fun dismiss() {
         mSnackBar?.dismiss()
+        mSnackBar = null
     }
 }

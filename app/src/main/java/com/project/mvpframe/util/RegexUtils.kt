@@ -9,9 +9,6 @@ import java.util.regex.Pattern
  * @Author jaylm
  */
 object RegexUtils {
-    /**
-     * If u want more please visit http://toutiao.com/i6231678548520731137/
-     */
 
     /**
      * 验证手机号（简单）

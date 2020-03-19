@@ -174,8 +174,8 @@ object SizeUtils {
     fun getScreenHeight(): Int {
         val windowManager =
             MvpApp.instance.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val dm = DisplayMetrics()// 创建了一张白纸
-        windowManager.defaultDisplay.getMetrics(dm)// 给白纸设置宽高
+        val dm = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(dm)
         return dm.heightPixels
     }
 

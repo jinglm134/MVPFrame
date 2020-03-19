@@ -90,12 +90,12 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
 
         setContentView(R.layout.activity_base)
         initToolbar()
-        val contentView = LayoutInflater.from(mActivity).inflate(bindLayout(), base_container, true)
+        mContentView = LayoutInflater.from(mActivity).inflate(bindLayout(), base_container, true)
         // 将activity推入栈中
         mActivityStacks.push(this)
 //        mBinder = ButterKnife.bind(this)
 
-        initView(contentView)
+        initView(mContentView)
         setListener()
     }
 

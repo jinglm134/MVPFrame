@@ -15,7 +15,7 @@ object ClipboardUtils {
 
 
     /**
-     * 复制文本到
+     * 复制文本
      *
      * @param context 上下文
      * @param text    文本
@@ -32,13 +32,13 @@ object ClipboardUtils {
      * @param context 上下文
      * @return 剪贴板的文本
      */
-    fun getText(context: Context): CharSequence? {
+    fun getText(context: Context): CharSequence {
         val clipboardManager =
             context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = clipboardManager.primaryClip
         return if (clip != null && clip.itemCount > 0) {
             clip.getItemAt(0).coerceToText(context)
-        } else null
+        } else ""
     }
 
     /**
