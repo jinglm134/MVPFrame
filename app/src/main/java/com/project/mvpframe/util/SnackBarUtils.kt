@@ -35,10 +35,10 @@ object SnackBarUtils {
     fun showSnackBar(
         parent: View,
         text: CharSequence,
-        @ColorRes textColor: Int = R.color.black_3,
-        @ColorRes bgColor: Int = R.color.black_e,
+        @ColorRes textColor: Int = R.color.white,
+        @ColorRes bgColor: Int = R.color.black_6,
         actionText: CharSequence = "",
-        @ColorRes actionTextColor: Int = R.color.blue,
+        @ColorRes actionTextColor: Int = R.color.colorPrimary,
         listener: View.OnClickListener? = null,
         duration: Int = Snackbar.LENGTH_SHORT
     ) {

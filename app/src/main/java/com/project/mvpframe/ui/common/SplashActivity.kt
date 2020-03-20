@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.common.activity
+package com.project.mvpframe.ui.common
 
 import android.Manifest
 import android.content.Intent
@@ -9,8 +9,8 @@ import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.constant.SPConst
-import com.project.mvpframe.ui.user.activity.LoginActivity
-import com.project.mvpframe.ui.user.activity.MainActivity
+import com.project.mvpframe.ui.common.login_mvp.LoginActivity
+import com.project.mvpframe.ui.common.main_mvp.MainActivity
 import com.project.mvpframe.util.DialogUtils
 import com.project.mvpframe.util.SPUtils
 import com.tbruyelle.rxpermissions2.RxPermissions

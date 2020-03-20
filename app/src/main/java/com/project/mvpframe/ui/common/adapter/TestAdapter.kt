@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.user.adapter
+package com.project.mvpframe.ui.common.adapter
 
 import android.view.View
 import com.chad.library.adapter.base.BaseQuickAdapter

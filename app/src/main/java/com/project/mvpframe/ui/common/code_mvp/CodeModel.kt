@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.common.model
+package com.project.mvpframe.ui.common.code_mvp
 
 import com.project.mvpframe.base.BaseModel
 import com.project.mvpframe.bean.BaseResponse

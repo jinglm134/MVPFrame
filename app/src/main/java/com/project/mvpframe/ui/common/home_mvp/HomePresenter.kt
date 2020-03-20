@@ -1,10 +1,8 @@
-package com.project.mvpframe.ui.user.presenter
+package com.project.mvpframe.ui.common.home_mvp
 
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.bean.App
 import com.project.mvpframe.net.RxHelper
-import com.project.mvpframe.ui.user.model.HomeModel
-import com.project.mvpframe.ui.user.view.IHomeView
 import io.reactivex.observers.DisposableObserver
 
 /**

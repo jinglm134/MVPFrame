@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.common.view
+package com.project.mvpframe.ui.common.code_mvp
 
 import com.project.mvpframe.base.IBaseView
 

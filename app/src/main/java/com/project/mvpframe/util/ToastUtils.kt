@@ -60,10 +60,12 @@ object ToastUtils {
         if (sToast == null) {
             sToast = Toast.makeText(context.applicationContext, text, duration)
         } else {
-            sToast!!.setText(text)
-            sToast!!.duration = duration
+            sToast?.run {
+                setText(text)
+                this.duration = duration
+            }
         }
-        sToast!!.show()
+        sToast?.show()
     }
 
 
@@ -71,9 +73,7 @@ object ToastUtils {
      * 取消吐司显示
      */
     private fun cancelToast() {
-        if (sToast != null) {
-            sToast!!.cancel()
-            sToast = null
-        }
+        sToast?.cancel()
+        sToast = null
     }
 }

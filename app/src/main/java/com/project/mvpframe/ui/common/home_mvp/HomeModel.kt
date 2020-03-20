@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.user.model
+package com.project.mvpframe.ui.common.home_mvp
 
 import com.project.mvpframe.base.BaseModel
 import com.project.mvpframe.bean.App

@@ -1,7 +1,7 @@
-package com.project.mvpframe.ui.user.view
+package com.project.mvpframe.ui.common.login_mvp
 
 import com.project.mvpframe.bean.LoginBean
-import com.project.mvpframe.ui.common.view.ICodeView
+import com.project.mvpframe.ui.common.code_mvp.ICodeView
 
 /**
  * @CreateDate 2019/12/2 14:52

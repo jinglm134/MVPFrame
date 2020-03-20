@@ -1,10 +1,8 @@
-package com.project.mvpframe.ui.common.presenter
+package com.project.mvpframe.ui.common.code_mvp
 
 import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.net.BaseObserver
 import com.project.mvpframe.net.RxHelper
-import com.project.mvpframe.ui.common.model.CodeModel
-import com.project.mvpframe.ui.common.view.ICodeView
 
 /**
  * @CreateDate 2019/12/19 14:54

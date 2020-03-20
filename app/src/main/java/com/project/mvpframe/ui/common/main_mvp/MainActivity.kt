@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.user.activity
+package com.project.mvpframe.ui.common.main_mvp
 
 import android.view.View
 import android.widget.ImageView
@@ -8,7 +8,7 @@ import com.google.android.material.tabs.TabLayout
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
-import com.project.mvpframe.ui.user.fragment.HomeFragment
+import com.project.mvpframe.ui.common.home_mvp.HomeFragment
 import com.project.mvpframe.ui.user.fragment.SecondFragment
 import com.project.mvpframe.util.SnackBarUtils
 import com.project.mvpframe.util.helper.bindExtra
@@ -46,7 +46,8 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     override fun initView(contentView: View) {
         for (i in mTitles.indices) {
             val tab = tabLayout.newTab().setCustomView(R.layout.tablayout_main)
-            val holder = ViewHolder(tab.customView!!)
+            val holder =
+                ViewHolder(tab.customView!!)
 
             holder.ivTab.setImageResource(mIconRes[i])
             holder.tvTab.text = mTitles[i]

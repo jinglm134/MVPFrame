@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseFragment
 import com.project.mvpframe.base.BasePresenter
-import com.project.mvpframe.ui.user.adapter.TestAdapter
+import com.project.mvpframe.ui.common.adapter.TestAdapter
 import com.project.mvpframe.util.helper.FragmentHelper
 import com.project.mvpframe.util.helper.bindArgument
 import kotlinx.android.synthetic.main.fragment_second.*

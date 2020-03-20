@@ -1,11 +1,9 @@
-package com.project.mvpframe.ui.user.presenter
+package com.project.mvpframe.ui.common.login_mvp
 
 import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.net.BaseObserverString
 import com.project.mvpframe.net.RxHelper
-import com.project.mvpframe.ui.common.presenter.CodePresenter
-import com.project.mvpframe.ui.user.model.LoginModel
-import com.project.mvpframe.ui.user.view.ILoginView
+import com.project.mvpframe.ui.common.code_mvp.CodePresenter
 import com.project.mvpframe.util.GsonUtils
 
 /**

@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.user.activity
+package com.project.mvpframe.ui.common.login_mvp
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -14,8 +14,7 @@ import com.project.mvpframe.bean.LoginBean
 import com.project.mvpframe.constant.ApiConfig
 import com.project.mvpframe.constant.ApiDomain
 import com.project.mvpframe.constant.SPConst
-import com.project.mvpframe.ui.user.presenter.LoginPresenter
-import com.project.mvpframe.ui.user.view.ILoginView
+import com.project.mvpframe.ui.common.main_mvp.MainActivity
 import com.project.mvpframe.util.RegexUtils
 import com.project.mvpframe.util.SPUtils
 import com.project.mvpframe.util.UShape
@@ -26,7 +25,8 @@ import kotlinx.android.synthetic.main.activity_login.*
  * @CreateDate 2019/12/2 15:32
  * @Author jaylm
  */
-class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
+class LoginActivity : BaseActivity<LoginPresenter>(),
+    ILoginView {
 
     private var mTimer: CountDownTimer? = null
     private var mCode = 0

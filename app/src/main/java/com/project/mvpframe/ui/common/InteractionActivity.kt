@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.common.activity
+package com.project.mvpframe.ui.common
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.webkit.*
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
-import com.project.mvpframe.ui.user.activity.LoginActivity
+import com.project.mvpframe.ui.common.login_mvp.LoginActivity
 import kotlinx.android.synthetic.main.activity_interaction.*
 import org.json.JSONObject
 

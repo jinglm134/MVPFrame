@@ -99,11 +99,11 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
         setListener()
     }
 
-    abstract fun initView(contentView: View)
     abstract fun initMVP()
     @LayoutRes
     abstract fun bindLayout(): Int
 
+    abstract fun initView(contentView: View)
     protected open fun setListener() {}
 
     /**

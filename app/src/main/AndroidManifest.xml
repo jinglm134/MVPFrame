@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="n">
-        <activity android:name=".ui.common.activity.SplashActivity">
+        <activity android:name=".ui.common.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" /><!--google search-->
@@ -31,10 +31,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.user.activity.MainActivity"
+            android:name=".ui.common.main_mvp.MainActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".ui.user.activity.LoginActivity" />
-        <activity android:name=".ui.common.activity.InteractionActivity" />
+        <activity android:name=".ui.common.login_mvp.LoginActivity" />
+        <activity android:name=".ui.common.InteractionActivity" />
+        <activity android:name=".ui.common.ChoiceCityActivity" />
 
     </application>
 

@@ -1,9 +1,11 @@
 package com.project.mvpframe.ui.common.adapter
 
 import android.view.View
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
-import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.chad.library.adapter.base.BaseNodeAdapter
+import com.chad.library.adapter.base.entity.node.BaseExpandNode
+import com.chad.library.adapter.base.entity.node.BaseNode
+import com.chad.library.adapter.base.provider.BaseNodeProvider
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.project.mvpframe.R
 import com.project.mvpframe.bean.Area
 import com.project.mvpframe.bean.City
@@ -11,115 +13,101 @@ import com.project.mvpframe.bean.ProvinceBean
 import com.project.mvpframe.util.SizeUtils
 import com.project.mvpframe.util.UShape
 
+
 /**
  * 省市区适配器
  * @CreateDate 2019/12/18 10:16
  * @Author jaylm
  */
 
-class ProvinceSheetAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(null) {
-
-    companion object {
-        const val TYPE_PROVINCE = 0x12
-        const val TYPE_CITY = 0x13
-        const val TYPE_AREA = 0x14
+class ProvinceSheetAdapter : BaseNodeAdapter() {
+    override fun getItemType(data: List<BaseNode>, position: Int): Int {
+        return when (data[position]) {
+            is ProvinceBean -> 0
+            is City -> 1
+            is Area -> 2
+            else -> -1
+        }
     }
 
-    /*  private var provincePos = -1//当前展开省的下标
-      private var provinceCount = 0//当前展开省拥有的的子类数量
-      private var cityPos = -1//当前展开市的下标
-      private var cityCount = 0//当前展开市拥有的的子类数量*/
+
 
     init {
-        addItemType(TYPE_PROVINCE, R.layout.item_sheet_province)
-        addItemType(TYPE_CITY, R.layout.item_sheet_province)
-        addItemType(TYPE_AREA, R.layout.item_sheet_province)
+        // 注册Provider
+        // 需要占满一行的，使用此方法（例如section）
+        addFullSpanNodeProvider(ProvinceProvider())
+        // 普通的item provider
+        addNodeProvider(CityProvider())
+        addNodeProvider(AreaProvider())
+        // 脚布局的 provider
+//        addFooterNodeProvider(RootFooterNodeProvider())
     }
 
-    @Suppress("CAST_NEVER_SUCCEEDS")
-    override fun convert(helper: BaseViewHolder, item: MultiItemEntity) {
-        when (helper.itemViewType) {
-            TYPE_PROVINCE -> {
-                val province = item as ProvinceBean
-                with(province) {
-                    helper.setText(R.id.tv_content, label)
-                        .setTextColor(R.id.tv_content, UShape.getColor(R.color.black))
-                        .setBackgroundRes(R.id.ll_root, R.drawable.selector_address_province)
-                    helper.getView<View>(R.id.ll_root).setPadding(0, 0, 0, 0)
-                }
+    inner class ProvinceProvider : BaseNodeProvider() {
 
-                /* helper.itemView.setOnClickListener {
-                     var position = helper.adapterPosition//当前点击位置
+        override val itemViewType: Int
+            get() = 0
 
-                     if (provincePos >= 0 && provincePos != position) {
-                         //如果有一级列表项展开,并且展开位置不是当前点击位置,则关闭原一级列表展开项
-                         if (cityPos >= 1) {
-                             //如果有二级列表项展开,先关闭二级列表项
-                             collapse(cityPos)
-                             provinceCount += cityCount
-                             cityPos = -1
-                             cityCount = 0
-                         }
-                         collapse(provincePos)
-                         if (position > provincePos) {
-                             //如果当前点击位置大于原一级列表展开项的位置,由于原一级列表展开项被关闭,当前位置需要减去一级列表展开项的子项数量
-                             position -= provinceCount
-                         }
-                     }
+        override val layoutId: Int
+            get() = R.layout.item_sheet_province
 
-                     if (!province.isExpanded) {
-                         //如果当前点击项未展开，则展开当前点击项,重置展开项位置和展开项数量
-                         expand(position)
-                         provincePos = position
-                         provinceCount = province.children.size
-                     } else {
-                         collapse(position)
-                         provincePos = -1
-                         provinceCount = 0
-                     }
-                 }*/
-
-            }
-            TYPE_CITY -> {
-                val city = item as City
-                with(city) {
-                    helper.setText(R.id.tv_content, label)
-                        .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
-                        .setBackgroundRes(R.id.ll_root, R.drawable.selector_address_city)
-                    helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(20F), 0, 0, 0)
-                }
-
-                /* helper.itemView.setOnClickListener {
-                     var position = helper.adapterPosition
-                     if (cityPos >= 0 && cityPos != position) {
-                         collapse(cityPos)
-                         if (position > cityPos) {
-                             position -= cityCount
-                         }
-                     }
-
-                     if (!city.isExpanded) {
-                         expand(position)
-                         cityPos = position
-                         cityCount = city.children.size
-                     } else {
-                         collapse(position)
-                         cityPos = -1
-                         cityCount = 0
-                     }
-                 }*/
-            }
-            TYPE_AREA -> {
-                val area = item as Area
-                with(area) {
-                    helper.setText(R.id.tv_content, label)
-                        .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_6))
-                        .setBackgroundRes(R.id.ll_root, R.drawable.selector_address_area)
-                    helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(40F), 0, 0, 0)
-                }
-            }
+        override fun convert(helper: BaseViewHolder, data: BaseNode) {
+            val entity = data as ProvinceBean
+            helper.setText(R.id.tv_content, entity.label)
+                .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
+                .setBackgroundResource(R.id.ll_root, R.drawable.selector_address_province)
+            helper.getView<View>(R.id.ll_root).setPadding(0, 0, 0, 0)
         }
 
+        override fun onClick(helper: BaseViewHolder, view: View, data: BaseNode, position: Int) {
+            super.onClick(helper, view, data, position)
+            if ((data as BaseExpandNode).isExpanded) {
+                // 折叠某一个位置的Node
+                getAdapter()?.collapseAndChild(position)
+            } else {
+                // 展开某一位置的Node
+                getAdapter()?.expand(position)
+            }
+
+        }
     }
 
+    inner class CityProvider : BaseNodeProvider() {
+
+        override val itemViewType: Int
+            get() = 1
+
+        override val layoutId: Int
+            get() = R.layout.item_sheet_province
+
+        override fun convert(helper: BaseViewHolder, data: BaseNode) {
+            val entity = data as City
+            helper.setText(R.id.tv_content, entity.label)
+                .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_6))
+                .setBackgroundResource(R.id.ll_root, R.drawable.selector_address_city)
+            helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(20F), 0, 0, 0)
+        }
+
+        override fun onClick(helper: BaseViewHolder, view: View, data: BaseNode, position: Int) {
+            super.onClick(helper, view, data, position)
+            getAdapter()?.expandOrCollapse(position)
+        }
+    }
+
+    inner class AreaProvider : BaseNodeProvider() {
+
+        override val itemViewType: Int
+            get() = 2
+
+        override val layoutId: Int
+            get() = R.layout.item_sheet_province
+
+        override fun convert(helper: BaseViewHolder, data: BaseNode) {
+            val entity = data as Area
+            helper.setText(R.id.tv_content, entity.label)
+                .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_9))
+                .setBackgroundResource(R.id.ll_root, R.drawable.selector_address_area)
+            helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(40F), 0, 0, 0)
+        }
+    }
 }
