@@ -30,7 +30,7 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     }
 
     protected lateinit var mPresenter: P
-    private var rootView: View? = null
+    protected var mRootView: View? = null
     lateinit var mActivity: BaseActivity<*>
 
     private var hasConfig =
@@ -59,16 +59,16 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (rootView == null) {
-            rootView = inflater.inflate(bindLayout(), container, false)
+        if (mRootView == null) {
+            mRootView = inflater.inflate(bindLayout(), container, false)
         }
 
         //缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
-        val parent: ViewParent? = rootView!!.parent
+        val parent: ViewParent? = mRootView!!.parent
         if (parent != null) {
-            (parent as ViewGroup).removeView(rootView)
+            (parent as ViewGroup).removeView(mRootView)
         }
-        return rootView
+        return mRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -88,7 +88,7 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
     }
 
     private fun onVisible() {
-        if (hasVisible && rootView != null && !hasConfig) {
+        if (hasVisible && mRootView != null && !hasConfig) {
             /*onViewCreated 和 setUserVisibleHint 均可能调用该方法,以下代码只被执行一次.
               onViewCreated:未使用FragmentPagerAdapter加载的fragment ，或者FragmentPagerAdapter中的第一个fragment,因为hasVisible=true会执行以下代码
               setUserVisibleHint：使用FragmentPagerAdapter加载的fragment,且非FragmentPagerAdapter中的第一个fragment。执行onViewCreated,由于它们的hasVisible=false,所以不会执行以下代码,当fragment可见时才会执行以下代码*/
@@ -151,6 +151,6 @@ abstract class BaseFragment<P : BasePresenter<*, *>> : RxFragment()
 
     override fun onDestroy() {
         super.onDestroy()
-        rootView = null
+        mRootView = null
     }
 }

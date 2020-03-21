@@ -33,7 +33,7 @@ object SnackBarUtils {
      * @param  duration 显示时长
      */
     fun showSnackBar(
-        parent: View,
+        parent: View?,
         text: CharSequence,
         @ColorRes textColor: Int = R.color.white,
         @ColorRes bgColor: Int = R.color.black_6,
@@ -42,6 +42,9 @@ object SnackBarUtils {
         listener: View.OnClickListener? = null,
         duration: Int = Snackbar.LENGTH_SHORT
     ) {
+        if (parent == null) {
+            return
+        }
         dismiss()
         mSnackBar = Snackbar.make(parent, text, duration)
         mSnackBar?.run {

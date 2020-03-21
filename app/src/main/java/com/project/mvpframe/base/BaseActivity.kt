@@ -43,12 +43,11 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
     }
 
     /** 当前Activity渲染的视图View */
-    lateinit var mContentView: View
+    lateinit var mRootView: View
     /** 用来保存所有在栈内的Activity  */
     private val mActivityStacks = Stack<Activity>()
     protected lateinit var mActivity: Activity
     protected lateinit var mPresenter: P
-//    private var mBinder: Unbinder? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,12 +89,12 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
 
         setContentView(R.layout.activity_base)
         initToolbar()
-        mContentView = LayoutInflater.from(mActivity).inflate(bindLayout(), base_container, true)
+        mRootView = LayoutInflater.from(mActivity).inflate(bindLayout(), base_container, true)
         // 将activity推入栈中
         mActivityStacks.push(this)
 //        mBinder = ButterKnife.bind(this)
 
-        initView(mContentView)
+        initView(mRootView)
         setListener()
     }
 

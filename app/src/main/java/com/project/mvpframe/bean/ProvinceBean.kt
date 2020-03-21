@@ -9,29 +9,41 @@ import com.chad.library.adapter.base.entity.node.BaseNode
  * @Author jaylm
  */
 data class ProvinceBean(
-    val children: MutableList<BaseNode>,
+    val children: ArrayList<City>,
     val label: String,
     val value: String
 ) : BaseBean, BaseExpandNode() {
 
     override val childNode: MutableList<BaseNode>
-        get() = children
+        get() = getChild()
 
     init {
         isExpanded = false
     }
+
+    private fun getChild(): MutableList<BaseNode> {
+        val child = mutableListOf<BaseNode>()
+        child.addAll(children)
+        return child
+    }
 }
 
 data class City(
-    val children: MutableList<BaseNode>,
+    val children: ArrayList<Area>,
     val label: String,
     val value: String
 ) : BaseBean, BaseExpandNode() {
     override val childNode: MutableList<BaseNode>
-        get() = children
+        get() = getChild()
 
     init {
         isExpanded = false
+    }
+
+    private fun getChild(): MutableList<BaseNode> {
+        val child = mutableListOf<BaseNode>()
+        child.addAll(children)
+        return child
     }
 }
 

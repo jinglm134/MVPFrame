@@ -20,10 +20,10 @@ object GsonUtils {
         return Gson().fromJson(jsonData, type)
     }
 
-    //将jsonString转化成集合
+    /*//将jsonString转化成集合
     fun <T> parseJsonArrayWithGson(jsonData: String): ArrayList<T> {
         return Gson().fromJson<ArrayList<T>>(jsonData, object : TypeToken<ArrayList<T>>() {}.type)
-    }
+    }*/
 
     //获取assess中的文件
     fun getJson(context: Context, fileName: String): String {

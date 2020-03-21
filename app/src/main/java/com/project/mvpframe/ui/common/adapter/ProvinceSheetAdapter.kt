@@ -2,7 +2,6 @@ package com.project.mvpframe.ui.common.adapter
 
 import android.view.View
 import com.chad.library.adapter.base.BaseNodeAdapter
-import com.chad.library.adapter.base.entity.node.BaseExpandNode
 import com.chad.library.adapter.base.entity.node.BaseNode
 import com.chad.library.adapter.base.provider.BaseNodeProvider
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -21,6 +20,9 @@ import com.project.mvpframe.util.UShape
  */
 
 class ProvinceSheetAdapter : BaseNodeAdapter() {
+
+    private var mProvince = ""
+    private var mCity = ""
     override fun getItemType(data: List<BaseNode>, position: Int): Int {
         return when (data[position]) {
             is ProvinceBean -> 0
@@ -29,7 +31,6 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
             else -> -1
         }
     }
-
 
 
     init {
@@ -55,20 +56,26 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
             val entity = data as ProvinceBean
             helper.setText(R.id.tv_content, entity.label)
                 .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
-                .setBackgroundResource(R.id.ll_root, R.drawable.selector_address_province)
+                .setBackgroundResource(
+                    R.id.ll_root, if (data.isExpanded)
+                        R.color.black_e0
+                    else
+                        R.color.white
+                )
             helper.getView<View>(R.id.ll_root).setPadding(0, 0, 0, 0)
         }
 
         override fun onClick(helper: BaseViewHolder, view: View, data: BaseNode, position: Int) {
             super.onClick(helper, view, data, position)
-            if ((data as BaseExpandNode).isExpanded) {
-                // 折叠某一个位置的Node
+            val bean = data as ProvinceBean
+            if (bean.isExpanded) {
+                // 折叠某一个位置和它的子位置
                 getAdapter()?.collapseAndChild(position)
             } else {
-                // 展开某一位置的Node
-                getAdapter()?.expand(position)
+                // 展开某一位置并折叠其它位置
+                getAdapter()?.expandAndCollapseOther(position)
             }
-
+            mProvince = bean.label
         }
     }
 
@@ -83,14 +90,27 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
         override fun convert(helper: BaseViewHolder, data: BaseNode) {
             val entity = data as City
             helper.setText(R.id.tv_content, entity.label)
-                .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_6))
-                .setBackgroundResource(R.id.ll_root, R.drawable.selector_address_city)
+                .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
+                .setBackgroundResource(
+                    R.id.ll_root, if (data.isExpanded)
+                        R.color.black_f0
+                    else
+                        R.color.white
+                )
             helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(20F), 0, 0, 0)
         }
 
         override fun onClick(helper: BaseViewHolder, view: View, data: BaseNode, position: Int) {
             super.onClick(helper, view, data, position)
-            getAdapter()?.expandOrCollapse(position)
+            val bean = data as City
+            if (bean.isExpanded) {
+                // 折叠某一个位置和它的子位置
+                getAdapter()?.collapse(position)
+            } else {
+                // 展开某一位置并折叠其它位置
+                getAdapter()?.expandAndCollapseOther(position)
+            }
+            mCity = bean.label
         }
     }
 
@@ -105,9 +125,30 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
         override fun convert(helper: BaseViewHolder, data: BaseNode) {
             val entity = data as Area
             helper.setText(R.id.tv_content, entity.label)
-                .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_9))
-                .setBackgroundResource(R.id.ll_root, R.drawable.selector_address_area)
+                .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
+                .setBackgroundResource(R.id.ll_root, R.drawable.selector_item_normal)
             helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(40F), 0, 0, 0)
         }
+
+        override fun onClick(helper: BaseViewHolder, view: View, data: BaseNode, position: Int) {
+            super.onClick(helper, view, data, position)
+            mListener?.OnAreaClickListener(mProvince, mCity, (data as Area).label, data.value)
+        }
     }
+
+    override fun setNewData(data: MutableList<BaseNode>?) {
+        super.setNewData(data)
+        mProvince = ""
+        mCity = ""
+    }
+
+    fun setOnAreaClickListener(listener: OnAreaClickListener?) {
+        this.mListener = listener
+    }
+
+    interface OnAreaClickListener {
+        fun OnAreaClickListener(province: String, city: String, area: String, areaCode: String)
+    }
+
+    var mListener: OnAreaClickListener? = null
 }

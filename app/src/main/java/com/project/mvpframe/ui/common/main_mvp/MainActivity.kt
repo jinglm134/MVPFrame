@@ -91,7 +91,7 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
         if (new - old <= 1500) {
             finish()
         } else {
-            SnackBarUtils.showSnackBar(mContentView, "再次按返回键退出app", duration = 1500)
+            SnackBarUtils.showSnackBar(mRootView, "再次按返回键退出app", duration = 1500)
         }
     }
 
