@@ -1,6 +1,7 @@
 package com.project.mvpframe.ui.user.fragment
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.mvpframe.R
@@ -9,6 +10,7 @@ import com.project.mvpframe.base.BasePresenter
 import com.project.mvpframe.ui.common.adapter.TestAdapter
 import com.project.mvpframe.util.helper.FragmentHelper
 import com.project.mvpframe.util.helper.bindArgument
+import com.project.mvpframe.widget.NoDataView
 import kotlinx.android.synthetic.main.fragment_second.*
 import kotlin.properties.Delegates
 
@@ -65,6 +67,8 @@ class SecondFragment : BaseFragment<BasePresenter<*, *>>() {
         manager.reverseLayout = true
         recyclerView.layoutManager = manager
         mAdapter = TestAdapter()
+
+        mAdapter.setEmptyView(NoDataView(mActivity).setText("zanwushuju\n稍后再试"))
         recyclerView.adapter = mAdapter
 
 
@@ -76,10 +80,10 @@ class SecondFragment : BaseFragment<BasePresenter<*, *>>() {
     }
 
     private fun setData() {
-        for (i in 0..30) {
-            mData.add(i.toString())
-        }
-        mAdapter.setNewData(mData)
+//        for (i in 0..30) {
+//            mData.add(i.toString())
+//        }
+//        mAdapter.setNewData(mData)
     }
 
 

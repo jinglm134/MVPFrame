@@ -13,6 +13,6 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:progressDrawable="@drawable/selector_webview_pb"
+        android:progressDrawable="@drawable/layer_progressbar"
         android:visibility="gone" />
 </FrameLayout>

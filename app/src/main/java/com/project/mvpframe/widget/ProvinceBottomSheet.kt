@@ -14,7 +14,7 @@ import com.chad.library.adapter.base.entity.node.BaseNode
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.project.mvpframe.R
-import com.project.mvpframe.bean.ProvinceBean
+import com.project.mvpframe.bean.address.ProvinceBean
 import com.project.mvpframe.ui.common.adapter.ProvinceSheetAdapter
 import com.project.mvpframe.util.GsonUtils
 import com.project.mvpframe.util.UShape

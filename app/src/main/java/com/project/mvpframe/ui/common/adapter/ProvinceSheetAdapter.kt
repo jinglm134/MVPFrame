@@ -6,9 +6,9 @@ import com.chad.library.adapter.base.entity.node.BaseNode
 import com.chad.library.adapter.base.provider.BaseNodeProvider
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.project.mvpframe.R
-import com.project.mvpframe.bean.Area
-import com.project.mvpframe.bean.City
-import com.project.mvpframe.bean.ProvinceBean
+import com.project.mvpframe.bean.address.Area
+import com.project.mvpframe.bean.address.City
+import com.project.mvpframe.bean.address.ProvinceBean
 import com.project.mvpframe.util.SizeUtils
 import com.project.mvpframe.util.UShape
 

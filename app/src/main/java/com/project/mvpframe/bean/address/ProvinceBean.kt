@@ -1,7 +1,8 @@
-package com.project.mvpframe.bean
+package com.project.mvpframe.bean.address
 
 import com.chad.library.adapter.base.entity.node.BaseExpandNode
 import com.chad.library.adapter.base.entity.node.BaseNode
+import com.project.mvpframe.bean.BaseBean
 
 /**
  * 省市区
