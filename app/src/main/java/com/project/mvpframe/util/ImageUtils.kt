@@ -4,17 +4,22 @@ package com.project.mvpframe.util
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
 import android.graphics.Bitmap.CompressFormat
+import android.net.Uri
 import android.os.Build
+import android.provider.MediaStore
 import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
+import com.project.mvpframe.app.MvpApp
 import com.project.mvpframe.util.encrypt.CloseUtils
 import org.jetbrains.annotations.NotNull
 import java.io.*
 import kotlin.math.abs
+
 
 /**
  * 图片处理: 压缩、保存、图片的各种转换
@@ -741,9 +746,17 @@ object ImageUtils {
         var os: OutputStream? = null
         var ret = false
         try {
-            os = BufferedOutputStream(FileOutputStream(file), 8 * 8192)
+            os = BufferedOutputStream(FileOutputStream(file!!), 8 * 8192)
             ret = src.compress(format, 100, os)
             if (recycle && !src.isRecycled) src.recycle()
+
+            //通知相册刷新图片
+//            MediaStore.Images.Media.insertImage(MvpApp.instance.contentResolver,
+//                src,
+//                file.absolutePath,
+//                null)
+            MvpApp.instance.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                Uri.parse("file://" + file.absolutePath)))
         } catch (e: IOException) {
             e.printStackTrace()
         } finally {

@@ -292,11 +292,34 @@ object FileUtils {
      * 尽量使用外部存储,获取应用内的file路径
      * 该路径下的内容随app卸载而丢失
      */
-    fun getFilePath(): String {
-        return if (!isExternalEnable()) {
-            MvpApp.instance.filesDir.path
+    fun getFilePath(folder: String = ""): String {
+        return if (isExternalEnable()) {
+            //            /storage/emulated/0/Android/data/com.project.mvpframe/files/folder/
+            if (TextUtils.isEmpty(folder)) {
+                MvpApp.instance.getExternalFilesDir("")!!.path + File.separator
+            } else {
+                MvpApp.instance.getExternalFilesDir("")!!.path + File.separator + folder + File.separator
+            }
         } else {
-            MvpApp.instance.getExternalFilesDir("")!!.path
+            //            /data/user/0/com.project.mvpframe/files/folder/
+            if (TextUtils.isEmpty(folder)) {
+                MvpApp.instance.filesDir.path + File.separator
+            } else {
+                MvpApp.instance.filesDir.path + File.separator + folder + File.separator
+            }
+
+        }
+    }
+
+    /**
+     * 获取相册路径
+     */
+    fun getCameraPath(folder: String = ""): String {
+        //        /storage/emulated/0/DCIM/Camera/folder/
+        return if (TextUtils.isEmpty(folder)) {
+            Environment.getExternalStorageDirectory().path + File.separator + Environment.DIRECTORY_DCIM + File.separator + "Camera" + File.separator
+        } else {
+            Environment.getExternalStorageDirectory().path + File.separator + Environment.DIRECTORY_DCIM + File.separator + "Camera" + File.separator + folder + File.separator
         }
     }
 
@@ -304,11 +327,13 @@ object FileUtils {
      * 尽量使用外部存储,获取应用外的data路径
      * 该路径下的内容app卸载也不会丢失
      */
-    fun getDataPath(): String {
-        return if (!isExternalEnable()) {
-            Environment.getDataDirectory().path + File.separator + "data" + File.separator
-        } else {
+    private fun getDataPath(): String {
+        return if (isExternalEnable()) {
+            //            /storage/emulated/0/data/
             Environment.getExternalStorageDirectory().path + File.separator + "data" + File.separator
+        } else {
+            //            /data/data/
+            Environment.getDataDirectory().path + File.separator + "data" + File.separator
         }
     }
 }
