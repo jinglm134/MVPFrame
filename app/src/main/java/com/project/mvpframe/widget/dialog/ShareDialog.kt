@@ -2,8 +2,12 @@ package com.project.mvpframe.widget.dialog
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.graphics.*
+import android.net.Uri
+import android.provider.MediaStore
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,6 +24,7 @@ import kotlin.properties.Delegates
  * @CreateDate 2020/3/26 9:42
  * @Author jaylm
  */
+@Suppress("DEPRECATION")
 @SuppressLint("InflateParams")
 class ShareDialog(private val mContext: Context) :
     AppCompatDialog(mContext, R.style.BaseDialogStyle) {
@@ -76,14 +81,100 @@ class ShareDialog(private val mContext: Context) :
                 })
         }
 
-        /* val tvWx = mRootView.findViewById<TextView>(R.id.tv_wx)
-         val tvWxchat = mRootView.findViewById<TextView>(R.id.tv_wxchat)
-         val tvQq = mRootView.findViewById<TextView>(R.id.tv_qq)
-         val tvTelegram = mRootView.findViewById<TextView>(R.id.tv_telegram)
+        val tvWx = mRootView.findViewById<TextView>(R.id.tv_wx)
+        tvWx.setOnClickListener {
+            shareWx()
+        }
+        val tvWxchat = mRootView.findViewById<TextView>(R.id.tv_wxchat)
+        tvWxchat.setOnClickListener {
+            shareWxchat()
+        }
+        val tvQq = mRootView.findViewById<TextView>(R.id.tv_qq)
+        tvQq.setOnClickListener {
+            shareQQ()
+        }
+//        val tvTelegram = mRootView.findViewById<TextView>(R.id.tv_telegram)
 
-         tvWx.setOnClickListener {
-             val intent = Intent()
-         }*/
+    }
+
+    private fun shareQQ() {
+        if (!PlatformUtils.checkAppInstalled(mContext, PlatformUtils.PACKAGE_MOBILE_QQ)) {
+            ToastUtils.showShortToast("您需要安装QQ客户端")
+            return
+        }
+        try {
+            //获取图片地址
+            val uriToImage = Uri.parse(MediaStore.Images.Media.insertImage(mContext.contentResolver,
+                bitmap,
+                null,
+                null))
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "分享")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "邀请好友")
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uriToImage)
+            shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            shareIntent.type = "image/*"
+            val componentName =
+                ComponentName(PlatformUtils.PACKAGE_MOBILE_QQ, PlatformUtils.ACTIVITY_MOBILE_QQ)
+            shareIntent.component = componentName
+            mContext.startActivity(Intent.createChooser(shareIntent, "Share"))
+        } catch (e: Exception) {
+            ToastUtils.showShortToast("分享到QQ失败")
+        }
+    }
+
+    private fun shareWx() {
+        if (!PlatformUtils.checkAppInstalled(mContext, PlatformUtils.PACKAGE_WX)) {
+            ToastUtils.showShortToast("您需要安装微信客户端")
+            return
+        }
+        try {
+            //获取图片地址
+            val uriToImage = Uri.parse(MediaStore.Images.Media.insertImage(mContext.contentResolver,
+                bitmap,
+                null,
+                null))
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "分享")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "邀请好友")
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uriToImage)
+            shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            shareIntent.type = "image/*"
+            val componentName = ComponentName(PlatformUtils.PACKAGE_WX, PlatformUtils.ACTIVITY_WX)
+            shareIntent.component = componentName
+            mContext.startActivity(Intent.createChooser(shareIntent, "Share"))
+        } catch (e: Exception) {
+            ToastUtils.showShortToast("分享到微信好友失败")
+        }
+    }
+
+    private fun shareWxchat() {
+        if (!PlatformUtils.checkAppInstalled(mContext, PlatformUtils.PACKAGE_WX)) {
+            ToastUtils.showShortToast("您需要安装微信客户端")
+            return
+        }
+        try {
+            //获取图片地址
+            val uriToImage = Uri.parse(MediaStore.Images.Media.insertImage(mContext.contentResolver,
+                bitmap,
+                null,
+                null))
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "分享")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "邀请好友")
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uriToImage)
+            shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            shareIntent.type = "image/*"
+            val componentName =
+                ComponentName(PlatformUtils.PACKAGE_WX, PlatformUtils.ACTIVITY_WX_CHAT)
+            shareIntent.component = componentName
+            mContext.startActivity(Intent.createChooser(shareIntent, "Share"))
+        } catch (e: Exception) {
+            ToastUtils.showShortToast("分享到微信朋友圈失败")
+        }
     }
 
 
