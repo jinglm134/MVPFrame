@@ -24,7 +24,7 @@ abstract class BaseObserver<T>(
         if (isConnected(mContext)) {
             showDialog()
         } else {
-            Toast.makeText(mContext, "暂无网络,请检查网络设置", Toast.LENGTH_SHORT).show()
+            onNetWorkError()
             if (!isDisposed) {
                 //取消订阅
                 dispose()
@@ -59,7 +59,6 @@ abstract class BaseObserver<T>(
         }
         hideDialog()
         endRefresh()
-
     }
 
     //请求成功的回调函数
@@ -68,6 +67,13 @@ abstract class BaseObserver<T>(
     //code!=200,即请求失败的回调,需要时可重写
     open fun onFailure(code: Int, msg: String) {
         ToastUtils.showShortToast(msg)
+    }
+
+    //如果需要取消刷新，重写该方法
+    open fun endRefresh() {}
+
+    open fun onNetWorkError() {
+        Toast.makeText(mContext, "暂无网络,请检查网络设置", Toast.LENGTH_SHORT).show()
     }
 
     //开启网络请求动画
@@ -90,8 +96,6 @@ abstract class BaseObserver<T>(
         dialog = null
     }
 
-    //如果需要取消刷新，重写该方法
-    open fun endRefresh() {}
 
     //是否有网络
     @Suppress("DEPRECATION")

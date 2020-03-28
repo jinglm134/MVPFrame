@@ -126,7 +126,7 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
             val entity = data as Area
             helper.setText(R.id.tv_content, entity.label)
                 .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
-                .setBackgroundResource(R.id.ll_root, R.drawable.selector_item_normal)
+                .setBackgroundResource(R.id.ll_root, R.drawable.selector_item_bg)
             helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(40F), 0, 0, 0)
         }
 

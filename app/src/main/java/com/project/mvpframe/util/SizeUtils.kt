@@ -116,10 +116,8 @@ object SizeUtils {
     private fun measureView(view: View): IntArray {
         var lp: ViewGroup.LayoutParams? = view.layoutParams
         if (lp == null) {
-            lp = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+            lp = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT)
         }
         val widthSpec = ViewGroup.getChildMeasureSpec(0, 0, lp.width)
         val lpHeight = lp.height
@@ -161,8 +159,8 @@ object SizeUtils {
     fun getScreenWidth(): Int {
         val windowManager =
             MvpApp.instance.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val dm = DisplayMetrics()// 创建了一张白纸
-        windowManager.defaultDisplay.getMetrics(dm)// 给白纸设置宽高
+        val dm = DisplayMetrics() // 创建了一张白纸
+        windowManager.defaultDisplay.getMetrics(dm) // 给白纸设置宽高
         return dm.widthPixels
     }
 
@@ -212,22 +210,14 @@ object SizeUtils {
 
         val ret: Bitmap
         if (containBars) {
-            ret = Bitmap.createBitmap(
-                bmp,
-                0,
-                0,
-                dm.widthPixels,
-                dm.heightPixels
-            )
+            ret = Bitmap.createBitmap(bmp, 0, 0, dm.widthPixels, dm.heightPixels)
         } else {
             val statusBarHeight = getStatusBarHeight()
-            ret = Bitmap.createBitmap(
-                bmp,
+            ret = Bitmap.createBitmap(bmp,
                 0,
                 statusBarHeight,
                 dm.widthPixels,
-                dm.heightPixels - statusBarHeight
-            )
+                dm.heightPixels - statusBarHeight)
         }
         view.destroyDrawingCache()
         return ret
@@ -240,8 +230,7 @@ object SizeUtils {
      * @return true:是 false:否
      */
     fun isScreenLock(): Boolean {
-        val km = MvpApp.instance
-            .getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        val km = MvpApp.instance.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         return km.inKeyguardRestrictedInputMode()
     }
 

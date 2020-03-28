@@ -1,7 +1,6 @@
 package com.project.mvpframe.ui.common.home_mvp
 
 import android.os.Bundle
-import android.os.Looper
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseFragment
 import com.project.mvpframe.bean.App
@@ -43,13 +42,6 @@ class HomeFragment : BaseFragment<HomePresenter>(),
 
     override fun initView() {
         mPresenter.getBanner()
-
-        Thread(Runnable {
-            Looper.prepare()
-            ToastUtils.showShortToast("sss")
-            Looper.loop()
-        }).start()
-
     }
 
     override fun setListener() {

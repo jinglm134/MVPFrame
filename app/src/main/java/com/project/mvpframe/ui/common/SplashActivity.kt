@@ -28,7 +28,7 @@ class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
     private var mTimer: Timer? = null
 
     override fun initMVP() {
-//        mPresenter.init(this, this)
+        //        mPresenter.init(this, this)
     }
 
     override fun initView(contentView: View) {
@@ -40,56 +40,48 @@ class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
     }
 
     private fun requestPermission() {
-        RxPermissions(this)
-            .requestEachCombined(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            )
-            .subscribe { permission ->
-                when {
-                    permission.granted -> {
-                        if (mTimer == null) {
-                            mTimer = Timer()
-                        }
-                        mTimer?.schedule(object : TimerTask() {
-                            override fun run() {
-                                if (SPUtils.getInstance().getParam(SPConst.SP_IS_LOGIN, false)) {
-                                    startActivity(MainActivity::class.java)
-                                } else {
-                                    startActivity(LoginActivity::class.java)
-                                }
-                                finish()
+        RxPermissions(this).requestEachCombined(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA).subscribe { permission ->
+            when {
+                permission.granted -> {
+                    if (mTimer == null) {
+                        mTimer = Timer()
+                    }
+                    mTimer?.schedule(object : TimerTask() {
+                        override fun run() {
+                            if (SPUtils.getInstance().getParam(SPConst.SP_IS_LOGIN, false)) {
+                                startActivity(MainActivity::class.java)
+                            } else {
+                                startActivity(LoginActivity::class.java)
                             }
-                        }, 1000)
-                    }
-
-                    permission.shouldShowRequestPermissionRationale -> {
-                        DialogUtils.showTwoDialog(
-                            mActivity,
-                            "请允许开启权限以正常使用app功能",
-                            "确定",
-                            View.OnClickListener {
-                                requestPermission()
-                            },
-                            View.OnClickListener { finish() })
-                    }
-
-                    else -> {
-                        DialogUtils.showTwoDialog(
-                            mActivity,
-                            "请在设置中开启权限,以正常使用app功能",
-                            "去设置",
-                            View.OnClickListener {
-                                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                intent.data = Uri.parse("package:$packageName")
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                startActivity(intent)
-                            },
-                            View.OnClickListener { finish() })
-                    }
+                            finish()
+                        }
+                    }, 1000)
                 }
-            }.addTo(CompositeDisposable())
+
+                permission.shouldShowRequestPermissionRationale -> {
+                    DialogUtils.showTwoDialog(mActivity,
+                        "请允许开启权限以正常使用app功能",
+                        "确定",
+                        View.OnClickListener { requestPermission() },
+                        View.OnClickListener { finish() })
+                }
+
+                else -> {
+                    DialogUtils.showTwoDialog(mActivity,
+                        "请在设置中开启权限,以正常使用app功能",
+                        "去设置",
+                        View.OnClickListener {
+                            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            intent.data = Uri.parse("package:$packageName")
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        },
+                        View.OnClickListener { finish() })
+                }
+            }
+        }.addTo(CompositeDisposable())
     }
 
     private fun Disposable.addTo(c: CompositeDisposable) {
