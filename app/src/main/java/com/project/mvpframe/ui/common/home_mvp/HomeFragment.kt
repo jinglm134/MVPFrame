@@ -9,6 +9,7 @@ import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.util.helper.bindArgument
 import com.project.mvpframe.widget.Banner
 import com.project.mvpframe.widget.ProvinceBottomSheet
+import com.project.mvpframe.widget.dialog.ShareDialog
 import kotlinx.android.synthetic.main.fragment_home.*
 
 /**
@@ -16,10 +17,10 @@ import kotlinx.android.synthetic.main.fragment_home.*
  * @CreateDate 2019/12/19 11:57
  * @Author jaylm
  */
-class HomeFragment : BaseFragment<HomePresenter>(),
-    IHomeView {
+class HomeFragment : BaseFragment<HomePresenter>(), IHomeView {
     private val mIndex: Int by bindArgument("index")
     private var provinceBottomSheet: ProvinceBottomSheet? = null
+    private var shareDialog: ShareDialog? = null
 
     companion object {
         @JvmStatic
@@ -54,8 +55,7 @@ class HomeFragment : BaseFragment<HomePresenter>(),
 
         tv_btn1.setOnClickListener {
             if (provinceBottomSheet == null) {
-                provinceBottomSheet = ProvinceBottomSheet(
-                    mActivity,
+                provinceBottomSheet = ProvinceBottomSheet(mActivity,
                     object : ProvinceBottomSheet.OnSheetItemClickListener() {
                         override fun onSheetItemClick(data: String) {
                             SnackBarUtils.showSnackBar(mRootView, data)
@@ -63,6 +63,13 @@ class HomeFragment : BaseFragment<HomePresenter>(),
                     })
             }
             provinceBottomSheet?.show()
+        }
+
+        tv_btn2.setOnClickListener {
+            if (shareDialog == null) {
+                shareDialog = ShareDialog(mActivity)
+            }
+            shareDialog?.show()
         }
     }
 

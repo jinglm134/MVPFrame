@@ -15,6 +15,7 @@ import androidx.annotation.Nullable
 import androidx.fragment.app.Fragment
 import com.project.mvpframe.BuildConfig
 import com.project.mvpframe.R
+import com.project.mvpframe.ui.common.SplashActivity
 import com.project.mvpframe.util.LogUtils
 import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.util.helper.ClassReflectHelper
@@ -52,13 +53,13 @@ abstract class BaseActivity<P : BasePresenter<*, *>> :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //关闭权限后,app进程被杀死,进入app恢复当前页面时重启app
-//        if (savedInstanceState != null) {
-//            val intent = Intent(this, SplashActivity::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            startActivity(intent)
-//            finish()
-//            return
-//        }
+        if (savedInstanceState != null) {
+            val intent = Intent(this, SplashActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+            return
+        }
         mActivity = this
         TAG = mActivity::class.java.simpleName
 

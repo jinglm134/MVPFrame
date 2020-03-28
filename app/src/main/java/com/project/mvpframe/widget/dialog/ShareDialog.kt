@@ -1,15 +1,14 @@
 package com.project.mvpframe.widget.dialog
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.*
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialog
 import com.project.mvpframe.R
-import com.project.mvpframe.constant.FileConst
 import com.project.mvpframe.util.*
 import com.uuzuche.lib_zxing.activity.CodeUtils
 import java.io.File
@@ -61,21 +60,30 @@ class ShareDialog(private val mContext: Context) :
         tvCancel.setOnClickListener { dismiss() }
         val tvSave = mRootView.findViewById<TextView>(R.id.tv_save)
         tvSave.setOnClickListener {
-            if (ImageUtils.save(bitmap, File(FileUtils.getDataPath(), FileConst.INVITE_QR_CODE))) {
-                ToastUtils.showShortToast("二维码保存成功,请去相册查看")
-            } else {
-                ToastUtils.showShortToast("保存失败")
-            }
+            PermissionUtils.requestPermission(mContext,
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                object : PermissionUtils.OnPermissionCallBack {
+                    override fun permissionSucceed() {
+                        if (ImageUtils.save(bitmap,
+                                File(FileUtils.getCameraPath(),
+                                    "${System.currentTimeMillis()}.jpg"))) {
+                            ToastUtils.showShortToast("二维码保存成功,请去相册查看")
+                        } else {
+                            ToastUtils.showShortToast("保存失败")
+                        }
+                    }
+                })
         }
 
-        val tvWx = mRootView.findViewById<TextView>(R.id.tv_wx)
-        val tvWxchat = mRootView.findViewById<TextView>(R.id.tv_wxchat)
-        val tvQq = mRootView.findViewById<TextView>(R.id.tv_qq)
-        val tvTelegram = mRootView.findViewById<TextView>(R.id.tv_telegram)
+        /* val tvWx = mRootView.findViewById<TextView>(R.id.tv_wx)
+         val tvWxchat = mRootView.findViewById<TextView>(R.id.tv_wxchat)
+         val tvQq = mRootView.findViewById<TextView>(R.id.tv_qq)
+         val tvTelegram = mRootView.findViewById<TextView>(R.id.tv_telegram)
 
-        tvWx.setOnClickListener {
-            val intent = Intent()
-        }
+         tvWx.setOnClickListener {
+             val intent = Intent()
+         }*/
     }
 
 
@@ -86,7 +94,7 @@ class ShareDialog(private val mContext: Context) :
 
         //设置画布大小
         val width = SizeUtils.getScreenWidth() - ivShare.paddingRight + ivShare.paddingLeft
-        val height = width / bgBitmap.width * bgBitmap.height
+        val height = (width * 1.0f / bgBitmap.width * bgBitmap.height).toInt()
         val newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(newBitmap)
 
