@@ -29,7 +29,7 @@ object PermissionUtils {
                           permissions: Array<String>,
                           callBack: OnPermissionCallBack) {
         if (mContext == null) {
-            ToastUtils.showShortToast("Context instantiate error, can not get storage permission")
+            ToastUtils.showShortToast("context is null, can not get storage permission")
             return
         }
 
@@ -37,7 +37,7 @@ object PermissionUtils {
             is FragmentActivity -> RxPermissions(mContext)
             is Fragment -> RxPermissions(mContext)
             else -> {
-                ToastUtils.showShortToast("Context instantiate error, can not get storage permission")
+                ToastUtils.showShortToast("context is not fragmentActivity, can not get storage permission")
                 return
             }
         }

@@ -1,4 +1,4 @@
-package com.project.mvpframe.ui.user.fragment
+package com.project.mvpframe.ui.common
 
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager

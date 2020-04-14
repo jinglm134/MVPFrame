@@ -13,7 +13,6 @@ import android.net.Uri
  */
 object ClipboardUtils {
 
-
     /**
      * 复制文本
      *

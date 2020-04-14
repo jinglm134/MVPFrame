@@ -41,7 +41,7 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
         addNodeProvider(CityProvider())
         addNodeProvider(AreaProvider())
         // 脚布局的 provider
-//        addFooterNodeProvider(RootFooterNodeProvider())
+        //        addFooterNodeProvider(RootFooterNodeProvider())
     }
 
     inner class ProvinceProvider : BaseNodeProvider() {
@@ -56,12 +56,8 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
             val entity = data as ProvinceBean
             helper.setText(R.id.tv_content, entity.label)
                 .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
-                .setBackgroundResource(
-                    R.id.ll_root, if (data.isExpanded)
-                        R.color.black_e0
-                    else
-                        R.color.white
-                )
+                .setBackgroundResource(R.id.ll_root, if (data.isExpanded) R.color.black_e0
+                else R.color.white)
             helper.getView<View>(R.id.ll_root).setPadding(0, 0, 0, 0)
         }
 
@@ -91,12 +87,8 @@ class ProvinceSheetAdapter : BaseNodeAdapter() {
             val entity = data as City
             helper.setText(R.id.tv_content, entity.label)
                 .setTextColor(R.id.tv_content, UShape.getColor(R.color.black_3))
-                .setBackgroundResource(
-                    R.id.ll_root, if (data.isExpanded)
-                        R.color.black_f0
-                    else
-                        R.color.white
-                )
+                .setBackgroundResource(R.id.ll_root, if (data.isExpanded) R.color.black_f0
+                else R.color.white)
             helper.getView<View>(R.id.ll_root).setPadding(SizeUtils.dp2px(20F), 0, 0, 0)
         }
 

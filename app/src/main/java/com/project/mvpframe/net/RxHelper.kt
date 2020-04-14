@@ -20,51 +20,44 @@ import io.reactivex.schedulers.Schedulers
  * @CreateDate 2019/12/2 17:19
  * @Author jaylm
  */
-class RxHelper {
+object RxHelper {
 
-    companion object {
-
-        //设置线程
-        fun <T> observableIO2Main(context: Context): ObservableTransformer<T, T> {
-            return ObservableTransformer { upstream ->
-                val observable: Observable<T> = upstream.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                composeContext(context, observable)
-            }
+    //设置线程
+    fun <T> observableIO2Main(context: Context): ObservableTransformer<T, T> {
+        return ObservableTransformer { upstream ->
+            val observable: Observable<T> =
+                upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            composeContext(context, observable)
         }
+    }
 
-        fun <T> observableIO2Main(fragment: RxFragment): ObservableTransformer<T, T> {
-            return ObservableTransformer { upstream ->
-                upstream.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .compose(fragment.bindToLifecycle<T>())
-            }
+    fun <T> observableIO2Main(fragment: RxFragment): ObservableTransformer<T, T> {
+        return ObservableTransformer { upstream ->
+            upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .compose(fragment.bindToLifecycle<T>())
         }
+    }
 
-        fun <T> flowableIO2Main(): FlowableTransformer<T, T> {
-            return FlowableTransformer { upstream ->
-                upstream.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-            }
+    fun <T> flowableIO2Main(): FlowableTransformer<T, T> {
+        return FlowableTransformer { upstream ->
+            upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
+    }
 
-        //绑定生命周期，防止内存泄露
-        private fun <T> composeContext(
-            context: Context,
-            observable: Observable<T>
-        ): ObservableSource<T> {
-            return when (context) {
-                is RxActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-                is RxFragmentActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-                is RxAppCompatActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
-                is RxFragment -> observable.compose(context.bindUntilEvent(FragmentEvent.DESTROY))
-                /* is com.trello.rxlifecycle2.components.RxFragment -> observable.compose(
-                     context.bindUntilEvent(
-                         FragmentEvent.DESTROY
-                     )
-                 )*/
-                else -> observable
-            }
+    //绑定生命周期，防止内存泄露
+    private fun <T> composeContext(context: Context,
+                                   observable: Observable<T>): ObservableSource<T> {
+        return when (context) {
+            is RxActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+            is RxFragmentActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+            is RxAppCompatActivity -> observable.compose(context.bindUntilEvent(ActivityEvent.DESTROY))
+            is RxFragment -> observable.compose(context.bindUntilEvent(FragmentEvent.DESTROY))
+            /* is com.trello.rxlifecycle2.components.RxFragment -> observable.compose(
+                 context.bindUntilEvent(
+                     FragmentEvent.DESTROY
+                 )
+             )*/
+            else -> observable
         }
     }
 }

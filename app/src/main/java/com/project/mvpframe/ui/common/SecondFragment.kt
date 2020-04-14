@@ -1,7 +1,6 @@
-package com.project.mvpframe.ui.user.fragment
+package com.project.mvpframe.ui.common
 
 import android.os.Bundle
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.mvpframe.R

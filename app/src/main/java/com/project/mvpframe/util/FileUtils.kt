@@ -289,23 +289,23 @@ object FileUtils {
     }
 
     /**
-     * 尽量使用外部存储,获取应用内的file路径
+     * 尽量使用内部存储,获取应用内的file路径
      * 该路径下的内容随app卸载而丢失
      */
     fun getFilePath(folder: String = ""): String {
         return if (isExternalEnable()) {
             //            /storage/emulated/0/Android/data/com.project.mvpframe/files/folder/
             if (TextUtils.isEmpty(folder)) {
-                MvpApp.instance.getExternalFilesDir("")!!.path + File.separator
+                MvpApp.context.getExternalFilesDir("")!!.path + File.separator
             } else {
-                MvpApp.instance.getExternalFilesDir("")!!.path + File.separator + folder + File.separator
+                MvpApp.context.getExternalFilesDir("")!!.path + File.separator + folder + File.separator
             }
         } else {
             //            /data/user/0/com.project.mvpframe/files/folder/
             if (TextUtils.isEmpty(folder)) {
-                MvpApp.instance.filesDir.path + File.separator
+                MvpApp.context.filesDir.path + File.separator
             } else {
-                MvpApp.instance.filesDir.path + File.separator + folder + File.separator
+                MvpApp.context.filesDir.path + File.separator + folder + File.separator
             }
 
         }

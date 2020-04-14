@@ -5,4 +5,4 @@ package com.project.mvpframe.bean
  * @CreateDate 2019/12/6 10:52
  * @Author jaylm
  */
-interface BaseBean
+interface IBaseBean

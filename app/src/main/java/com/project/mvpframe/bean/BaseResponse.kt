@@ -5,4 +5,4 @@ package com.project.mvpframe.bean
  * @CreateDate 2019/12/2 14:45
  * @Author jaylm
  */
-data class BaseResponse<T>(val code: Int, val message: String, val data: T)
+data class BaseResponse<T>(val code: Int, val message: String, val data: T) : IBaseBean

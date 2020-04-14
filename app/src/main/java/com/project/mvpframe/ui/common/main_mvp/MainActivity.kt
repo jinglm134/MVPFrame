@@ -8,8 +8,9 @@ import com.google.android.material.tabs.TabLayout
 import com.project.mvpframe.R
 import com.project.mvpframe.base.BaseActivity
 import com.project.mvpframe.base.BasePresenter
+import com.project.mvpframe.ui.common.SecondFragment
 import com.project.mvpframe.ui.common.home_mvp.HomeFragment
-import com.project.mvpframe.ui.user.fragment.SecondFragment
+import com.project.mvpframe.ui.common.third_mvp.ThirdFragment
 import com.project.mvpframe.util.SnackBarUtils
 import com.project.mvpframe.util.helper.bindExtra
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,13 +27,11 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     //tabLayout标题
     private val mTitles = arrayOf("首页", "行情", "交易", "法币", "资产")
     //tabLayout的icon
-    private val mIconRes = intArrayOf(
-        R.drawable.selector_icon_home,
+    private val mIconRes = intArrayOf(R.drawable.selector_icon_home,
         R.drawable.selector_icon_quotes,
         R.drawable.selector_icon_deal,
         R.drawable.selector_icon_fabi,
-        R.drawable.selector_icon_wallet
-    )
+        R.drawable.selector_icon_wallet)
     private val mFragments = ArrayList<Fragment>(5)
     private val mParam: Boolean by bindExtra("fromLogin")
 
@@ -46,17 +45,16 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
     override fun initView(contentView: View) {
         for (i in mTitles.indices) {
             val tab = tabLayout.newTab().setCustomView(R.layout.tablayout_main)
-            val holder =
-                ViewHolder(tab.customView!!)
+            val holder = ViewHolder(tab.customView!!)
 
             holder.ivTab.setImageResource(mIconRes[i])
             holder.tvTab.text = mTitles[i]
             tabLayout.addTab(tab, false)
         }
 
-        mFragments.add(SecondFragment.newInstance(0))
-        mFragments.add(HomeFragment.newInstance(1))
-        mFragments.add(HomeFragment.newInstance(2))
+        mFragments.add(HomeFragment.newInstance(0))
+        mFragments.add(SecondFragment.newInstance(1))
+        mFragments.add(ThirdFragment())
         mFragments.add(HomeFragment.newInstance(3))
         mFragments.add(HomeFragment.newInstance(4))
 
@@ -72,10 +70,9 @@ class MainActivity : BaseActivity<BasePresenter<*, *>>() {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                smartReplaceFragment(
-                    R.id.main_container, mFragments[tab.position],
-                    "${mFragments[tab.position]::class.java.name}${tab.position}"
-                )
+                smartReplaceFragment(R.id.main_container,
+                    mFragments[tab.position],
+                    "${mFragments[tab.position]::class.java.name}${tab.position}")
             }
         })
         tabLayout.getTabAt(0)?.select()

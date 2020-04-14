@@ -750,12 +750,12 @@ object ImageUtils {
             if (recycle && !src.isRecycled) src.recycle()
 
 
-            /*            MediaStore.Images.Media.insertImage(MvpApp.instance.contentResolver,
+            /*            MediaStore.Images.Media.insertImage(MvpApp.context.contentResolver,
                             src,
                             file.absolutePath,
                             null)*/
             //通知相册刷新图片
-            MvpApp.instance.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+            MvpApp.context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
                 Uri.parse("file://" + file.absolutePath)))
         } catch (e: IOException) {
             e.printStackTrace()

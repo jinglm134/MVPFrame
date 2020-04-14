@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.abs
 
 /**
  * @CreateDate 2019/12/6 14:48
@@ -14,7 +15,7 @@ object DateUtils {
     /**
      *
      * 在工具类中经常使用到工具类的格式化描述，这个主要是一个日期的操作类，所以日志格式主要使用 SimpleDateFormat的定义格式.
-     * 格式的意义如下： 日期和时间模式 <br></br>
+     * 格式的意义如下： 日期和时间模式
      *
      * 日期和时间格式由日期和时间模式字符串指定。在日期和时间模式字符串中，未加引号的字母 'A' 到 'Z' 和 'a' 到 'z'
      * 被解释为模式字母，用来表示日期或时间字符串元素。文本可以使用单引号 (') 引起来，以免进行解释。"''"
@@ -205,7 +206,7 @@ object DateUtils {
         pattern: String
     ): Long {
         return millis2Unit(
-            Math.abs(string2Millis(time0, pattern) - string2Millis(time1, pattern)),
+            abs(string2Millis(time0, pattern) - string2Millis(time1, pattern)),
             unit
         )
     }
@@ -220,7 +221,7 @@ object DateUtils {
      * @return unit时间戳
      */
     fun getTimeSpan(time0: Date, time1: Date, unit: ConstUtils.TimeUnit): Long {
-        return millis2Unit(Math.abs(date2Millis(time1) - date2Millis(time0)), unit)
+        return millis2Unit(abs(date2Millis(time1) - date2Millis(time0)), unit)
     }
 
     /**

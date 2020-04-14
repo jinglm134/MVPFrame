@@ -28,7 +28,7 @@ object SizeUtils {
      * @return px值
      */
     fun dp2px(dpValue: Float): Int {
-        val scale = MvpApp.instance.resources.displayMetrics.density
+        val scale = MvpApp.context.resources.displayMetrics.density
         return (dpValue * scale + 0.5f).toInt()
     }
 
@@ -39,7 +39,7 @@ object SizeUtils {
      * @return dp值
      */
     fun px2dp(pxValue: Float): Int {
-        val scale = MvpApp.instance.resources.displayMetrics.density
+        val scale = MvpApp.context.resources.displayMetrics.density
         return (pxValue / scale + 0.5f).toInt()
     }
 
@@ -50,7 +50,7 @@ object SizeUtils {
      * @return px值
      */
     fun sp2px(spValue: Float): Int {
-        val fontScale = MvpApp.instance.resources.displayMetrics.scaledDensity
+        val fontScale = MvpApp.context.resources.displayMetrics.scaledDensity
         return (spValue * fontScale + 0.5f).toInt()
     }
 
@@ -61,7 +61,7 @@ object SizeUtils {
      * @return sp值
      */
     fun px2sp(pxValue: Float): Int {
-        val fontScale = MvpApp.instance.resources.displayMetrics.scaledDensity
+        val fontScale = MvpApp.context.resources.displayMetrics.scaledDensity
         return (pxValue / fontScale + 0.5f).toInt()
     }
 
@@ -158,7 +158,7 @@ object SizeUtils {
      */
     fun getScreenWidth(): Int {
         val windowManager =
-            MvpApp.instance.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            MvpApp.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics() // 创建了一张白纸
         windowManager.defaultDisplay.getMetrics(dm) // 给白纸设置宽高
         return dm.widthPixels
@@ -171,7 +171,7 @@ object SizeUtils {
      */
     fun getScreenHeight(): Int {
         val windowManager =
-            MvpApp.instance.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            MvpApp.context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val dm = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(dm)
         return dm.heightPixels
@@ -208,16 +208,11 @@ object SizeUtils {
         val dm = DisplayMetrics()
         activity.windowManager.defaultDisplay.getMetrics(dm)
 
-        val ret: Bitmap
-        if (containBars) {
-            ret = Bitmap.createBitmap(bmp, 0, 0, dm.widthPixels, dm.heightPixels)
+        val ret = if (containBars) {
+            Bitmap.createBitmap(bmp, 0, 0, dm.widthPixels, dm.heightPixels)
         } else {
             val statusBarHeight = getStatusBarHeight()
-            ret = Bitmap.createBitmap(bmp,
-                0,
-                statusBarHeight,
-                dm.widthPixels,
-                dm.heightPixels - statusBarHeight)
+            Bitmap.createBitmap(bmp, 0, statusBarHeight, dm.widthPixels, dm.heightPixels - statusBarHeight)
         }
         view.destroyDrawingCache()
         return ret
@@ -230,7 +225,7 @@ object SizeUtils {
      * @return true:是 false:否
      */
     fun isScreenLock(): Boolean {
-        val km = MvpApp.instance.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        val km = MvpApp.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         return km.inKeyguardRestrictedInputMode()
     }
 
@@ -242,9 +237,9 @@ object SizeUtils {
     private fun getStatusBarHeight(): Int {
         var result = -1
         val resourceId =
-            MvpApp.instance.resources.getIdentifier("status_bar_height", "dimen", "android")
+            MvpApp.context.resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
-            result = MvpApp.instance.resources.getDimensionPixelSize(resourceId)
+            result = MvpApp.context.resources.getDimensionPixelSize(resourceId)
         }
         return result
     }

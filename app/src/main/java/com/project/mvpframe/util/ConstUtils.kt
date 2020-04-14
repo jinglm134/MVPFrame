@@ -1,6 +1,7 @@
 package com.project.mvpframe.util
 
 /**
+ * 常用常量
  * @CreateDate 2019/12/6 14:51
  * @Author jaylm
  */

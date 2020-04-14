@@ -32,7 +32,6 @@ class ShareDialog(private val mContext: Context) :
     private var ivShare: ImageView by Delegates.notNull()
     private var bitmap: Bitmap by Delegates.notNull()
 
-
     init {
         val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         mRootView = inflater.inflate(R.layout.dialog_share, null, false)
@@ -50,7 +49,7 @@ class ShareDialog(private val mContext: Context) :
         //设置dialog的宽高为屏幕的宽高
         val width = SizeUtils.getScreenWidth()
         val layoutParams = ViewGroup.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT)
-        window!!.setGravity(Gravity.BOTTOM)
+        window?.setGravity(Gravity.BOTTOM)
 
         initView()
         setContentView(mRootView, layoutParams)
@@ -93,7 +92,7 @@ class ShareDialog(private val mContext: Context) :
         tvQq.setOnClickListener {
             shareQQ()
         }
-//        val tvTelegram = mRootView.findViewById<TextView>(R.id.tv_telegram)
+        //        val tvTelegram = mRootView.findViewById<TextView>(R.id.tv_telegram)
 
     }
 
@@ -230,6 +229,16 @@ class ShareDialog(private val mContext: Context) :
             SizeUtils.dp2px(120f),
             BitmapFactory.decodeResource(mContext.resources, R.mipmap.ic_launcher))
         canvasHeight += SizeUtils.dp2px(80f)
+        //画白色圆角矩形背景
+        val rect = RectF((width - zxBitmap.width) / 2.0f - SizeUtils.dp2px(4f),
+            canvasHeight,
+            (width + zxBitmap.width) / 2.0f + SizeUtils.dp2px(4f),
+            canvasHeight + zxBitmap.height.toFloat() + SizeUtils.dp2px(8f))
+        canvas.drawRoundRect(rect,
+            SizeUtils.dp2px(2f).toFloat(),
+            SizeUtils.dp2px(2f).toFloat(),
+            textPaint)
+        canvasHeight += SizeUtils.dp2px(4f)
         canvas.drawBitmap(zxBitmap, (width - zxBitmap.width) / 2f, canvasHeight, bitmapPaint)
 
         //画文字《扫描二维码下载币和 APP》,水平居中,marginTop 15dp

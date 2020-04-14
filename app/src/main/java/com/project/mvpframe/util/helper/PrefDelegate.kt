@@ -17,7 +17,7 @@ class PrefDelegate<T>(
     private val prefName: String = SPConst.APP_NAME
 ) : ReadWriteProperty<Any?, T> {
     private val prefs: SharedPreferences by lazy {
-        MvpApp.instance.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+        MvpApp.context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
     }
 
     override fun getValue(thisRef: Any?, property: KProperty<*>): T {

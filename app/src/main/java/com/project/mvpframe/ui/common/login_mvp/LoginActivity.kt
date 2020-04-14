@@ -25,16 +25,15 @@ import kotlinx.android.synthetic.main.activity_login.*
  * @CreateDate 2019/12/2 15:32
  * @Author jaylm
  */
-class LoginActivity : BaseActivity<LoginPresenter>(),
-    ILoginView {
+class LoginActivity : BaseActivity<LoginPresenter>(), ILoginView {
 
     private var mTimer: CountDownTimer? = null
     private var mCode = 0
 
-//    private var data by PrefDelegate(SPConst.SP_LOGIN_DATA, "")
-//    private var token by PrefDelegate(SPConst.SP_TOKEN, "")
-//    private var userid by PrefDelegate(SPConst.SP_USER_ID, "")
-//    private var isLogin by PrefDelegate(SPConst.SP_IS_LOGIN, false)
+    //    private var data by PrefDelegate(SPConst.SP_LOGIN_DATA, "")
+    //    private var token by PrefDelegate(SPConst.SP_TOKEN, "")
+    //    private var userid by PrefDelegate(SPConst.SP_USER_ID, "")
+    //    private var isLogin by PrefDelegate(SPConst.SP_IS_LOGIN, false)
 
     override fun initMVP() {
         mPresenter.init(this, this)
@@ -46,41 +45,21 @@ class LoginActivity : BaseActivity<LoginPresenter>(),
 
     override fun initView(contentView: View) {
         //初始化view背景
-        UShape.setBackgroundDrawable(
-            UShape.getPressedDrawable(
-                UShape.getColor(R.color.colorPrimary),
-                UShape.getColor(R.color.blue),
-                4
-            ), btn_login
-        )
-        UShape.setBackgroundDrawable(
-            UShape.getPressedDrawable(
-                UShape.getColor(R.color.colorPrimary),
-                UShape.getColor(R.color.blue),
-                4
-            ), btn_code
-        )
-        UShape.setBackgroundDrawable(
-            UShape.getStrokeDrawable(
-                UShape.getColor(R.color.black_c),
-                UShape.getColor(R.color.white),
-                4
-            ), et_account
-        )
-        UShape.setBackgroundDrawable(
-            UShape.getStrokeDrawable(
-                UShape.getColor(R.color.black_c),
-                UShape.getColor(R.color.white),
-                4
-            ), ll_password
-        )
-        UShape.setBackgroundDrawable(
-            UShape.getStrokeDrawable(
-                UShape.getColor(R.color.black_c),
-                UShape.getColor(R.color.white),
-                4
-            ), et_code
-        )
+        UShape.setBackgroundDrawable(UShape.getPressedDrawable(UShape.getColor(R.color.colorPrimary),
+            UShape.getColor(R.color.blue),
+            4), btn_login)
+        UShape.setBackgroundDrawable(UShape.getPressedDrawable(UShape.getColor(R.color.colorPrimary),
+            UShape.getColor(R.color.blue),
+            4), btn_code)
+        UShape.setBackgroundDrawable(UShape.getStrokeDrawable(UShape.getColor(R.color.black_c),
+            UShape.getColor(R.color.white),
+            4), et_account)
+        UShape.setBackgroundDrawable(UShape.getStrokeDrawable(UShape.getColor(R.color.black_c),
+            UShape.getColor(R.color.white),
+            4), ll_password)
+        UShape.setBackgroundDrawable(UShape.getStrokeDrawable(UShape.getColor(R.color.black_c),
+            UShape.getColor(R.color.white),
+            4), et_code)
 
     }
 
@@ -173,19 +152,17 @@ class LoginActivity : BaseActivity<LoginPresenter>(),
                     return@setOnClickListener
                 }
             }
-            mPresenter.getCode(
-                account,
-                ApiDomain.BASE_URL + ApiConfig.LOGIN
-            )
+            mPresenter.getCode(account, ApiDomain.BASE_URL + ApiConfig.LOGIN)
         }
     }
 
     //登陆成功
     override fun loginSuccess(data: LoginBean) {
-        SPUtils.getInstance().saveData(SPConst.SP_LOGIN_DATA, data)
-        SPUtils.getInstance().saveParam(SPConst.SP_TOKEN, data.tokenResultBO.access_token)
-        SPUtils.getInstance().saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
-        SPUtils.getInstance().saveParam(SPConst.SP_IS_LOGIN, true)
+
+        SPUtils.saveData(SPConst.SP_LOGIN_DATA, data)
+        SPUtils.saveParam(SPConst.SP_TOKEN, data.tokenResultBO.access_token)
+        SPUtils.saveParam(SPConst.SP_USER_ID, data.centerUserMain.id)
+        SPUtils.saveParam(SPConst.SP_IS_LOGIN, true)
         val bundle = Bundle()
         bundle.putBoolean("fromLogin", true)
         startActivity(MainActivity::class.java, bundle)
@@ -244,55 +221,55 @@ class LoginActivity : BaseActivity<LoginPresenter>(),
         }
     }
 
-//    val NOTIFY_DOWN_ID = 2000
-//     var mNotificationManager: NotificationManager
-//     var mNotificationCompat: NotificationCompat.Builder
-//
-//    private fun initNotification() {
-//        mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            //            // 创建
-//            val channel = NotificationChannel(
-//                NOTIFY_DOWN_ID.toString(),
-//                "通知",
-//                NotificationManager.IMPORTANCE_DEFAULT
-//            )
-//            channel.enableLights(true)
-//            channel.setShowBadge(true)
-//            channel.description = "app更新"
-//            mNotificationManager.createNotificationChannel(channel)
-//        }
-//        val mIntent = Intent(this, SplashActivity::class.java)
-//        mIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//        val mPendingIntent = PendingIntent.getActivity(this, 0, mIntent, 0)
-//        mNotificationCompat = NotificationCompat.Builder(this)
-//        mNotificationCompat.setContentText("已下载:0%")
-//            //        .setContentTitle("MyAPP");
-//            .setSmallIcon(R.mipmap.bibr_launcher)
-//            .setDefaults(NotificationCompat.DEFAULT_ALL).priority =
-//            NotificationCompat.PRIORITY_DEFAULT
-//        mNotificationManager.notify(1000, mNotificationCompat.build())
-//    }
-//
-//    private var currentProgress = -1
-//
-//    private fun notificationUpdate(progress: Int) {
-//        if (progress == currentProgress) {
-//            return
-//        }
-//        currentProgress = progress
-//
-//        val contentView = RemoteViews(packageName, R.layout.notification_download)
-//        contentView.setProgressBar(R.id.pb_notification, 100, progress, false)
-//        contentView.setTextViewText(
-//            R.id.textView_notification,
-//            String.format(Locale.CHINA, "下载进度: %d%%", progress)
-//        )
-//
-//        //设置为正在进行时的Notification(用户无法取消这条通知)
-//        mNotificationCompat.setOngoing(progress != 100)
-//            .setCustomContentView(contentView)
-//        //显示这条通知，id为0
-//        mNotificationManager.notify(1000, mNotificationCompat.build())
-//    }
+    //    val NOTIFY_DOWN_ID = 2000
+    //     var mNotificationManager: NotificationManager
+    //     var mNotificationCompat: NotificationCompat.Builder
+    //
+    //    private fun initNotification() {
+    //        mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+    //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+    //            //            // 创建
+    //            val channel = NotificationChannel(
+    //                NOTIFY_DOWN_ID.toString(),
+    //                "通知",
+    //                NotificationManager.IMPORTANCE_DEFAULT
+    //            )
+    //            channel.enableLights(true)
+    //            channel.setShowBadge(true)
+    //            channel.description = "app更新"
+    //            mNotificationManager.createNotificationChannel(channel)
+    //        }
+    //        val mIntent = Intent(this, SplashActivity::class.java)
+    //        mIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    //        val mPendingIntent = PendingIntent.getActivity(this, 0, mIntent, 0)
+    //        mNotificationCompat = NotificationCompat.Builder(this)
+    //        mNotificationCompat.setContentText("已下载:0%")
+    //            //        .setContentTitle("MyAPP");
+    //            .setSmallIcon(R.mipmap.bibr_launcher)
+    //            .setDefaults(NotificationCompat.DEFAULT_ALL).priority =
+    //            NotificationCompat.PRIORITY_DEFAULT
+    //        mNotificationManager.notify(1000, mNotificationCompat.build())
+    //    }
+    //
+    //    private var currentProgress = -1
+    //
+    //    private fun notificationUpdate(progress: Int) {
+    //        if (progress == currentProgress) {
+    //            return
+    //        }
+    //        currentProgress = progress
+    //
+    //        val contentView = RemoteViews(packageName, R.layout.notification_download)
+    //        contentView.setProgressBar(R.id.pb_notification, 100, progress, false)
+    //        contentView.setTextViewText(
+    //            R.id.textView_notification,
+    //            String.format(Locale.CHINA, "下载进度: %d%%", progress)
+    //        )
+    //
+    //        //设置为正在进行时的Notification(用户无法取消这条通知)
+    //        mNotificationCompat.setOngoing(progress != 100)
+    //            .setCustomContentView(contentView)
+    //        //显示这条通知，id为0
+    //        mNotificationManager.notify(1000, mNotificationCompat.build())
+    //    }
 }

@@ -50,7 +50,7 @@ class SplashActivity : BaseActivity<BasePresenter<*, *>>() {
                     }
                     mTimer?.schedule(object : TimerTask() {
                         override fun run() {
-                            if (SPUtils.getInstance().getParam(SPConst.SP_IS_LOGIN, false)) {
+                            if (SPUtils.getParam(SPConst.SP_IS_LOGIN, false)) {
                                 startActivity(MainActivity::class.java)
                             } else {
                                 startActivity(LoginActivity::class.java)

@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment<HomePresenter>(), IHomeView {
     }
 
     override fun initMVP() {
-        mPresenter.init(context!!, this)
+        mPresenter.init(mActivity, this)
     }
 
     override fun bindLayout(): Int {

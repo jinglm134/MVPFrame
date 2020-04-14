@@ -5,23 +5,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.project.mvpframe.R
 import com.project.mvpframe.util.ToastUtils
-import java.util.*
 
 /**
  * @CreateDate 2020/3/16 18:30
  * @Author jaylm
  */
 class TestAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_sheet_province) {
-    //    override fun convert(helper: BaseViewHolder, item: String) {
-//
-//    }
     override fun convert(helper: BaseViewHolder, item: String) {
         helper.setText(R.id.tv_content, item)
         helper.getView<View>(R.id.tv_content).setOnClickListener {
-            ToastUtils.showShortToast(
-                "adapterPosition${helper.adapterPosition}",
-                context
-            )
+            ToastUtils.showShortToast("adapterPosition${helper.adapterPosition}", context)
         }
     }
 }

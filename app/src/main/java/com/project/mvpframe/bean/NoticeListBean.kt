@@ -23,7 +23,7 @@ data class NoticeListBean(
         val size: Int,
         val startRow: Int,
         val total: Int
-) : BaseBean
+) : IBaseBean
 
 data class Notice(
         val id: String,
@@ -35,4 +35,4 @@ data class Notice(
         val title: String,
         val topFlag: Int,
         val typeId: Int
-) : BaseBean
+) : IBaseBean

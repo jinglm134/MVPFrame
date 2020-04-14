@@ -2,7 +2,7 @@ package com.project.mvpframe.bean.address
 
 import com.chad.library.adapter.base.entity.node.BaseExpandNode
 import com.chad.library.adapter.base.entity.node.BaseNode
-import com.project.mvpframe.bean.BaseBean
+import com.project.mvpframe.bean.IBaseBean
 
 /**
  * 省市区
@@ -13,7 +13,7 @@ data class ProvinceBean(
     val children: ArrayList<City>,
     val label: String,
     val value: String
-) : BaseBean, BaseExpandNode() {
+) : IBaseBean, BaseExpandNode() {
 
     override val childNode: MutableList<BaseNode>
         get() = getChild()
@@ -33,7 +33,7 @@ data class City(
     val children: ArrayList<Area>,
     val label: String,
     val value: String
-) : BaseBean, BaseExpandNode() {
+) : IBaseBean, BaseExpandNode() {
     override val childNode: MutableList<BaseNode>
         get() = getChild()
 
@@ -51,7 +51,7 @@ data class City(
 data class Area(
     val label: String,
     val value: String
-) : BaseBean, BaseNode() {
+) : IBaseBean, BaseNode() {
     override val childNode: MutableList<BaseNode>?
         get() = null
 

@@ -3,6 +3,7 @@ package com.project.mvpframe.net
 import android.content.Context
 import android.net.ConnectivityManager
 import android.widget.Toast
+import com.project.mvpframe.app.MvpApp
 import com.project.mvpframe.util.ToastUtils
 import com.project.mvpframe.widget.dialog.ProgressDialog
 import io.reactivex.observers.DisposableObserver
@@ -13,19 +14,18 @@ import org.json.JSONObject
  * @CreateDate 2019/12/3 10:52
  * @Author jaylm
  */
-abstract class BaseObserverString(
-    private var mContext: Context,
-    private var mShowDialog: Boolean = true
-) : DisposableObserver<ResponseBody>() {
+abstract class BaseObserverString(private var mContext: Context,
+                                  private var mShowDialog: Boolean = true) :
+    DisposableObserver<ResponseBody>() {
 
     private var dialog: ProgressDialog? = null
 
     override fun onStart() {
         super.onStart()
-        if (isConnected(mContext)) {
+        if (isConnected()) {
             showDialog()
         } else {
-            Toast.makeText(mContext, "暂无网络,请检查网络设置", Toast.LENGTH_SHORT).show()
+            ToastUtils.showShortToast("暂无网络,请检查网络设置")
             if (!isDisposed) {
                 //取消订阅
                 dispose()
@@ -99,8 +99,9 @@ abstract class BaseObserverString(
 
     //是否有网络
     @Suppress("DEPRECATION")
-    private fun isConnected(context: Context): Boolean {
-        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun isConnected(): Boolean {
+        val cm =
+            MvpApp.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = cm.activeNetworkInfo ?: return false
         return info.isAvailable
     }

@@ -8,7 +8,7 @@ import android.os.Parcelable
  * @Author jaylm
  */
 data class LoginBean(val centerUserMain: CenterUserMain, val tokenResultBO: TokenResultBO) :
-    BaseBean, Parcelable {
+    IBaseBean, Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readParcelable(CenterUserMain::class.java.classLoader)!!,
         parcel.readParcelable(TokenResultBO::class.java.classLoader)!!
@@ -44,7 +44,7 @@ data class TokenResultBO(
     val jti: String,
     val refresh_token: String,
     val userId: String
-) : BaseBean, Parcelable {
+) : IBaseBean, Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -102,7 +102,7 @@ data class CenterUserMain(
     val ip: String,
     val regType: Int,
     val loginType: Int
-) : BaseBean, Parcelable {
+) : IBaseBean, Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,

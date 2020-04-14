@@ -24,7 +24,7 @@ data class PrizeListBean(
         val size: Int,
         val startRow: Int,
         val total: Int
-) : BaseBean
+) : IBaseBean
 
 data class ListBean(
         val endTime: String,
@@ -33,4 +33,4 @@ data class ListBean(
         val picture: String,
         val status: String,
         val type: Int
-) : BaseBean
+) : IBaseBean

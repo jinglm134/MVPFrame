@@ -54,10 +54,10 @@ class HeaderInterceptor : Interceptor {
         if (url.toString().contains("strict")) {
             requestBuilder = requestBuilder.header(
                 "userId",//header 为setHeader,即userId唯一
-                SPUtils.getInstance().getParam(SPConst.SP_USER_ID, "")
+                SPUtils.getParam(SPConst.SP_USER_ID, "")
             ).header(
                 "Authorization",//header 为setHeader,即Authorization唯一
-                "Bearer${SPUtils.getInstance().getParam(SPConst.SP_TOKEN, "")}"
+                "Bearer${SPUtils.getParam(SPConst.SP_TOKEN, "")}"
             )
         }
         val build = requestBuilder.method(request.method(), request.body())

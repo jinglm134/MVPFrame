@@ -8,7 +8,7 @@ data class BannerBean(
     val app: List<App>,
     val wap: List<Wap>,
     val web: List<Web>
-) : BaseBean
+) : IBaseBean
 
 data class App(
     val annoId: String,
@@ -16,14 +16,14 @@ data class App(
     val pointingUrl: String,
     val sort: Int,
     val type: Int
-) : BaseBean
+) : IBaseBean
 
 data class Wap(
     val imageUrl: String,
     val pointingUrl: String,
     val sort: Int,
     val type: Int
-) : BaseBean
+) : IBaseBean
 
 data class Web(
     val annoId: String,
@@ -31,4 +31,4 @@ data class Web(
     val pointingUrl: String,
     val sort: Int,
     val type: Int
-) : BaseBean
+) : IBaseBean

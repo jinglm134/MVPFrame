@@ -13,34 +13,20 @@ import com.project.mvpframe.constant.SPConst
  * @Author jaylm
  */
 
-class SPUtils {
-    companion object {
-        private var preferencesUtil: SPUtils? = null
-        fun getInstance(): SPUtils {
-            if (preferencesUtil == null) {
-                synchronized(SPUtils::class.java) {
-                    if (preferencesUtil == null) {
-                        preferencesUtil = SPUtils()
-                    }
-                }
-            }
-            return preferencesUtil!!
-        }
-    }
+object SPUtils {
 
     private val preferences: SharedPreferences by lazy {
-        MvpApp.instance.getSharedPreferences(SPConst.APP_NAME, Context.MODE_PRIVATE)
+        MvpApp.context.getSharedPreferences(SPConst.APP_NAME, Context.MODE_PRIVATE)
     }
 
     /**
-     * 保存数据 , 所有的基础类型都适用
+     * 保存数据
      *
      * @param key key
      * @param param T
      */
     @Synchronized
     fun <T> saveParam(key: String, param: T) = with(preferences.edit()) {
-        // 得到object的类型
         when (param) {
             is String -> // 保存String 类型
                 putString(key, param)
@@ -59,6 +45,7 @@ class SPUtils {
     /**
      * 保存数据 , 引用类型
      */
+    @Synchronized
     fun <T> saveData(key: String, param: T) {
         val jsonString = Gson().toJson(param)
         preferences.edit().putString(key, jsonString).apply()
@@ -66,20 +53,21 @@ class SPUtils {
 
 
     /**
-     * 得到保存数据的方法，所有基础类型都适用
+     * 获取数据
      *
      * @param key key
      * @param defaultParam  T
      * @return T
      */
+
     @Suppress("UNCHECKED_CAST")
     fun <T> getParam(key: String, defaultParam: T): T {
         return when (defaultParam) {
             is String -> preferences.getString(key, defaultParam) as T
-            is Int -> preferences.getInt(key, (defaultParam)) as T
-            is Boolean -> preferences.getBoolean(key, (defaultParam)) as T
-            is Float -> preferences.getFloat(key, (defaultParam)) as T
-            is Long -> preferences.getLong(key, (defaultParam)) as T
+            is Int -> preferences.getInt(key, defaultParam) as T
+            is Boolean -> preferences.getBoolean(key, defaultParam) as T
+            is Float -> preferences.getFloat(key, defaultParam) as T
+            is Long -> preferences.getLong(key, defaultParam) as T
             else -> defaultParam
         }
     }
