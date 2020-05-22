@@ -119,43 +119,6 @@ object ImageUtils {
     }
 
 
-    /**
-     * 缩放图片
-     *
-     * @param src       源图片
-     * @param newWidth  新宽度
-     * @param newHeight 新高度
-     * @param recycle   是否回收
-     * @return 缩放后的图片
-     */
-    @JvmOverloads
-    fun scale(@NotNull src: Bitmap, newWidth: Int,
-              newHeight: Int,
-              recycle: Boolean = false): Bitmap {
-        val ret = Bitmap.createScaledBitmap(src, newWidth, newHeight, true)
-        if (recycle && !src.isRecycled) src.recycle()
-        return ret
-    }
-
-    /**
-     * 缩放图片
-     *
-     * @param src         源图片
-     * @param scaleWidth  缩放宽度倍数
-     * @param scaleHeight 缩放高度倍数
-     * @param recycle     是否回收
-     * @return 缩放后的图片
-     */
-    @JvmOverloads
-    fun scale(@NotNull src: Bitmap, scaleWidth: Float,
-              scaleHeight: Float,
-              recycle: Boolean = false): Bitmap {
-        val matrix = Matrix()
-        matrix.setScale(scaleWidth, scaleHeight)
-        val ret = Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
-        if (recycle && !src.isRecycled) src.recycle()
-        return ret
-    }
 
     /**
      * 裁剪图片
@@ -899,6 +862,45 @@ object ImageUtils {
                         scaleHeight: Float,
                         recycle: Boolean = false): Bitmap {
         return scale(src, scaleWidth, scaleHeight, recycle)
+    }
+
+
+    /**
+     * 缩放图片
+     *
+     * @param src       源图片
+     * @param newWidth  新宽度
+     * @param newHeight 新高度
+     * @param recycle   是否回收
+     * @return 缩放后的图片
+     */
+    @JvmOverloads
+    fun scale(@NotNull src: Bitmap, newWidth: Int,
+              newHeight: Int,
+              recycle: Boolean = false): Bitmap {
+        val ret = Bitmap.createScaledBitmap(src, newWidth, newHeight, true)
+        if (recycle && !src.isRecycled) src.recycle()
+        return ret
+    }
+
+    /**
+     * 缩放图片
+     *
+     * @param src         源图片
+     * @param scaleWidth  缩放宽度倍数
+     * @param scaleHeight 缩放高度倍数
+     * @param recycle     是否回收
+     * @return 缩放后的图片
+     */
+    @JvmOverloads
+    fun scale(@NotNull src: Bitmap, scaleWidth: Float,
+              scaleHeight: Float,
+              recycle: Boolean = false): Bitmap {
+        val matrix = Matrix()
+        matrix.setScale(scaleWidth, scaleHeight)
+        val ret = Bitmap.createBitmap(src, 0, 0, src.width, src.height, matrix, true)
+        if (recycle && !src.isRecycled) src.recycle()
+        return ret
     }
 
     /**

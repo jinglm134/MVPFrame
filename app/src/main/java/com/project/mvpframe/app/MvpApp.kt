@@ -31,7 +31,6 @@ class MvpApp : Application() {
         context = applicationContext
     }
 
-
     init {
         //        设置全局的Header构建器
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout ->
