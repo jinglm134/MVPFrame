@@ -49,13 +49,13 @@ object SnackBarUtils {
         mSnackBar = Snackbar.make(parent, text, duration)
         mSnackBar?.run {
             val textView = view.findViewById<TextView>(R.id.snackbar_text)
-            textView.setTextColor(mSnackBar!!.context.resources.getColor(textColor))
+            textView.setTextColor(context.resources.getColor(textColor))
             textView.textSize = 15f
             textView.setLines(1)
             textView.ellipsize = TextUtils.TruncateAt.END
-            view.setBackgroundColor(mSnackBar!!.context.resources.getColor(bgColor))
+            view.setBackgroundColor(context.resources.getColor(bgColor))
             if (actionText.isNotBlank() && listener != null) {
-                setActionTextColor(mSnackBar!!.context.resources.getColor(actionTextColor))
+                setActionTextColor(context.resources.getColor(actionTextColor))
                 setAction(actionText, listener)
             }
             this.duration = duration
